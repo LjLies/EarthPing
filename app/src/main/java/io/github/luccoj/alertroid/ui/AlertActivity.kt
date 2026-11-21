@@ -41,6 +41,7 @@ class AlertActivity : Activity() {
     private var sWave: Polygon? = null
     private var shown: LocalQuake? = null
     private var shownAlertId: String? = null
+    private var shownRevision = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +117,7 @@ class AlertActivity : Activity() {
 
     private fun gp(l: LatLng) = GeoPoint(l.lat, l.lon)
 
-    private fun rebuildMap(q: LocalQuake) {
+    private fun rebuildMap(q: LocalQuake, refit: Boolean = true) {
         map.overlays.clear()
         pWave = null; sWave = null
         val colors = mapOf(5 to 0x55D32F2F, 4 to 0x55FF9800, 3 to 0x55FFEB3B)
@@ -151,7 +152,7 @@ class AlertActivity : Activity() {
             icon = getDrawable(R.drawable.ic_you)
         })
         val pts = listOfNotNull(q.user, epi)
-        map.post {
+        if (refit) map.post {
             if (pts.size >= 2) {
                 val box = BoundingBox.fromGeoPoints(pts.map { gp(it) })
                 val padded = box.increaseByScale(1.6f)
@@ -160,6 +161,15 @@ class AlertActivity : Activity() {
                 map.controller.setZoom(8.0); map.controller.setCenter(gp(q.user))
             }
         }
+    }
+
+    /** A revision: redraw contours, epicentre and wave fronts without moving the user's view. */
+    private fun rebuildOverlaysOnly(q: LocalQuake) {
+        val center = map.mapCenter
+        val zoom = map.zoomLevelDouble
+        rebuildMap(q, refit = false)
+        map.controller.setZoom(zoom)
+        map.controller.setCenter(center)
     }
 
     private fun waveFront(color: Int) = Polygon(map).apply {
@@ -172,9 +182,10 @@ class AlertActivity : Activity() {
 
     private fun update() {
         val q = AlertCenter.active ?: run { header.text = getString(R.string.no_active_alert); return }
-        if (q !== shown || q.alert.id != shownAlertId) {
-            shown = q; shownAlertId = q.alert.id
-            rebuildMap(q)
+        if (q !== shown || q.alert.id != shownAlertId || q.revision != shownRevision) {
+            val keepView = q === shown
+            shown = q; shownAlertId = q.alert.id; shownRevision = q.revision
+            if (keepView) rebuildOverlaysOnly(q) else rebuildMap(q)
         }
         header.text = AlertCenter.localTitle(q)
         header.setBackgroundColor(if (q.isTest) 0xFF6A1B9A.toInt() else 0xFFC62828.toInt())

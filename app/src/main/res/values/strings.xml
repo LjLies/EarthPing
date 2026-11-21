@@ -48,7 +48,8 @@
     <string name="tts_seconds">Shaking in %d seconds.</string>
     <string name="tts_now">Shaking now. Drop, cover and hold on.</string>
     <string name="tts_take_cover">Drop, cover and hold on.</string>
-    <string name="tts_update">Update: magnitude %s.</string>
+    <string name="tts_update_prefix">Update:</string>
+    <string name="updated_note">Updated: %s</string>
 
     <!-- Main screen -->
     <string name="status">Status</string>

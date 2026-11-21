@@ -37,6 +37,10 @@ class LocalQuake(
     @Volatile var dismissed = false
     /** Sound to use; tests may be quiet. */
     var sound = 0
+    /** Incremented on every revision received from Google (the UI redraws on change). */
+    @Volatile var revision = 0
+    @Volatile var updateNote: String? = null
+    @Volatile var updatedAtMs = 0L
 
     val quake get() = alert.quake
     val epicenter get() = quake?.epicenter ?: alert.center()
@@ -177,18 +181,8 @@ object AlertCenter {
 
     private fun localQuake(a: GoogleAlert, user: LatLng, isTest: Boolean, receivedAt: Long) {
         val current = active
-        if (current != null && !current.dismissed && sameQuake(current, a) && System.currentTimeMillis() - current.receivedAtMs < 10 * 60_000) {
-            // A revision (Google refines magnitude and area within seconds): update, escalate if needed.
-            val oldMag = current.magnitude
-            current.alert = a
-            AlertHistory.add(app, a, null, note = "Revision", local = true)
-            val newMag = current.magnitude
-            if (!current.loud && shouldBeLoud(current)) startLoud(current)
-            else if (current.loud && oldMag != null && newMag != null && newMag - oldMag >= 0.3 && prefs.ttsEnabled) {
-                speaker.announce(str(R.string.tts_update, fmt1(newMag)))
-            }
-            postLocalNotification(current)
-            changed()
+        if (current != null && sameQuake(current, a) && System.currentTimeMillis() - current.receivedAtMs < 10 * 60_000) {
+            revise(current, a)
             return
         }
         val q = LocalQuake(a, user, isTest, receivedAt, prefs.clockOffsetMs)
@@ -197,6 +191,68 @@ object AlertCenter {
         AlertHistory.add(app, a, null, note = if (isTest) "Test" else null, local = true, distanceKm = q.distanceKm)
         if (shouldBeLoud(q)) startLoud(q) else postLocalNotification(q)
         changed()
+    }
+
+    /**
+     * Google revises an alert within seconds (magnitude, epicentre, depth, contours), pushing
+     * each revision on the same connection. Update everything shown, say what changed, and
+     * escalate if the quake got worse.
+     */
+    private fun revise(q: LocalQuake, a: GoogleAlert) {
+        val oldMag = q.magnitude
+        val oldDist = q.distanceKm
+        val oldMmi = q.effectiveMmi
+        val oldS = q.sArrivalLocalMs
+        q.alert = a
+        q.revision++
+        q.updatedAtMs = System.currentTimeMillis()
+        AlertHistory.add(app, a, null, note = "Revision", local = true, distanceKm = q.distanceKm)
+
+        val newMag = q.magnitude
+        val newDist = q.distanceKm
+        val newMmi = q.effectiveMmi
+        val newS = q.sArrivalLocalMs
+        val magChanged = oldMag != null && newMag != null && kotlin.math.abs(newMag - oldMag) >= 0.1
+        val distChanged = oldDist != null && newDist != null && kotlin.math.abs(newDist - oldDist) >= 5
+        val timeChanged = oldS != null && newS != null && kotlin.math.abs(newS - oldS) >= 2000
+        val mmiChanged = oldMmi != null && newMmi != null && Geo.roman(oldMmi) != Geo.roman(newMmi)
+        val notes = ArrayList<String>()
+        if (magChanged) notes += "M${fmt1(oldMag!!)} → M${fmt1(newMag!!)}"
+        if (distChanged) notes += "${km(oldDist!!)} → ${str(R.string.km_away, km(newDist!!))}"
+        if (mmiChanged) notes += "${Geo.roman(oldMmi!!)} → ${Geo.roman(newMmi!!)}"
+        if (notes.isNotEmpty()) q.updateNote = notes.joinToString(", ")
+        EventLog.log("Revision ${q.revision} of ${a.id}: ${q.updateNote ?: "no visible change"}")
+
+        val worse = (newMag != null && oldMag != null && newMag - oldMag >= 0.5) ||
+            (newMmi != null && oldMmi != null && newMmi - oldMmi >= 1.0)
+        when {
+            q.dismissed && worse -> {
+                // The user had silenced it, but it is now clearly stronger: alarm again.
+                q.dismissed = false
+                q.loud = false
+                if (shouldBeLoud(q)) startLoud(q) else postLocalNotification(q)
+            }
+            q.dismissed -> Unit // stay silent; the screen and history still update
+            !q.loud && shouldBeLoud(q) -> startLoud(q)
+            else -> {
+                if (q.loud && prefs.ttsEnabled && (magChanged || distChanged || timeChanged)) {
+                    speaker.announce(updateSpeech(q, magChanged, distChanged))
+                }
+                postLocalNotification(q)
+            }
+        }
+        changed()
+    }
+
+    private fun updateSpeech(q: LocalQuake, mag: Boolean, dist: Boolean): String {
+        val sb = StringBuilder(str(R.string.tts_update_prefix)).append(' ')
+        if (mag) q.magnitude?.let { sb.append(str(R.string.tts_magnitude, fmt1(it))).append(' ') }
+        if (dist) q.distanceKm?.let { sb.append(str(R.string.tts_distance, km(it))).append(' ') }
+        q.sArrivalLocalMs?.let {
+            val secs = ((it - System.currentTimeMillis()) / 1000).toInt()
+            if (secs > 3) sb.append(str(R.string.tts_seconds, secs))
+        }
+        return sb.toString().trim()
     }
 
     private fun shouldBeLoud(q: LocalQuake): Boolean {
@@ -265,7 +321,9 @@ object AlertCenter {
         q.distanceKm?.let { parts += str(R.string.km_away, km(it)) }
         q.effectiveMmi?.let { parts += str(R.string.est_intensity, Geo.roman(it)) }
         q.alert.title?.let { parts += it }
-        return parts.joinToString(" · ")
+        var text = parts.joinToString(" · ")
+        q.updateNote?.let { text += "\n" + str(R.string.updated_note, it) }
+        return text
     }
 
     private fun postLocalNotification(q: LocalQuake) {
@@ -380,6 +438,15 @@ object AlertCenter {
             )
             EventLog.log("Firing test alert: M$mag, ${Math.round(epi)} km away, S-wave in $lead s")
             localQuake(alert, user, isTest = true, now)
+            if (lead >= 10) main.postDelayed({
+                val q2 = alert.quake!!
+                val mag2 = mag + 0.4
+                val epi2 = Geo.destination(epicenter, Random.nextDouble(0.0, 360.0), 8.0)
+                val contours2 = listOf(5.0 to 1, 4.0 to 2, 3.0 to 3).mapNotNull { (mmi, level) ->
+                    Geo.radiusForMmi(mag2, depth, mmi)?.takeIf { it > 1 }?.let { Contour(level, listOf(Geo.circle(epi2, it)), emptyList()) }
+                }
+                localQuake(alert.copy(contours = contours2, quake = q2.copy(magnitude = mag2, epicenter = epi2)), user, isTest = true, now)
+            }, 4000)
         }
     }
 }
