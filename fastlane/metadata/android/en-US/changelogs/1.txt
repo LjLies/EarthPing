@@ -1,0 +1,1 @@
+First release: Google earthquake/crisis alert push channel without Play Services, S-wave countdown with map and speech, watched places, test mode.

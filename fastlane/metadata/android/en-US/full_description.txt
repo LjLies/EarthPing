@@ -1,0 +1,14 @@
+<p>Alertroid warns you of earthquakes <b>seconds before the shaking reaches you</b>, using the same push broadcasts Google sends for the Android Earthquake Alerts System — but without Google Play Services, a Google account or any proprietary library. It works with microG or with no Google software at all.</p>
+
+<p>When an alert arrives for your area:</p>
+<ul>
+<li>a siren sounds on the alarm stream, through silent mode and Do Not Disturb (if you allow it);</li>
+<li>a full-screen warning appears, even over the lock screen, with a map of the epicentre, Google's intensity contours, and the P- and S-wave fronts moving towards you;</li>
+<li>a countdown shows — and text-to-speech speaks — the seconds left until strong shaking.</li>
+</ul>
+
+<p>You can also watch up to three other places (family, home town…): you are notified about earthquakes and other public alerts there, without the countdown. A test mode lets you rehearse the whole alert.</p>
+
+<p>Privacy: only a coarse area (an S2 cell about 40 km wide, mixed with three other places) is sent to Google's push server, with an anonymous device identity. Nothing else is collected or sent anywhere.</p>
+
+<p><b>Not an official warning system.</b> Alertroid is unofficial and relies on a Google service that can change or stop at any time. Keep your phone's official emergency alerts enabled.</p>

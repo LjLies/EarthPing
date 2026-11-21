@@ -1,0 +1,389 @@
+package io.github.luccoj.alertroid.alert
+
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
+import android.os.PowerManager
+import android.provider.Settings
+import io.github.luccoj.alertroid.EventLog
+import io.github.luccoj.alertroid.Places
+import io.github.luccoj.alertroid.Prefs
+import io.github.luccoj.alertroid.R
+import io.github.luccoj.alertroid.Subscription
+import io.github.luccoj.alertroid.gcm.DataMessage
+import io.github.luccoj.alertroid.geo.Geo
+import io.github.luccoj.alertroid.geo.LatLng
+import io.github.luccoj.alertroid.geo.S2
+import io.github.luccoj.alertroid.ui.AlertActivity
+import io.github.luccoj.alertroid.ui.AppVisibility
+import io.github.luccoj.alertroid.ui.MainActivity
+import java.security.MessageDigest
+import java.util.Locale
+import kotlin.random.Random
+
+/** An earthquake alert for the user's own location, as shown on screen and spoken. */
+class LocalQuake(
+    @Volatile var alert: GoogleAlert,
+    val user: LatLng,
+    val isTest: Boolean,
+    val receivedAtMs: Long,
+    private val clockOffsetMs: Long,
+) {
+    @Volatile var loud = false
+    @Volatile var dismissed = false
+
+    val quake get() = alert.quake
+    val epicenter get() = quake?.epicenter ?: alert.center()
+    val magnitude get() = quake?.magnitude
+    val distanceKm get() = epicenter?.let { Geo.distanceKm(user, it) }
+    val hypoKm get() = distanceKm?.let { Geo.hypocentralKm(it, quake?.depthKm) }
+    val originMs get() = quake?.originMs
+
+    /** S-wave speed: the one in the alert when present, otherwise a crustal average. */
+    val sSpeedKms get() = quake?.waveSpeedMps?.takeIf { it in 2000..6000 }?.div(1000.0) ?: Geo.S_WAVE_KMS
+    val pSpeedKms get() = sSpeedKms * (Geo.P_WAVE_KMS / Geo.S_WAVE_KMS)
+
+    val sArrivalMs: Long? get() { val o = originMs ?: return null; val h = hypoKm ?: return null; return o + (h / sSpeedKms * 1000).toLong() }
+    val pArrivalMs: Long? get() { val o = originMs ?: return null; val h = hypoKm ?: return null; return o + (h / pSpeedKms * 1000).toLong() }
+
+    val estimatedMmi: Double? get() { val m = magnitude ?: return null; val h = hypoKm ?: return null; return Geo.estimateMmi(m, h) }
+
+    /** Highest-intensity contour the user is inside (5 = MMI5+, 4, 3), or null. */
+    val contourMmi: Int? get() = alert.contours.filter { c ->
+        c.rings.any { Geo.inside(user, it) } || c.circles.any { Geo.distanceKm(user, it.center) * 1000 <= it.radiusM }
+    }.maxOfOrNull { it.mmi }
+
+    val effectiveMmi: Double? get() = listOfNotNull(estimatedMmi, contourMmi?.toDouble()).maxOrNull()
+
+    fun now() = System.currentTimeMillis() + clockOffsetMs
+    /** Corrected S-wave arrival expressed in this device's clock. */
+    val sArrivalLocalMs: Long? get() = sArrivalMs?.minus(clockOffsetMs)
+}
+
+/**
+ * Receives decoded push messages, decides what they mean for the user and raises the right
+ * level of alarm. Must be [init]ed with a context before use.
+ */
+object AlertCenter {
+    private lateinit var app: Context
+    private lateinit var prefs: Prefs
+    private val main = Handler(Looper.getMainLooper())
+    lateinit var player: AlarmPlayer
+        private set
+    lateinit var speaker: Speaker
+        private set
+    private val seenPayloads = LinkedHashSet<String>()
+    private val crisisSeen = HashMap<String, String>()
+
+    @Volatile var active: LocalQuake? = null
+        private set
+    private val listeners = java.util.concurrent.CopyOnWriteArrayList<() -> Unit>()
+    fun addListener(l: () -> Unit) { listeners += l }
+    fun removeListener(l: () -> Unit) { listeners -= l }
+    private fun changed() = main.post { listeners.forEach { it() } }
+
+    @Synchronized
+    fun init(ctx: Context) {
+        if (::app.isInitialized) return
+        app = ctx.applicationContext
+        prefs = Prefs(app)
+        player = AlarmPlayer(app).also { it.warmUp() }
+        speaker = Speaker(app) { speaking -> player.duck(speaking) }
+        speaker.warmUp()
+        AlertHistory.init(app)
+    }
+
+    private fun str(id: Int, vararg args: Any) = app.getString(id, *args)
+    private fun fmt1(v: Double) = String.format(Locale.getDefault(), "%.1f", v)
+    private fun km(v: Double) = if (v < 10) fmt1(v) else Math.round(v).toString()
+
+    // ------------------------------------------------------------------ incoming
+
+    fun onDataMessage(msg: DataMessage) {
+        val wl = app.getSystemService(PowerManager::class.java).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "alertroid:message")
+        wl.acquire(60_000)
+        try {
+            val alerts = when {
+                msg.rawData != null -> AlertDecoder.decodeBatch(msg.rawData)
+                msg.appString("ea.msg") != null -> listOfNotNull(AlertDecoder.decodeLegacy(msg.appString("ea.msg")!!))
+                else -> emptyList()
+            }
+            EventLog.log("Push message from ${msg.from ?: "?"} (${msg.category ?: "?"}, pid=${msg.persistentId}): ${alerts.size} alert(s)")
+            if (alerts.isEmpty()) return
+            val digest = MessageDigest.getInstance("SHA-256").digest(msg.rawData ?: msg.appString("ea.msg")!!.toByteArray())
+            val key = (msg.persistentId ?: "") + "|" + digest.take(12).joinToString("") { "%02x".format(it) }
+            synchronized(seenPayloads) {
+                if (!seenPayloads.add(key)) { EventLog.log("Duplicate delivery ignored"); return }
+                while (seenPayloads.size > 300) seenPayloads.remove(seenPayloads.first())
+            }
+            val subs = Places.subscriptions(app)
+            for (a in alerts) {
+                try { handle(a, msg.from, subs, msg.receivedAtMs) } catch (e: Exception) { EventLog.log("Alert handling failed: $e") }
+            }
+        } finally {
+            if (wl.isHeld) wl.release()
+        }
+    }
+
+    /** Which subscription (own cell or a watched place) an alert was delivered for. */
+    fun match(a: GoogleAlert, from: String?, subs: List<Subscription>): Subscription? {
+        if (subs.isEmpty()) return null
+        from?.let { f -> subs.firstOrNull { f.contains(it.topic) }?.let { return it } }
+        val ordered = subs.sortedByDescending { it.primary }
+        ordered.firstOrNull { s -> a.cells.any { S2.related(it, s.token) } }?.let { return it }
+        val rings = a.allRings()
+        ordered.firstOrNull { s -> rings.any { Geo.inside(s.place.latLng, it) } }?.let { return it }
+        val center = a.center() ?: return ordered.first()
+        return subs.minByOrNull { s ->
+            val ringDist = rings.minOfOrNull { Geo.minDistanceKm(s.place.latLng, it) }
+            ringDist ?: Geo.distanceKm(s.place.latLng, center)
+        }
+    }
+
+    private fun handle(a: GoogleAlert, from: String?, subs: List<Subscription>, receivedAt: Long) {
+        val sub = match(a, from, subs)
+        val label = a.quake?.let { "M${it.magnitude} at ${it.epicenter}" } ?: (a.title ?: a.legacyRegionName ?: a.type.name)
+        EventLog.log("Alert ${a.id} [${a.type}/${a.mode}] $label -> ${sub?.let { if (it.primary) "my location" else it.place.name } ?: "unknown"}")
+        if (a.mode == GoogleAlert.Mode.TEST) {
+            AlertHistory.add(app, a, sub, note = "Google test alert (not shown)")
+            return
+        }
+        if (a.isEarthquake) {
+            if (sub == null || sub.primary) {
+                val user = prefs.effectiveLocation()
+                if (user != null) { localQuake(a, user, isTest = false, receivedAt); return }
+            }
+            watchedQuake(a, sub)
+        } else {
+            crisis(a, sub)
+        }
+    }
+
+    // ------------------------------------------------------------------ local earthquakes
+
+    private fun sameQuake(q: LocalQuake, a: GoogleAlert): Boolean {
+        if (q.alert.id == a.id) return true
+        val e1 = q.epicenter; val e2 = a.quake?.epicenter
+        val o1 = q.originMs; val o2 = a.quake?.originMs
+        return e1 != null && e2 != null && o1 != null && o2 != null &&
+            Geo.distanceKm(e1, e2) < 150 && kotlin.math.abs(o1 - o2) < 90_000
+    }
+
+    private fun localQuake(a: GoogleAlert, user: LatLng, isTest: Boolean, receivedAt: Long) {
+        val current = active
+        if (current != null && !current.dismissed && sameQuake(current, a) && System.currentTimeMillis() - current.receivedAtMs < 10 * 60_000) {
+            // A revision (Google refines magnitude and area within seconds): update, escalate if needed.
+            val oldMag = current.magnitude
+            current.alert = a
+            AlertHistory.add(app, a, null, note = "Revision", local = true)
+            val newMag = current.magnitude
+            if (!current.loud && shouldBeLoud(current)) startLoud(current)
+            else if (current.loud && oldMag != null && newMag != null && newMag - oldMag >= 0.3 && prefs.ttsEnabled) {
+                speaker.announce(str(R.string.tts_update, fmt1(newMag)))
+            }
+            postLocalNotification(current)
+            changed()
+            return
+        }
+        val q = LocalQuake(a, user, isTest, receivedAt, prefs.clockOffsetMs)
+        active = q
+        AlertHistory.add(app, a, null, note = if (isTest) "Test" else null, local = true, distanceKm = q.distanceKm)
+        if (shouldBeLoud(q)) startLoud(q) else postLocalNotification(q)
+        changed()
+    }
+
+    private fun shouldBeLoud(q: LocalQuake): Boolean {
+        val min = prefs.loudMinMmi
+        if (min <= 0) return true
+        val mmi = q.effectiveMmi ?: return true
+        return mmi >= min
+    }
+
+    private fun startLoud(q: LocalQuake) {
+        q.loud = true
+        app.getSystemService(PowerManager::class.java)
+            .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "alertroid:alert").acquire(3 * 60_000L)
+        player.start(prefs.overrideSilence)
+        postLocalNotification(q)
+        showAlertScreen()
+        if (prefs.ttsEnabled) speaker.start(announcement(q), { q.sArrivalLocalMs?.takeIf { it > System.currentTimeMillis() - 1000 } }, str(R.string.tts_now))
+        // Stop the siren a while after the shaking should have started (or after a minute).
+        val stopAt = (q.sArrivalLocalMs?.let { it + 30_000 } ?: (System.currentTimeMillis() + 60_000)).coerceAtLeast(System.currentTimeMillis() + 20_000)
+        main.postDelayed({ if (active === q) player.stop() }, stopAt - System.currentTimeMillis())
+    }
+
+    private fun announcement(q: LocalQuake): String {
+        val sb = StringBuilder()
+        if (q.isTest) sb.append(str(R.string.tts_test)).append(' ')
+        sb.append(str(R.string.tts_earthquake)).append(' ')
+        q.magnitude?.let { sb.append(str(R.string.tts_magnitude, fmt1(it))).append(' ') }
+        q.distanceKm?.let { sb.append(str(R.string.tts_distance, km(it))).append(' ') }
+        val s = q.sArrivalLocalMs
+        if (s != null) {
+            val secs = ((s - System.currentTimeMillis()) / 1000).toInt()
+            if (secs > 0) sb.append(str(R.string.tts_seconds, secs)) else sb.append(str(R.string.tts_now))
+        } else {
+            sb.append(str(R.string.tts_take_cover))
+        }
+        return sb.toString()
+    }
+
+    private fun showAlertScreen() {
+        // Turn the screen on right away (deprecated flag, but still honoured), so the alert
+        // screen -- which is allowed over the lock screen -- is visible even if the display was off.
+        try {
+            @Suppress("DEPRECATION")
+            app.getSystemService(PowerManager::class.java).newWakeLock(
+                PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.ON_AFTER_RELEASE,
+                "alertroid:screen").acquire(15_000)
+        } catch (e: Exception) {
+            EventLog.log("Cannot wake the screen: $e")
+        }
+        val i = Intent(app, AlertActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        // Direct start works with "display over other apps" or while our UI is visible; the
+        // full-screen intent on the notification is the other path (and covers the lock screen).
+        if (AppVisibility.visible || Settings.canDrawOverlays(app)) {
+            try { app.startActivity(i) } catch (e: Exception) { EventLog.log("Cannot open alert screen: $e") }
+        }
+    }
+
+    fun localTitle(q: LocalQuake): String {
+        val mag = q.magnitude?.let { " M${fmt1(it)}" } ?: ""
+        return (if (q.isTest) str(R.string.test_prefix) + " " else "") + str(R.string.notif_quake_title, mag)
+    }
+
+    fun localText(q: LocalQuake): String {
+        val parts = ArrayList<String>()
+        q.distanceKm?.let { parts += str(R.string.km_away, km(it)) }
+        q.effectiveMmi?.let { parts += str(R.string.est_intensity, Geo.roman(it)) }
+        q.alert.title?.let { parts += it }
+        return parts.joinToString(" · ")
+    }
+
+    private fun postLocalNotification(q: LocalQuake) {
+        val nm = app.getSystemService(NotificationManager::class.java)
+        val open = PendingIntent.getActivity(app, 10, Intent(app, AlertActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        val stop = PendingIntent.getBroadcast(app, 11, Intent(app, StopReceiver::class.java), PendingIntent.FLAG_IMMUTABLE)
+        val channel = if (q.loud) Notifications.quakeChannel(app) else Notifications.infoChannel(app)
+        val b = Notification.Builder(app, channel)
+            .setSmallIcon(io.github.luccoj.alertroid.R.drawable.ic_stat_quake)
+            .setContentTitle(localTitle(q))
+            .setContentText(localText(q))
+            .setCategory(Notification.CATEGORY_ALARM)
+            .setVisibility(Notification.VISIBILITY_PUBLIC)
+            .setContentIntent(open)
+            .setOnlyAlertOnce(true)
+            .setAutoCancel(false)
+            .setColor(0xFFD32F2F.toInt())
+        val s = q.sArrivalLocalMs
+        if (s != null && s > System.currentTimeMillis()) {
+            b.setWhen(s).setShowWhen(true).setUsesChronometer(true).setChronometerCountDown(true)
+        }
+        if (q.loud) {
+            b.setFullScreenIntent(open, true)
+            b.addAction(Notification.Action.Builder(null, str(R.string.stop_alarm), stop).build())
+            b.setOngoing(true)
+        }
+        nm.notify(Notifications.ID_LOCAL_QUAKE, b.build())
+    }
+
+    /** User pressed "stop" (in the alert screen or the notification). */
+    fun silence() {
+        player.stop()
+        speaker.stop()
+        active?.let {
+            it.dismissed = true
+            val nm = app.getSystemService(NotificationManager::class.java)
+            nm.cancel(Notifications.ID_LOCAL_QUAKE)
+        }
+        changed()
+    }
+
+    // ------------------------------------------------------------------ watched places & crisis alerts
+
+    private fun watchedQuake(a: GoogleAlert, sub: Subscription?) {
+        val q = a.quake
+        val place = sub?.place
+        val dist = if (place != null && q?.epicenter != null) Geo.distanceKm(place.latLng, q.epicenter) else null
+        AlertHistory.add(app, a, sub, distanceKm = dist)
+        if (place == null || Places.isAutoDecoy(place) || !prefs.watchedNotifications) return
+        val title = str(R.string.notif_watched_quake, place.name, q?.magnitude?.let { "M${fmt1(it)}" } ?: "")
+        val text = buildString {
+            dist?.let { append(str(R.string.km_from, km(it), place.name)) }
+            if (q?.magnitude != null && dist != null) {
+                append(" · ").append(str(R.string.est_intensity, Geo.roman(Geo.estimateMmi(q.magnitude, Geo.hypocentralKm(dist, q.depthKm)))))
+            }
+        }
+        notifyOther(a.id, Notifications.CH_WATCHED, title, text)
+    }
+
+    private fun crisis(a: GoogleAlert, sub: Subscription?) {
+        val fingerprint = "${a.title}|${a.areaText}|${a.expiresMs}"
+        val previous = crisisSeen.put(a.id, fingerprint)
+        if (previous == fingerprint) return // periodic re-issue
+        AlertHistory.add(app, a, sub, note = if (previous != null) "Updated" else null)
+        if (!prefs.crisisAlerts || sub == null) return
+        val local = sub.primary
+        if (!local && (Places.isAutoDecoy(sub.place) || !prefs.watchedNotifications)) return
+        val title = (a.title ?: str(R.string.crisis_generic)) + if (!local) " · ${sub.place.name}" else ""
+        val text = listOfNotNull(a.areaText, a.sender ?: a.sourceName).joinToString(" · ")
+        notifyOther(a.id, if (local) Notifications.crisisChannel(app) else Notifications.CH_WATCHED, title, text, silent = previous != null)
+    }
+
+    private fun notifyOther(id: String, channel: String, title: String, text: String, silent: Boolean = false) {
+        val nm = app.getSystemService(NotificationManager::class.java)
+        val open = PendingIntent.getActivity(app, 12, Intent(app, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
+        nm.notify(1000 + (id.hashCode() and 0xFFFFF), Notification.Builder(app, channel)
+            .setSmallIcon(R.drawable.ic_stat_quake)
+            .setContentTitle(title)
+            .setContentText(text)
+            .setStyle(Notification.BigTextStyle().bigText(text))
+            .setContentIntent(open)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(silent)
+            .build())
+    }
+
+    // ------------------------------------------------------------------ test mode
+
+    /** Synthesizes an alert near the user whose S-wave arrives [Prefs.testLeadS] seconds from now. */
+    fun fireTest() {
+        main.post {
+            val user = prefs.effectiveLocation() ?: LatLng(41.9028, 12.4964)
+            val lead = prefs.testLeadS.coerceIn(3, 120)
+            val mag = prefs.testMagnitude.toDouble()
+            val depth = 10.0
+            val latencyS = 8.0 // typical delay between rupture and Google's alert
+            val now = System.currentTimeMillis()
+            val hypo = Geo.S_WAVE_KMS * (lead + latencyS)
+            val epi = kotlin.math.sqrt((hypo * hypo - depth * depth).coerceAtLeast(1.0))
+            val epicenter = Geo.destination(user, Random.nextDouble(0.0, 360.0), epi)
+            val contours = listOf(5.0 to 1, 4.0 to 2, 3.0 to 3).mapNotNull { (mmi, level) ->
+                Geo.radiusForMmi(mag, depth, mmi)?.takeIf { it > 1 }?.let { Contour(level, listOf(Geo.circle(epicenter, it)), emptyList()) }
+            }
+            val origin = now - (latencyS * 1000).toLong() + prefs.clockOffsetMs
+            val alert = GoogleAlert(
+                id = "test-$now", issuedMs = now, updatedMs = now, expiresMs = null,
+                mode = GoogleAlert.Mode.LIVE, type = GoogleAlert.Type.EARTHQUAKE,
+                cells = emptyList(), contours = contours, areaPolygons = emptyList(),
+                title = null, areaText = null, sender = null, sourceName = "Alertroid test", eventCode = null,
+                quake = Quake(mag, epicenter, depth, origin, null, null, true),
+            )
+            EventLog.log("Firing test alert: M$mag, ${Math.round(epi)} km away, S-wave in $lead s")
+            localQuake(alert, user, isTest = true, now)
+        }
+    }
+}
+
+/** "Stop alarm" from the notification. */
+class StopReceiver : android.content.BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        AlertCenter.init(context)
+        AlertCenter.silence()
+    }
+}
