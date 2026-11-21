@@ -37,8 +37,6 @@
     <string name="epicenter">Epicenter</string>
     <string name="you">You</string>
     <string name="seconds_left">%d s</string>
-    <string name="shaking_now">Shaking now!</string>
-    <string name="shaking_passed">Shaking should have passed</string>
     <string name="take_cover">Take cover</string>
     <string name="no_active_alert">No active alert</string>
 
@@ -122,6 +120,15 @@
     <string name="loud_threshold">Loud alarm with countdown for earthquakes in my area:</string>
     <string name="loud_any">Always (any alert Google sends for my area)</string>
     <string name="loud_mmi">Only if estimated intensity is %s or more</string>
+    <string name="alarm_sound">Alarm sound for earthquakes in my area:</string>
+    <string name="sound_siren_max">Alarm tone at full volume</string>
+    <string name="sound_siren">Alarm tone at the current alarm volume</string>
+    <string name="alarm_tone">Alarm tone:</string>
+    <string name="tone_chime">Warning chime (rising bells)</string>
+    <string name="tone_siren">Siren</string>
+    <string name="sound_beeps">Soft beeps at the current alarm volume</string>
+    <string name="sound_none">No sound (vibration and speech only)</string>
+    <string name="test_quiet">Quiet test: no alarm sound (vibration and speech only)</string>
     <string name="tts_enabled">Speak the warning and count down (text-to-speech)</string>
     <string name="override_silence">Override silent mode and Do Not Disturb</string>
     <string name="watched_notifs">Notify me about my watched places</string>

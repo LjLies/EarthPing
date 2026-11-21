@@ -33,6 +33,26 @@ class SettingsActivity : Activity() {
             override fun onItemSelected(p: android.widget.AdapterView<*>?, v: android.view.View?, pos: Int, id: Long) { prefs.loudMinMmi = options[pos] }
             override fun onNothingSelected(p: android.widget.AdapterView<*>?) {}
         }
+        Ui.text(alerting, getString(R.string.alarm_sound), 13f)
+        val soundSpinner = Spinner(this)
+        soundSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf(
+            getString(R.string.sound_siren_max), getString(R.string.sound_siren), getString(R.string.sound_beeps), getString(R.string.sound_none)))
+        soundSpinner.setSelection(prefs.alarmSound.coerceIn(0, 3))
+        alerting.addView(soundSpinner)
+        soundSpinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p: android.widget.AdapterView<*>?, v: android.view.View?, pos: Int, id: Long) { prefs.alarmSound = pos }
+            override fun onNothingSelected(p: android.widget.AdapterView<*>?) {}
+        }
+        Ui.text(alerting, getString(R.string.alarm_tone), 13f)
+        val toneSpinner = Spinner(this)
+        toneSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf(
+            getString(R.string.tone_chime), getString(R.string.tone_siren)))
+        toneSpinner.setSelection(prefs.alarmTone.coerceIn(0, 1))
+        alerting.addView(toneSpinner)
+        toneSpinner.onItemSelectedListener = object : android.widget.AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p: android.widget.AdapterView<*>?, v: android.view.View?, pos: Int, id: Long) { prefs.alarmTone = pos }
+            override fun onNothingSelected(p: android.widget.AdapterView<*>?) {}
+        }
         check(alerting, R.string.tts_enabled, prefs.ttsEnabled) { prefs.ttsEnabled = it }
         check(alerting, R.string.override_silence, prefs.overrideSilence) { prefs.overrideSilence = it }
         check(alerting, R.string.watched_notifs, prefs.watchedNotifications) { prefs.watchedNotifications = it }

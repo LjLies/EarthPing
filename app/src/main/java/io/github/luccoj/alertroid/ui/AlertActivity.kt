@@ -62,12 +62,19 @@ class AlertActivity : Activity() {
         }
         header = TextView(this).apply {
             setTextColor(Color.WHITE); textSize = 26f; setTypeface(typeface, Typeface.BOLD); gravity = Gravity.CENTER
+            maxLines = 1; setLines(1); ellipsize = android.text.TextUtils.TruncateAt.END
             setBackgroundColor(0xFFC62828.toInt()); setPadding(16, 24, 16, 24)
         }
+        // Fixed-height, single-line texts: nothing on screen may move while counting down.
         countdown = TextView(this).apply {
             setTextColor(Color.WHITE); textSize = 64f; setTypeface(Typeface.DEFAULT_BOLD); gravity = Gravity.CENTER
+            maxLines = 1; setLines(1)
+            setAutoSizeTextTypeUniformWithConfiguration(24, 64, 2, android.util.TypedValue.COMPLEX_UNIT_SP)
         }
-        info = TextView(this).apply { setTextColor(0xFFEEEEEE.toInt()); textSize = 16f; gravity = Gravity.CENTER; setPadding(16, 0, 16, 16) }
+        info = TextView(this).apply {
+            setTextColor(0xFFEEEEEE.toInt()); textSize = 16f; gravity = Gravity.CENTER; setPadding(16, 0, 16, 16)
+            setLines(2); maxLines = 2; ellipsize = android.text.TextUtils.TruncateAt.END
+        }
         map = MapView(this).apply {
             setTileSource(TileSourceFactory.MAPNIK)
             setMultiTouchControls(true)
@@ -179,10 +186,9 @@ class AlertActivity : Activity() {
         countdown.text = when {
             s == null -> getString(R.string.take_cover)
             s > now -> getString(R.string.seconds_left, Math.ceil((s - now) / 1000.0).toInt())
-            now - s < 60_000 -> getString(R.string.shaking_now)
-            else -> getString(R.string.shaking_passed)
+            else -> getString(R.string.seconds_left, 0)
         }
-        countdown.setTextColor(if (s != null && s > now && s - now < 10_000) 0xFFFF5252.toInt() else Color.WHITE)
+        countdown.setTextColor(if (s != null && s - now < 10_000) 0xFFFF5252.toInt() else Color.WHITE)
 
         val epi = q.epicenter
         val origin = q.originMs

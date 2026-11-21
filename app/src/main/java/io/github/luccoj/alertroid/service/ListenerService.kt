@@ -100,6 +100,7 @@ class ListenerService : Service() {
             ACTION_TEST_SCHEDULE -> scheduleTest()
             ACTION_REFRESH -> {
                 Notifications.ensureChannels(this)
+                if (!AlertCenter.speaker.available) AlertCenter.speaker.warmUp()
                 if (location.hasCoarse != locationGranted) { locationGranted = location.hasCoarse; location.restart() }
                 refreshTopics(force = true)
                 goForeground()

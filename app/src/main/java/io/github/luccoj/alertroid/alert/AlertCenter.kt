@@ -35,6 +35,8 @@ class LocalQuake(
 ) {
     @Volatile var loud = false
     @Volatile var dismissed = false
+    /** Sound to use; tests may be quiet. */
+    var sound = 0
 
     val quake get() = alert.quake
     val epicenter get() = quake?.epicenter ?: alert.center()
@@ -190,6 +192,7 @@ object AlertCenter {
             return
         }
         val q = LocalQuake(a, user, isTest, receivedAt, prefs.clockOffsetMs)
+        q.sound = if (isTest && prefs.testQuiet) Prefs.SOUND_NONE else prefs.alarmSound
         active = q
         AlertHistory.add(app, a, null, note = if (isTest) "Test" else null, local = true, distanceKm = q.distanceKm)
         if (shouldBeLoud(q)) startLoud(q) else postLocalNotification(q)
@@ -207,7 +210,8 @@ object AlertCenter {
         q.loud = true
         app.getSystemService(PowerManager::class.java)
             .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "alertroid:alert").acquire(3 * 60_000L)
-        player.start(prefs.overrideSilence)
+        if (!speaker.available) speaker.warmUp()
+        player.start(q.sound, prefs.alarmTone, prefs.overrideSilence)
         postLocalNotification(q)
         showAlertScreen()
         if (prefs.ttsEnabled) speaker.start(announcement(q), { q.sArrivalLocalMs?.takeIf { it > System.currentTimeMillis() - 1000 } }, str(R.string.tts_now))
@@ -356,7 +360,7 @@ object AlertCenter {
         main.post {
             val user = prefs.effectiveLocation() ?: LatLng(41.9028, 12.4964)
             val lead = prefs.testLeadS.coerceIn(3, 120)
-            val mag = prefs.testMagnitude.toDouble()
+            val mag = Math.round(prefs.testMagnitude * 10) / 10.0
             val depth = 10.0
             val latencyS = 8.0 // typical delay between rupture and Google's alert
             val now = System.currentTimeMillis()

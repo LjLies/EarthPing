@@ -42,6 +42,8 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
                 ready = true
             } else {
                 EventLog.log("Text-to-speech is not available (status $status)")
+                // Allow a later retry (e.g. after an engine is installed or enabled).
+                main.post { try { tts?.shutdown() } catch (_: Exception) {}; tts = null }
             }
         }
     }

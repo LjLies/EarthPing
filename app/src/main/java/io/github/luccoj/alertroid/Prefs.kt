@@ -17,6 +17,15 @@ data class Subscription(val place: Place, val primary: Boolean) {
 }
 
 class Prefs(context: Context) {
+    companion object {
+        const val SOUND_SIREN_MAX = 0
+        const val SOUND_SIREN = 1
+        const val SOUND_BEEPS = 2
+        const val SOUND_NONE = 3
+        const val TONE_CHIME = 0
+        const val TONE_SIREN = 1
+    }
+
     private val p: SharedPreferences = context.applicationContext.getSharedPreferences("alertroid", Context.MODE_PRIVATE)
 
     private fun SharedPreferences.Editor.putDouble(k: String, v: Double) = putLong(k, java.lang.Double.doubleToRawLongBits(v))
@@ -132,6 +141,20 @@ class Prefs(context: Context) {
     var watchedNotifications: Boolean
         get() = p.getBoolean("watched_notifs", true)
         set(v) = p.edit().putBoolean("watched_notifs", v).apply()
+
+    /** One of [SOUND_SIREN_MAX], [SOUND_SIREN], [SOUND_BEEPS], [SOUND_NONE]. */
+    var alarmSound: Int
+        get() = p.getInt("alarm_sound", SOUND_SIREN_MAX)
+        set(v) = p.edit().putInt("alarm_sound", v).apply()
+
+    /** [TONE_CHIME] (default) or [TONE_SIREN]. */
+    var alarmTone: Int
+        get() = p.getInt("alarm_tone", TONE_CHIME)
+        set(v) = p.edit().putInt("alarm_tone", v).apply()
+
+    var testQuiet: Boolean
+        get() = p.getBoolean("test_quiet", false)
+        set(v) = p.edit().putBoolean("test_quiet", v).apply()
 
     var crisisAlerts: Boolean
         get() = p.getBoolean("crisis_alerts", true)

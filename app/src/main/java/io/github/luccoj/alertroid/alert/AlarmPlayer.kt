@@ -9,12 +9,13 @@ import android.media.AudioTrack
 import android.os.VibrationEffect
 import android.os.Vibrator
 import io.github.luccoj.alertroid.EventLog
+import io.github.luccoj.alertroid.Prefs
 import kotlin.math.PI
 import kotlin.math.sin
 
 /**
- * Plays a synthesized siren on the ALARM stream at full volume. When allowed, it temporarily
- * lifts Do Not Disturb and restores the previous volume / DND state afterwards.
+ * Plays a synthesized siren (or soft beeps) on the ALARM stream, optionally at full volume.
+ * When allowed, it temporarily lifts Do Not Disturb and restores volume / DND afterwards.
  */
 class AlarmPlayer(private val ctx: Context) {
     private val am = ctx.getSystemService(AudioManager::class.java)
@@ -40,28 +41,80 @@ class AlarmPlayer(private val ctx: Context) {
         }
     }
 
-    fun warmUp() { pcm.size }
+    /**
+     * An original alert chime in the spirit of an early-warning signal (not a copy of any
+     * existing one): bright bell-like dyads (each note plus its tritone) rising through a
+     * diminished-seventh arpeggio, then two higher repeats and a pause. 1.6 s per loop.
+     */
+    private val chime: ShortArray by lazy {
+        val n = (sampleRate * 1.6).toInt()
+        val mix = DoubleArray(n)
+        val notes = listOf(0.00 to 988.0, 0.13 to 1175.0, 0.26 to 1397.0, 0.39 to 1661.0, 0.62 to 1976.0, 0.80 to 1976.0)
+        for ((start, f) in notes) {
+            val s0 = (start * sampleRate).toInt()
+            val len = (0.32 * sampleRate).toInt()
+            for (k in 0 until len) {
+                val i = s0 + k
+                if (i >= n) break
+                val t = k.toDouble() / sampleRate
+                val attack = minOf(1.0, t / 0.003)
+                val body = kotlin.math.exp(-t / 0.10)
+                val shimmer = kotlin.math.exp(-t / 0.03)
+                var v = 0.0
+                for (freq in doubleArrayOf(f, f * 1.41421356)) {
+                    v += sin(2 * PI * freq * t) * body + 0.35 * sin(2 * PI * freq * 2.76 * t) * shimmer
+                }
+                mix[i] += v * attack
+            }
+        }
+        val peak = mix.maxOf { kotlin.math.abs(it) }.coerceAtLeast(1e-9)
+        ShortArray(n) { (mix[it] / peak * Short.MAX_VALUE * 0.92).toInt().toShort() }
+    }
+
+    /** One second with a short, soft 880 Hz chime: gentle enough for testing. */
+    private val beeps: ShortArray by lazy {
+        val n = sampleRate
+        val len = sampleRate / 5
+        ShortArray(n) { i ->
+            if (i >= len) 0 else {
+                val env = kotlin.math.exp(-5.0 * i / len) * minOf(1.0, i / 100.0)
+                (sin(2 * PI * 880 * i / sampleRate) * env * Short.MAX_VALUE * 0.35).toInt().toShort()
+            }
+        }
+    }
+
+    fun warmUp() { pcm.size; beeps.size; chime.size }
+
+    private var started = false
 
     @Synchronized
-    fun start(overrideSilence: Boolean) {
-        if (track != null) return
-        if (overrideSilence) liftSilence()
-        try {
+    fun start(sound: Int, tone: Int, overrideSilence: Boolean) {
+        if (started) return
+        started = true
+        // Speech also uses the alarm stream, so DND is lifted even when no siren is played;
+        // the alarm volume is only forced to maximum for the full siren.
+        if (overrideSilence) liftSilence(raiseVolume = sound == Prefs.SOUND_SIREN_MAX)
+        val data = when (sound) {
+            Prefs.SOUND_SIREN_MAX, Prefs.SOUND_SIREN -> if (tone == Prefs.TONE_SIREN) pcm else chime
+            Prefs.SOUND_BEEPS -> beeps
+            else -> null
+        }
+        if (data != null) try {
             val attrs = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
             val t = AudioTrack.Builder()
                 .setAudioAttributes(attrs)
                 .setAudioFormat(AudioFormat.Builder().setEncoding(AudioFormat.ENCODING_PCM_16BIT)
                     .setSampleRate(sampleRate).setChannelMask(AudioFormat.CHANNEL_OUT_MONO).build())
-                .setBufferSizeInBytes(pcm.size * 2)
+                .setBufferSizeInBytes(data.size * 2)
                 .setTransferMode(AudioTrack.MODE_STATIC)
                 .build()
-            t.write(pcm, 0, pcm.size)
-            t.setLoopPoints(0, pcm.size, -1)
+            t.write(data, 0, data.size)
+            t.setLoopPoints(0, data.size, -1)
             t.play()
             track = t
         } catch (e: Exception) {
-            EventLog.log("Siren failed: $e")
+            EventLog.log("Alarm sound failed: $e")
         }
         try {
             val pattern = longArrayOf(0, 700, 300)
@@ -80,6 +133,7 @@ class AlarmPlayer(private val ctx: Context) {
 
     @Synchronized
     fun stop() {
+        started = false
         track?.let {
             try { it.stop() } catch (_: Exception) {}
             it.release()
@@ -89,11 +143,11 @@ class AlarmPlayer(private val ctx: Context) {
         restoreSilence()
     }
 
-    val isPlaying: Boolean @Synchronized get() = track != null
+    val isPlaying: Boolean @Synchronized get() = started
 
-    private fun liftSilence() {
+    private fun liftSilence(raiseVolume: Boolean) {
         try {
-            if (savedVolume == null) {
+            if (raiseVolume && savedVolume == null) {
                 savedVolume = am.getStreamVolume(AudioManager.STREAM_ALARM)
                 am.setStreamVolume(AudioManager.STREAM_ALARM, am.getStreamMaxVolume(AudioManager.STREAM_ALARM), 0)
             }

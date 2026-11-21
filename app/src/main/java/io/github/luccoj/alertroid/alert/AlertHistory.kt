@@ -50,7 +50,7 @@ object AlertHistory {
             else -> "alert"
         }
         val summary = a.quake?.let { q ->
-            listOfNotNull(q.magnitude?.let { "M$it" }, q.depthKm?.let { "depth ${Math.round(it)} km" }).joinToString(" · ")
+            listOfNotNull(q.magnitude?.let { String.format(java.util.Locale.US, "M%.1f", it) }, q.depthKm?.let { "depth ${Math.round(it)} km" }).joinToString(" · ")
         }?.ifEmpty { null } ?: listOfNotNull(a.title ?: a.legacyRegionName, a.areaText).joinToString(" · ").ifEmpty { a.id }
         val where = when {
             local || sub?.primary == true -> "my location"

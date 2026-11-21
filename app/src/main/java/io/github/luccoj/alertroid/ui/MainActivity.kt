@@ -65,7 +65,12 @@ class MainActivity : Activity() {
         Ui.text(test, getString(R.string.test_mode_desc), 13f)
         val delay = Ui.field(test, getString(R.string.test_delay), prefs.testDelayS.toString())
         val lead = Ui.field(test, getString(R.string.test_lead), prefs.testLeadS.toString())
-        val mag = Ui.field(test, getString(R.string.test_magnitude), prefs.testMagnitude.toString(), decimal = true)
+        val mag = Ui.field(test, getString(R.string.test_magnitude), String.format(Locale.US, "%.1f", prefs.testMagnitude), decimal = true)
+        test.addView(android.widget.CheckBox(this).apply {
+            text = getString(R.string.test_quiet)
+            isChecked = prefs.testQuiet
+            setOnCheckedChangeListener { _, c -> prefs.testQuiet = c }
+        })
         Ui.button(test, getString(R.string.test_start)) {
             prefs.testDelayS = delay.text.toString().toIntOrNull()?.coerceIn(0, 3600) ?: 10
             prefs.testLeadS = lead.text.toString().toIntOrNull()?.coerceIn(3, 120) ?: 25
