@@ -6,6 +6,7 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import io.github.ljlies.earthping.R
+import io.github.ljlies.earthping.Storage
 
 /**
  * Notification channels. Channels that must break through Do Not Disturb are (re)created once
@@ -43,7 +44,7 @@ object Notifications {
     private fun nm(ctx: Context) = ctx.getSystemService(NotificationManager::class.java)
 
     private fun current(ctx: Context, base: String): String {
-        val gen = ctx.getSharedPreferences("channels", Context.MODE_PRIVATE).getInt(base, 1)
+        val gen = Storage.of(ctx).getSharedPreferences("channels", Context.MODE_PRIVATE).getInt(base, 1)
         return "${base}_$gen"
     }
 
@@ -110,7 +111,7 @@ object Notifications {
 
     private fun ensureDndChannel(ctx: Context, base: String, hasDnd: Boolean, make: (String) -> NotificationChannel) {
         val nm = nm(ctx)
-        val sp = ctx.getSharedPreferences("channels", Context.MODE_PRIVATE)
+        val sp = Storage.of(ctx).getSharedPreferences("channels", Context.MODE_PRIVATE)
         var gen = sp.getInt(base, 1)
         val existing = nm.getNotificationChannel("${base}_$gen")
         if (existing != null && hasDnd && !existing.canBypassDnd() && !sp.getBoolean("${base}_dnd_$gen", false)) {

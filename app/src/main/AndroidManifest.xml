@@ -68,6 +68,7 @@
             android:theme="@style/Theme.EarthPing.WithActionBar" />
         <activity
             android:name=".ui.AlertActivity"
+            android:directBootAware="true"
             android:exported="false"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
@@ -78,6 +79,7 @@
 
         <service
             android:name=".service.ListenerService"
+            android:directBootAware="true"
             android:exported="false"
             android:foregroundServiceType="specialUse|location"
             android:stopWithTask="false">
@@ -88,6 +90,7 @@
 
         <service
             android:name=".service.WatchdogJob"
+            android:directBootAware="true"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
@@ -101,15 +104,19 @@
                 android:value="true" />
         </service>
 
-        <receiver android:name=".service.AlarmReceiver" android:exported="false" />
-        <receiver android:name=".alert.StopReceiver" android:exported="false" />
+        <receiver android:name=".service.AlarmReceiver" android:directBootAware="true" android:exported="false" />
+        <receiver android:name=".alert.StopReceiver" android:directBootAware="true" android:exported="false" />
         <receiver
             android:name=".service.BootReceiver"
+            android:directBootAware="true"
             android:exported="true">
             <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.MY_PACKAGE_UNSUSPENDED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
     </application>

@@ -24,7 +24,7 @@ object EventLog {
     fun init(ctx: Context) {
         synchronized(lines) {
             if (file != null) return
-            val f = File(ctx.filesDir, "eventlog.txt")
+            val f = File(Storage.of(ctx).filesDir, "eventlog.txt")
             file = f
             try {
                 if (f.exists()) {
@@ -48,7 +48,20 @@ object EventLog {
         writer.execute { flush() }
     }
 
-    private fun flush() {
+    /** Logs and writes the file on the calling thread (for crashes, when the process is about to die). */
+    fun logNow(msg: String) {
+        Log.e("EarthPing", msg)
+        synchronized(lines) {
+            lines.addLast("${fmt.format(Date())}  $msg")
+            while (lines.size > MAX) lines.removeFirst()
+            dirty++
+        }
+        flush()
+    }
+
+    private val fileLock = Any()
+
+    private fun flush(): Unit = synchronized(fileLock) {
         val f = file ?: return
         val snapshot = synchronized(lines) {
             if (dirty == 0) return

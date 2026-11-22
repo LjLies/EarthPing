@@ -31,6 +31,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     private lateinit var prefs: Prefs
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        preferenceManager.setStorageDeviceProtected()
         preferenceManager.sharedPreferencesName = Prefs.FILE
         setPreferencesFromResource(R.xml.settings, rootKey)
         prefs = Prefs(requireContext())

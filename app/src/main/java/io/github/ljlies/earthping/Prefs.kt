@@ -27,9 +27,10 @@ class Prefs(context: Context) {
         const val TONE_CHIME = 0
         const val TONE_SIREN = 1
         const val FILE = "earthping"
+        private val CRASH_DELAYS_MS = longArrayOf(3_000, 10_000, 60_000, 5 * 60_000, 15 * 60_000)
     }
 
-    private val p: SharedPreferences = context.applicationContext.getSharedPreferences(FILE, Context.MODE_PRIVATE)
+    private val p: SharedPreferences = Storage.of(context).getSharedPreferences(FILE, Context.MODE_PRIVATE)
 
     /** List preferences are stored as strings by the settings screen; older versions stored ints. */
     private fun listInt(key: String, def: Int): Int = try {
@@ -62,6 +63,17 @@ class Prefs(context: Context) {
     var serviceEnabled: Boolean
         get() = p.getBoolean("service_enabled", true)
         set(v) = p.edit().putBoolean("service_enabled", v).apply()
+
+    /**
+     * Records a crash and returns how long to wait before restarting: 3 s after an isolated
+     * crash, then longer while crashes keep coming within 10 minutes of each other.
+     */
+    fun noteCrash(now: Long): Long {
+        val recent = now - p.getLong("crash_last", 0) < 10 * 60_000L
+        val count = if (recent) p.getInt("crash_count", 0) + 1 else 1
+        p.edit().putLong("crash_last", now).putInt("crash_count", count).commit()
+        return CRASH_DELAYS_MS[(count - 1).coerceAtMost(CRASH_DELAYS_MS.size - 1)]
+    }
 
     // ---- identity
     var credentials: Credentials?

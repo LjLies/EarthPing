@@ -26,7 +26,7 @@ object AlertHistory {
     @Synchronized
     fun init(ctx: Context) {
         if (loaded) return
-        file = java.io.File(ctx.filesDir, "history.json")
+        file = java.io.File(io.github.ljlies.earthping.Storage.of(ctx).filesDir, "history.json")
         loaded = true
         try {
             if (file.exists()) {

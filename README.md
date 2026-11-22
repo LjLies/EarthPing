@@ -80,8 +80,13 @@ This is a summary of the protocol as worked out by the
   "Display over other apps", full-screen intents, Do Not Disturb access, and location (including
   "all the time"). Required items block onboarding until you grant them. The main screen keeps
   warning you about anything still missing.
-- **Restarts** happen at boot, after app updates, after the task is swiped away, and from a
-  15-minute `JobScheduler` watchdog.
+- **Starts at boot**, before the phone is first unlocked: the service is direct-boot aware and
+  keeps its state in device-protected storage. Until the first unlock, text-to-speech and
+  microG's location may be unavailable; the last known location is used.
+- **Restarts** happen after app updates, after the task is swiped away, a few seconds after a
+  crash (more slowly if it keeps crashing), and from a 15-minute `JobScheduler` watchdog. The
+  exact heartbeat alarms also restart the service if its process was killed. Only a force stop
+  from the system settings keeps it stopped until the app is opened again.
 - **Reconnects** happen right away when the network changes. After failures, EarthPing backs off
   exponentially (2 s → 10 min, with jitter) and makes **at most 30 attempts per hour**. It
   registers at most **3 new identities a day**, so Google's servers are never hammered. After a

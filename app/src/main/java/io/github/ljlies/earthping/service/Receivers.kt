@@ -11,6 +11,7 @@ import android.content.Intent
 import android.os.PowerManager
 import io.github.ljlies.earthping.EventLog
 import io.github.ljlies.earthping.Prefs
+import io.github.ljlies.earthping.Storage
 import io.github.ljlies.earthping.alert.AlertCenter
 
 /** Exact alarms: heartbeats, reconnects, service restarts and test alerts. */
@@ -35,12 +36,25 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 }
 
+/**
+ * Starts the service at boot (already before the first unlock, thanks to direct boot), after
+ * app updates and when the app is unsuspended.
+ */
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val prefs = Prefs(context)
+        val action = intent.action?.substringAfterLast('.') ?: "?"
         if (prefs.onboardingDone && prefs.serviceEnabled) {
-            EventLog.log("Starting after ${intent.action}")
-            ListenerService.start(context, "boot")
+            if (ListenerService.instance != null) {
+                // Typically BOOT_COMPLETED after the phone was unlocked, the service having
+                // started at LOCKED_BOOT_COMPLETED.
+                EventLog.log("$action: service already running")
+                if (intent.action == Intent.ACTION_BOOT_COMPLETED) ListenerService.start(context, "unlocked", ListenerService.ACTION_UNLOCKED)
+            } else {
+                val locked = if (Storage.unlocked(context)) "" else " (phone not unlocked yet)"
+                EventLog.log("Starting after $action$locked")
+                ListenerService.start(context, "boot")
+            }
         }
         WatchdogJob.schedule(context)
     }

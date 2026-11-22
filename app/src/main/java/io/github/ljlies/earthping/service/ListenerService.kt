@@ -41,6 +41,7 @@ class ListenerService : Service() {
         const val ACTION_TEST_FIRE = "io.github.ljlies.earthping.TEST_FIRE"
         const val ACTION_REFRESH = "io.github.ljlies.earthping.REFRESH"
         const val ACTION_RESTART = "io.github.ljlies.earthping.RESTART"
+        const val ACTION_UNLOCKED = "io.github.ljlies.earthping.UNLOCKED"
 
         fun start(ctx: Context, why: String, action: String? = null) {
             val i = Intent(ctx, ListenerService::class.java).setAction(action).putExtra("why", why)
@@ -48,6 +49,23 @@ class ListenerService : Service() {
                 ctx.startForegroundService(i)
             } catch (e: Exception) {
                 EventLog.log("Cannot start service ($why): $e")
+            }
+        }
+
+        /**
+         * Brings the service back after it was stopped, its task swiped away or the process
+         * crashed. Exact alarms are not deferred by Doze, and they may start a foreground service.
+         */
+        fun scheduleRestart(ctx: Context, delayMs: Long) {
+            val am = ctx.getSystemService(AlarmManager::class.java)
+            val pi = PendingIntent.getBroadcast(ctx, 78, Intent(ctx, AlarmReceiver::class.java).setAction(ACTION_RESTART),
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            val at = SystemClock.elapsedRealtime() + delayMs
+            try {
+                if (Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms()) am.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, at, pi)
+                else am.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, at, pi)
+            } catch (e: SecurityException) {
+                am.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, at, pi)
             }
         }
 
@@ -103,7 +121,7 @@ class ListenerService : Service() {
         }
         running = true
         instance = this
-        EventLog.log("Service started (Android ${android.os.Build.VERSION.RELEASE}, ${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}, app ${io.github.ljlies.earthping.BuildConfig.VERSION_NAME})")
+        EventLog.log("Service started${if (io.github.ljlies.earthping.Storage.unlocked(this)) "" else " before the first unlock"} (Android ${android.os.Build.VERSION.RELEASE}, ${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}, app ${io.github.ljlies.earthping.BuildConfig.VERSION_NAME})")
         logPermissions()
         checkFullScreenPermission()
         AlertCenter.init(this)
@@ -161,6 +179,13 @@ class ListenerService : Service() {
         intent?.getStringExtra("why")?.takeIf { it != "refresh" }?.let { EventLog.log("Service command: ${intent.action ?: "start"} ($it)") }
         when (intent?.action) {
             ACTION_TEST_SCHEDULE -> scheduleTest(this)
+            ACTION_UNLOCKED -> {
+                // Started before the first unlock: the TTS engine and the network location
+                // provider may only have become available now.
+                if (!AlertCenter.speaker.available) AlertCenter.speaker.warmUp()
+                location.restart()
+                controller.onAlarm(ConnectionController.ACTION_RECONNECT)
+            }
             ACTION_REFRESH -> {
                 Notifications.ensureChannels(this)
                 checkFullScreenPermission()
@@ -313,15 +338,7 @@ class ListenerService : Service() {
     override fun onTaskRemoved(rootIntent: Intent?) {
         if (!running) return
         super.onTaskRemoved(rootIntent)
-        scheduleRestart(2_000)
-    }
-
-    private fun scheduleRestart(delayMs: Long) {
-        if (!prefs.serviceEnabled) return
-        val am = getSystemService(AlarmManager::class.java)
-        val pi = PendingIntent.getBroadcast(this, 78, Intent(this, AlarmReceiver::class.java).setAction(ACTION_RESTART),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        am.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delayMs, pi)
+        if (prefs.serviceEnabled) scheduleRestart(this, 2_000)
     }
 
     override fun onDestroy() {
@@ -334,7 +351,7 @@ class ListenerService : Service() {
         netCallback?.let { try { getSystemService(ConnectivityManager::class.java).unregisterNetworkCallback(it) } catch (_: Exception) {} }
         controller.stop()
         EventLog.log("Service stopped")
-        scheduleRestart(5_000)
+        if (prefs.serviceEnabled) scheduleRestart(this, 5_000)
         super.onDestroy()
     }
 }
