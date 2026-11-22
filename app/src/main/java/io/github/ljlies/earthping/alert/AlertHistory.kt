@@ -45,8 +45,11 @@ object AlertHistory {
 
     @Synchronized
     fun init(ctx: Context) {
-        if (loaded) return
-        file = java.io.File(io.github.ljlies.earthping.Storage.of(ctx).filesDir, "history.json")
+        val f = java.io.File(io.github.ljlies.earthping.Storage.of(ctx).filesDir, "history.json")
+        // Normally once per process; tests get a new app (and data directory) each time.
+        if (loaded && f == file) return
+        file = f
+        entries.clear()
         loaded = true
         try {
             if (file.exists()) {
