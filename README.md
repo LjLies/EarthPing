@@ -42,9 +42,9 @@ app can be in one language and speak in another.
 
 ## How the protocol works
 
-This is a summary. The protocol was learned from the research in
-[quake-alert-listener](https://github.com/Juanipis/quake-alert-listener). None of its code is
-used here: everything is reimplemented in Kotlin.
+This is a summary of the protocol as worked out by the
+[quake-alert-listener](https://github.com/Juanipis/quake-alert-listener) project (see
+[Credits](#credits)).
 
 1. **Anonymous identity.** EarthPing sends a protobuf `POST` to
    `https://android.clients.google.com/checkin`, which returns an `android_id` and a
@@ -68,7 +68,7 @@ used here: everything is reimplemented in Kotlin.
    From these, EarthPing estimates the local intensity (Allen, Wald & Worden 2012) and the
    P/S-wave arrival times.
 4. **Liveness.** EarthPing sends heartbeats from exact `AllowWhileIdle` alarms, so they keep
-   working in Doze. A heartbeat with no answer within 20 s means the connection is dead.
+   working in Doze. A heartbeat with no answer within 30 s means the connection is dead.
    Received message ids are acknowledged, so Google doesn't send them again.
 
 ## Staying alive
@@ -137,6 +137,18 @@ EARTHPING_LIVE=1 ./gradlew testDebugUnitTest --tests '*LiveProtocolTest*'
 ```
 
 The build requires JDK 17+ and Android SDK 35.
+
+## Credits
+
+Google's protocol for these alerts was reverse-engineered by the
+[quake-alert-listener](https://github.com/Juanipis/quake-alert-listener) project. It found that
+phones subscribe to S2-cell topics on Google's push server, decoded the alert format for
+earthquakes and other public alerts, and verified it against real alerts. EarthPing is an
+independent implementation based on those findings, and uses two of the alert payloads it
+published as test data.
+
+Ideas for keeping the connection alive also come from [microG](https://github.com/microg/GmsCore)'s
+GCM client.
 
 ## Licence
 
