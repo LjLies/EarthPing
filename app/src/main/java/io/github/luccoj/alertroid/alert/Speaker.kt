@@ -125,20 +125,43 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     /** Language for what is spoken next; independent of the app's language. */
     fun setLocale(locale: Locale) { wanted = locale }
 
+    /**
+     * Chooses the voice for [wanted], respecting the user's engine settings as far as possible:
+     *  1. the engine's default voice (the one chosen in its settings), if it speaks that language;
+     *  2. otherwise whatever voice the engine itself picks for the language;
+     *  3. only if the engine still answers in another language, a voice chosen here.
+     * The log says which of the three happened.
+     */
     private fun applyLocale(t: TextToSpeech) {
         if (applied == wanted) return
-        val res = t.setLanguage(wanted)
-        localeSupported = res != TextToSpeech.LANG_MISSING_DATA && res != TextToSpeech.LANG_NOT_SUPPORTED
-        // Some engines keep their default voice after setLanguage: pick a matching voice too.
+        var source: String? = null
         try {
-            if (t.voice?.locale?.language != wanted.language) {
-                t.voices?.filter { it.locale.language == wanted.language && !it.isNetworkConnectionRequired }
-                    ?.sortedWith(compareByDescending<android.speech.tts.Voice> { it.locale.country == wanted.country }.thenByDescending { it.quality })
-                    ?.firstOrNull()?.let { t.voice = it; localeSupported = true }
+            val def = t.defaultVoice
+            if (def != null && def.locale.language == wanted.language && t.setVoice(def) == TextToSpeech.SUCCESS) {
+                source = "the engine's default voice"
+                localeSupported = true
             }
         } catch (_: Exception) {}
+        if (source == null) {
+            val res = t.setLanguage(wanted)
+            localeSupported = res != TextToSpeech.LANG_MISSING_DATA && res != TextToSpeech.LANG_NOT_SUPPORTED
+            if (localeSupported == true && t.voice?.locale?.language == wanted.language) {
+                source = "the engine's choice for this language"
+            } else {
+                // Some engines keep their previous voice after setLanguage: pick one ourselves.
+                try {
+                    t.voices?.filter { it.locale.language == wanted.language && !it.isNetworkConnectionRequired }
+                        ?.sortedWith(compareByDescending<android.speech.tts.Voice> { it.locale.country == wanted.country }.thenByDescending { it.quality })
+                        ?.firstOrNull()?.let {
+                            t.voice = it
+                            localeSupported = true
+                            source = "Alertroid's fallback (the engine kept another language)"
+                        }
+                } catch (_: Exception) {}
+            }
+        }
         EventLog.log("Speech language ${wanted.toLanguageTag()}: " +
-            (if (localeSupported == true) "voice ${t.voice?.name ?: "?"}" else "no voice installed, engine default used"))
+            if (source != null) "voice ${t.voice?.name ?: "?"}, from $source" else "no voice installed, engine default used")
         applied = wanted
     }
 
