@@ -78,7 +78,7 @@ jobs:
         run: ./gradlew --no-daemon testDebugUnitTest assembleDebug assembleRelease
       - name: Show the release signing certificate
         if: hashFiles('app/build/outputs/apk/release/app-release.apk') != ''
-        run: keytool -printcert -jarfile app/build/outputs/apk/release/app-release.apk
+        run: '"$ANDROID_HOME"/build-tools/34.0.0/apksigner verify --print-certs app/build/outputs/apk/release/app-release.apk'
       - name: Remove the release key
         if: always()
         run: rm -f "$RUNNER_TEMP/release.jks"
