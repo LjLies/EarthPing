@@ -30,7 +30,7 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     private val main = Handler(Looper.getMainLooper())
     private val pending = ArrayList<() -> Unit>()
 
-    @Volatile private var wanted: Locale = Locale.getDefault()
+    @Volatile private var wanted: Locale = Locale.getDefault().let { Locale.Builder().setLanguage(it.language).setRegion(it.country).build() }
     private var applied: Locale? = null
 
     /** Whether the engine has a voice for the last locale asked for (null = unknown yet). */
@@ -143,11 +143,16 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
             }
         } catch (_: Exception) {}
         if (source == null) {
-            val res = t.setLanguage(wanted)
-            localeSupported = res != TextToSpeech.LANG_MISSING_DATA && res != TextToSpeech.LANG_NOT_SUPPORTED
-            if (localeSupported == true && t.voice?.locale?.language == wanted.language) {
-                source = "the engine's choice for this language"
-            } else {
+            // Ask for the language with its region, then (some engines only match exactly) without.
+            for (l in listOf(wanted, Locale(wanted.language)).distinct()) {
+                val res = t.setLanguage(l)
+                localeSupported = res != TextToSpeech.LANG_MISSING_DATA && res != TextToSpeech.LANG_NOT_SUPPORTED
+                if (localeSupported == true && t.voice?.locale?.language == wanted.language) {
+                    source = "the engine's choice for ${l.toLanguageTag()}"
+                    break
+                }
+            }
+            if (source == null) {
                 // Some engines keep their previous voice after setLanguage: pick one ourselves.
                 try {
                     t.voices?.filter { it.locale.language == wanted.language && !it.isNetworkConnectionRequired }

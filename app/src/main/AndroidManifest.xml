@@ -59,6 +59,10 @@
             android:exported="false"
             android:theme="@style/Theme.Alertroid.WithActionBar" />
         <activity
+            android:name=".ui.LocationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Alertroid.WithActionBar" />
+        <activity
             android:name=".ui.LogActivity"
             android:exported="false"
             android:theme="@style/Theme.Alertroid.WithActionBar" />

@@ -62,7 +62,6 @@
         <item quantity="other">Shaking in %d seconds.</item>
     </plurals>
     <string name="tts_now">Shaking now.</string>
-    <string name="tts_update_prefix">Update:</string>
 
     <!-- Alerts pane -->
     <string name="chip_listening">Listening</string>
@@ -175,8 +174,7 @@
     <string name="location">Location</string>
     <string name="location_auto_summary">Detected automatically</string>
     <string name="location_manual_summary">Set by hand: %s</string>
-    <string name="manual_location">Use a location set by hand</string>
-    <string name="manual_location_desc">Normally your location is detected automatically. You can set it by hand instead.</string>
+    <string name="manual_location_desc">Normally your location is detected automatically. You can set it here instead; saving switches to it.</string>
     <string name="invalid_coords">Invalid coordinates</string>
     <string name="app_language">App language</string>
     <string name="language_system">System language</string>
@@ -292,7 +290,7 @@
     <string name="test_alarm_link">Test the alarm sounds</string>
     <string name="test_speech_link">Test speech</string>
     <string name="siren_threshold">Full siren for strong shaking</string>
-    <string name="siren_threshold_note">Siren at maximum volume, whatever the tone and volume above.</string>
+    <string name="siren_threshold_note">Always rings at maximum volume.</string>
     <string name="notice_sound">Weaker earthquakes nearby</string>
     <string name="clear_history">Clear</string>
     <string name="clear_history_title">Clear recent alerts?</string>
@@ -339,4 +337,12 @@
         <item>chime</item>
         <item>chime_always</item>
     </string-array>
+    <string name="fsi_revoked_title">Full-screen alerts were turned off</string>
+    <string name="fsi_revoked_text">Android removed this permission (it can do so when the app is updated). Tap to allow it again.</string>
+    <string name="location_hint">Search for a place, type coordinates, or long-press the map.</string>
+    <string name="location_state_manual">Using the location set here</string>
+    <string name="location_state_auto">Using the detected location</string>
+    <string name="use_detected_location">Use detected</string>
+    <string name="tts_mag_higher">now higher magnitude %s</string>
+    <string name="tts_mag_lower">now lower magnitude %s</string>
 </resources>

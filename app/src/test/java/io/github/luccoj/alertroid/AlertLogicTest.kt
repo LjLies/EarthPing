@@ -55,8 +55,9 @@ class AlertLogicTest {
         assertEquals(EventLog.snapshot().takeLast(8).joinToString("\n"), 1, third.revision)
         assertFalse(third.loud)
 
-        // Threshold IV: the revision crosses it and turns into a full alarm
-        p.raw.edit().putString("loud_min_mmi", "4").commit()
+        // Threshold V, M6.2 (shown as IV): the M6.6 revision (shown as V) turns into a full alarm
+        p.raw.edit().putString("loud_min_mmi", "5").commit()
+        p.testMagnitude = 6.2f
         val fourth = fire()
         assertFalse(fourth.loud)
         ShadowLooper.idleMainLooper(12, java.util.concurrent.TimeUnit.SECONDS)

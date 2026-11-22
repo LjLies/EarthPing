@@ -44,7 +44,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         click("tts_settings") {
             open(Intent("com.android.settings.TTS_SETTINGS"))
         }
-        click("location") { editLocation() }
+        click("location") { startActivity(Intent(requireContext(), LocationActivity::class.java)) }
         click("app_language") { chooseAppLanguage() }
         click("permissions") {
             startActivity(Intent(requireContext(), OnboardingActivity::class.java).putExtra(OnboardingActivity.EXTRA_REVIEW, true))
@@ -98,7 +98,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         findPreference<Preference>("location")?.summary =
             if (prefs.manualLocationEnabled && prefs.manualLocation != null) {
                 val m = prefs.manualLocation!!
-                getString(R.string.location_manual_summary, String.format(Locale.US, "%.4f, %.4f", m.lat, m.lon))
+                getString(R.string.location_manual_summary, prefs.manualLocationName ?: String.format(Locale.US, "%.4f, %.4f", m.lat, m.lon))
             } else getString(R.string.location_auto_summary)
         findPreference<Preference>("app_language")?.summary = currentAppLocaleName()
         val missing = Perms.missing(requireContext())
@@ -122,48 +122,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
                 AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tags[which]))
                 d.dismiss()
             }
-            .show()
-    }
-
-    private fun editLocation() {
-        val ctx = requireContext()
-        val pad = (20 * resources.displayMetrics.density).toInt()
-        val box = LinearLayout(ctx).apply { orientation = LinearLayout.VERTICAL; setPadding(pad, pad / 2, pad, 0) }
-        val manual = MaterialSwitch(ctx).apply {
-            text = getString(R.string.manual_location)
-            isChecked = prefs.manualLocationEnabled
-        }
-        box.addView(manual)
-        val start = prefs.manualLocation ?: prefs.lastLocation()?.first?.latLng
-        fun input(hint: Int, value: Double?): TextInputEditText {
-            val layout = LayoutInflater.from(ctx).inflate(R.layout.text_field, box, false) as TextInputLayout
-            layout.hint = getString(hint)
-            val edit = layout.findViewById<TextInputEditText>(R.id.text)
-            edit.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED or InputType.TYPE_NUMBER_FLAG_DECIMAL
-            edit.setText(value?.let { String.format(Locale.US, "%.4f", it) } ?: "")
-            box.addView(layout)
-            return edit
-        }
-        val lat = input(R.string.latitude, start?.lat)
-        val lon = input(R.string.longitude, start?.lon)
-        MaterialAlertDialogBuilder(ctx)
-            .setTitle(R.string.location)
-            .setMessage(R.string.manual_location_desc)
-            .setView(box)
-            .setPositiveButton(R.string.save) { _, _ ->
-                val la = lat.text.toString().replace(',', '.').toDoubleOrNull()
-                val lo = lon.text.toString().replace(',', '.').toDoubleOrNull()
-                val valid = la != null && lo != null && la in -90.0..90.0 && lo in -180.0..180.0
-                if (manual.isChecked && !valid) {
-                    Toast.makeText(ctx, R.string.invalid_coords, Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
-                }
-                if (valid) prefs.manualLocation = LatLng(la!!, lo!!)
-                prefs.manualLocationEnabled = manual.isChecked
-                updateSummaries()
-                ListenerService.refresh(ctx)
-            }
-            .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
 }

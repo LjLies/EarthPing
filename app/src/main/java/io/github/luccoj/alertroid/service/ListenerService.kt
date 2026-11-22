@@ -105,6 +105,7 @@ class ListenerService : Service() {
         instance = this
         EventLog.log("Service started (Android ${android.os.Build.VERSION.RELEASE}, ${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}, app ${io.github.luccoj.alertroid.BuildConfig.VERSION_NAME})")
         logPermissions()
+        checkFullScreenPermission()
         AlertCenter.init(this)
         controller = ConnectionController(this) { AlertCenter.onDataMessage(it) }
         location = LocationTracker(this) { onLocation(it) }
@@ -118,6 +119,28 @@ class ListenerService : Service() {
     }
 
     private val statusListener: () -> Unit = { main.post { updateNotification() } }
+
+    /**
+     * Android 14+ can withdraw "full-screen notifications" from apps that aren't calling or
+     * alarm-clock apps, e.g. when they are updated. Say so, with a direct way to re-allow it.
+     */
+    private fun checkFullScreenPermission() {
+        if (Build.VERSION.SDK_INT < 34) return
+        val nm = getSystemService(NotificationManager::class.java)
+        if (nm.canUseFullScreenIntent()) { nm.cancel(Notifications.ID_STATUS + 1); return }
+        EventLog.log("Full-screen notifications are not allowed: asking the user to re-allow them")
+        val fix = PendingIntent.getActivity(this, 20,
+            Intent(android.provider.Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT, android.net.Uri.parse("package:$packageName")),
+            PendingIntent.FLAG_IMMUTABLE)
+        nm.notify(Notifications.ID_STATUS + 1, Notification.Builder(this, Notifications.CH_STATUS)
+            .setSmallIcon(R.drawable.ic_stat_quake)
+            .setContentTitle(getString(R.string.fsi_revoked_title))
+            .setContentText(getString(R.string.fsi_revoked_text))
+            .setStyle(Notification.BigTextStyle().bigText(getString(R.string.fsi_revoked_text)))
+            .setContentIntent(fix)
+            .setAutoCancel(true)
+            .build())
+    }
 
     /** One line with the state of everything the app depends on, for the diagnostic log. */
     private fun logPermissions() {
@@ -140,6 +163,7 @@ class ListenerService : Service() {
             ACTION_TEST_SCHEDULE -> scheduleTest(this)
             ACTION_REFRESH -> {
                 Notifications.ensureChannels(this)
+                checkFullScreenPermission()
                 if (!AlertCenter.speaker.available) AlertCenter.speaker.warmUp()
                 if (location.hasCoarse != locationGranted) { locationGranted = location.hasCoarse; location.restart() }
                 refreshTopics(force = true)

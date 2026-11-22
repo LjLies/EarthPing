@@ -101,6 +101,7 @@ object AlertCenter {
         prefs = Prefs(app)
         player = AlarmPlayer(app).also { it.warmUp() }
         speaker = Speaker(app) { speaking -> player.duck(speaking) }
+        speaker.setLocale(speechLocale())
         speaker.warmUp()
         AlertHistory.init(app)
     }
@@ -316,7 +317,7 @@ object AlertCenter {
                             player.playUpdateChime()
                         }
                         if (prefs.ttsEnabled && (magChanged || mmiChanged)) {
-                            speaker.announce(updateSpeech(q, magChanged, mmiChanged, spoken()))
+                            updateSpeech(q, oldMag, mmiChanged, spoken()).takeIf { it.isNotEmpty() }?.let { speaker.announce(it) }
                         }
                     }
                 }
@@ -362,11 +363,20 @@ object AlertCenter {
     private var lastChannel: String? = null
 
     /** Terse, shaking first: "Update: now expecting strong shaking, magnitude 6.3." */
-    private fun updateSpeech(q: LocalQuake, mag: Boolean, mmi: Boolean, sp: Spoken): String {
-        val parts = ArrayList<String>()
-        if (mmi) q.effectiveMmi?.let { parts += sp.s(R.string.tts_expecting, sp.shaking(it)) }
-        if (mag || parts.isNotEmpty()) q.magnitude?.let { parts += sp.s(R.string.tts_magnitude_short, sp.fmt1(it)) }
-        return sp.s(R.string.tts_update_prefix) + " " + parts.joinToString(", ") + "."
+    /**
+     * No "update" word (the chime says that). A new shaking level comes first: "Now expecting
+     * strong shaking, magnitude 7.4."; otherwise just the direction: "Now higher magnitude 6.2."
+     */
+    private fun updateSpeech(q: LocalQuake, oldMag: Double?, mmi: Boolean, sp: Spoken): String {
+        val newMag = q.magnitude
+        val text = when {
+            mmi && q.effectiveMmi != null -> sp.s(R.string.tts_expecting, sp.shaking(q.effectiveMmi!!)) +
+                (newMag?.let { ", " + sp.s(R.string.tts_magnitude_short, sp.fmt1(it)) } ?: "")
+            newMag != null && oldMag != null ->
+                sp.s(if (newMag > oldMag) R.string.tts_mag_higher else R.string.tts_mag_lower, sp.fmt1(newMag))
+            else -> return ""
+        }
+        return text.replaceFirstChar { it.titlecase(sp.locale) } + "."
     }
 
     /** Intensity index into the shaking/intensity term arrays (III and below → 0 … X → 7). */
@@ -379,14 +389,15 @@ object AlertCenter {
         if (q.isTest && prefs.testQuiet) return false
         val min = prefs.sirenMinMmi
         val mmi = q.effectiveMmi ?: return false
-        return min > 0 && mmi >= min
+        return min > 0 && Math.round(mmi) >= min
     }
 
     private fun shouldBeLoud(q: LocalQuake): Boolean {
         val min = prefs.loudMinMmi
         if (min <= 0) return true
         val mmi = q.effectiveMmi ?: return true
-        return mmi >= min
+        // Compare the same rounded level the user sees on screen ("VI"), not the raw estimate.
+        return Math.round(mmi) >= min
     }
 
     private val SIREN_TOKEN = Any()

@@ -60,7 +60,6 @@
         <item quantity="other">Scosse tra %d secondi.</item>
     </plurals>
     <string name="tts_now">Scosse in arrivo.</string>
-    <string name="tts_update_prefix">Aggiornamento:</string>
 
     <!-- Scheda Allerte -->
     <string name="chip_listening">In ascolto</string>
@@ -173,8 +172,7 @@
     <string name="location">Posizione</string>
     <string name="location_auto_summary">Rilevata automaticamente</string>
     <string name="location_manual_summary">Impostata a mano: %s</string>
-    <string name="manual_location">Usa una posizione impostata a mano</string>
-    <string name="manual_location_desc">Di solito la posizione viene rilevata automaticamente. Puoi invece impostarla a mano.</string>
+    <string name="manual_location_desc">Di solito la posizione viene rilevata automaticamente. Puoi invece impostarla qui; salvando si passa a questa.</string>
     <string name="invalid_coords">Coordinate non valide</string>
     <string name="app_language">Lingua dell\'app</string>
     <string name="language_system">Lingua di sistema</string>
@@ -269,7 +267,7 @@
     <string name="test_alarm_link">Prova i suoni dell\'allarme</string>
     <string name="test_speech_link">Prova la voce</string>
     <string name="siren_threshold">Sirena piena per scosse forti</string>
-    <string name="siren_threshold_note">Sirena al volume massimo, indipendentemente da suono e volume scelti sopra.</string>
+    <string name="siren_threshold_note">Suona sempre al volume massimo.</string>
     <string name="notice_sound">Terremoti più deboli nella zona</string>
     <string name="clear_history">Cancella</string>
     <string name="clear_history_title">Cancellare le allerte recenti?</string>
@@ -306,4 +304,12 @@
         <item>Breve suono</item>
         <item>Breve suono, anche in silenzioso</item>
     </string-array>
+    <string name="fsi_revoked_title">Le allerte a schermo intero sono state disattivate</string>
+    <string name="fsi_revoked_text">Android ha rimosso questo permesso (può farlo quando l\'app viene aggiornata). Tocca per consentirlo di nuovo.</string>
+    <string name="location_hint">Cerca un luogo, inserisci le coordinate o tieni premuto sulla mappa.</string>
+    <string name="location_state_manual">In uso la posizione impostata qui</string>
+    <string name="location_state_auto">In uso la posizione rilevata</string>
+    <string name="use_detected_location">Usa quella rilevata</string>
+    <string name="tts_mag_higher">ora magnitudo più alta, %s</string>
+    <string name="tts_mag_lower">ora magnitudo più bassa, %s</string>
 </resources>

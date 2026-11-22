@@ -115,6 +115,10 @@ class Prefs(context: Context) {
         get() = p.getBoolean("manual_loc", false)
         set(v) = p.edit().putBoolean("manual_loc", v).apply()
 
+    var manualLocationName: String?
+        get() = p.getString("manual_name", null)
+        set(v) = p.edit().putString("manual_name", v).apply()
+
     var manualLocation: LatLng?
         get() = if (p.contains("manual_lat")) LatLng(getDouble("manual_lat", 0.0), getDouble("manual_lon", 0.0)) else null
         set(v) {

@@ -215,7 +215,7 @@ class StatusFragment : Fragment() {
         val me = prefs.effectiveLocation()
         val loc = prefs.lastLocation()
         if (me != null) {
-            val source = if (prefs.manualLocationEnabled) getString(R.string.manual) else listOfNotNull(loc?.first?.name?.ifEmpty { null }, loc?.second?.let { ago(it) }).joinToString(", ")
+            val source = if (prefs.manualLocationEnabled) listOfNotNull(prefs.manualLocationName, getString(R.string.manual)).joinToString(", ") else listOfNotNull(loc?.first?.name?.ifEmpty { null }, loc?.second?.let { ago(it) }).joinToString(", ")
             row(areas, R.drawable.ic_pref_location, getString(R.string.my_location),
                 String.format(Locale.US, "%.3f, %.3f", me.lat, me.lon) + " · " + source)
         } else {

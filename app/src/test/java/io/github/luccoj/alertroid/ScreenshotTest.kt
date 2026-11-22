@@ -56,6 +56,8 @@ class ScreenshotTest {
 
     @Test fun tests() { prefs(); shoot("tests", io.github.luccoj.alertroid.ui.TestActivity::class.java) }
 
+    @Test fun location() { prefs(); shoot("location", io.github.luccoj.alertroid.ui.LocationActivity::class.java) }
+
     @Test fun places() { prefs(); shoot("places", MainActivity::class.java) { it.findViewById<View>(R.id.tab_places).performClick() } }
 
     @Test fun settings() { prefs(); shoot("settings", MainActivity::class.java) { it.findViewById<View>(R.id.tab_settings).performClick() } }
