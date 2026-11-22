@@ -9,6 +9,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         AppVisibility.register(this)
+        Prefs(this).migrate()
         // osmdroid: identify ourselves to the OSM tile servers and cache tiles in private storage.
         Configuration.getInstance().apply {
             userAgentValue = "$packageName/${BuildConfig.VERSION_NAME}"

@@ -22,14 +22,33 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     private var lastSpoken = Int.MAX_VALUE
     private var finished = true
     private var finalText = ""
+    @Volatile private var wanted: Locale = Locale.getDefault()
+    private var applied: Locale? = null
+
+    /** Whether the engine has a voice for the last locale asked for (null = unknown yet). */
+    @Volatile var localeSupported: Boolean? = null
+        private set
+
+    /** Language for what is spoken next; independent of the app's language. */
+    fun setLocale(locale: Locale) { wanted = locale }
+
+    private fun applyLocale(t: TextToSpeech) {
+        if (applied == wanted) return
+        val res = t.setLanguage(wanted)
+        localeSupported = res != TextToSpeech.LANG_MISSING_DATA && res != TextToSpeech.LANG_NOT_SUPPORTED
+        if (localeSupported == false) {
+            EventLog.log("No ${wanted.displayName} voice installed for text-to-speech; using the engine default")
+        }
+        applied = wanted
+    }
 
     fun warmUp() {
         if (tts != null) return
         tts = TextToSpeech(ctx.applicationContext) { status ->
             if (status == TextToSpeech.SUCCESS) {
                 val t = tts ?: return@TextToSpeech
-                val res = t.setLanguage(Locale.getDefault())
-                if (res == TextToSpeech.LANG_MISSING_DATA || res == TextToSpeech.LANG_NOT_SUPPORTED) t.setLanguage(Locale.ENGLISH)
+                applied = null
+                applyLocale(t)
                 t.setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
                     .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build())
                 t.setSpeechRate(1.15f)
@@ -53,6 +72,7 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     private fun say(text: String, flush: Boolean) {
         val t = tts ?: return
         if (!ready) return
+        applyLocale(t)
         val params = Bundle().apply { putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, 1.0f) }
         t.speak(text, if (flush) TextToSpeech.QUEUE_FLUSH else TextToSpeech.QUEUE_ADD, params, "a" + System.nanoTime())
     }

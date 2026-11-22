@@ -11,8 +11,10 @@ android {
         applicationId = "io.github.luccoj.alertroid"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.2.0"
+        // Only the app's own languages, so library texts match the rest of the app
+        resourceConfigurations += listOf("en", "it")
     }
 
     buildTypes {
@@ -43,12 +45,28 @@ android {
         abortOnError = false
     }
     testOptions {
-        unitTests.isReturnDefaultValues = true
+        unitTests {
+            isReturnDefaultValues = true
+            isIncludeAndroidResources = true
+            all { test ->
+                // -Pscreenshots=DIR renders the screens to PNGs (ScreenshotTest)
+                providers.gradleProperty("screenshots").orNull?.let { test.systemProperty("screenshots", it) }
+                providers.gradleProperty("robolectricRepoUrl").orNull?.let {
+                    test.systemProperty("robolectric.dependency.repo.url", it)
+                }
+            }
+        }
     }
 }
 
 dependencies {
-    // OpenStreetMap map view (Apache-2.0). No Google Play Services anywhere.
+    // All Apache-2.0. No Google Play Services anywhere.
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.preference:preference-ktx:1.2.1")
+    implementation("com.google.android.material:material:1.12.0")
+    // OpenStreetMap map view
     implementation("org.osmdroid:osmdroid-android:6.1.20")
+
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.robolectric:robolectric:4.14.1")
 }

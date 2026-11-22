@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/welcome_title"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+
+            <TextView
+                style="@style/Body"
+                android:layout_marginTop="8dp"
+                android:text="@string/welcome_body"
+                android:textAppearance="?attr/textAppearanceBodyLarge" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        style="@style/CardTitle"
+                        android:text="@string/privacy_title"
+                        app:drawableStartCompat="@drawable/ic_pref_shield" />
+
+                    <TextView
+                        style="@style/Body"
+                        android:text="@string/privacy_body"
+                        android:textColor="@color/on_surface_soft" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <TextView
+            style="@style/Heading"
+            android:text="@string/permissions" />
+
+        <TextView
+            style="@style/Body"
+            android:text="@string/permissions_intro"
+            android:textColor="@color/on_surface_soft" />
+
+        <LinearLayout
+            android:id="@+id/permissions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical" />
+
+        <TextView
+            style="@style/Heading"
+            android:text="@string/vendor_title" />
+
+        <TextView
+            style="@style/Body"
+            android:text="@string/vendor_body"
+            android:textColor="@color/on_surface_soft" />
+
+        <Button
+            android:id="@+id/continue_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/continue_btn" />
+
+        <TextView
+            style="@style/Body"
+            android:layout_marginTop="16dp"
+            android:text="@string/disclaimer"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="@color/on_surface_soft" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

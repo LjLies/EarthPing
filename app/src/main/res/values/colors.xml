@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Accent: a warm brick red (alerts), with a soft container for tonal surfaces -->
+    <color name="accent_deep">#A8322D</color>
+    <color name="on_accent">#FFFFFF</color>
+    <color name="accent_container">#FFDAD5</color>
+    <color name="on_accent_container">#410001</color>
+
+    <color name="surface">#FFF8F7</color>
+    <color name="card">#F8ECEA</color>
+    <color name="nav">#F8ECEA</color>
+    <color name="on_surface">#231918</color>
+    <color name="on_surface_soft">#534341</color>
+
+    <color name="chip_ok_bg">#D6F0DC</color>
+    <color name="chip_ok_fg">#1E5631</color>
+    <color name="chip_warn_bg">#FFE0B2</color>
+    <color name="chip_warn_fg">#5D3A00</color>
+    <color name="chip_error_bg">#FFDAD6</color>
+    <color name="chip_error_fg">#93000A</color>
+    <color name="chip_neutral_bg">#EDE0DE</color>
+    <color name="chip_neutral_fg">#534341</color>
+
+    <!-- The alert screen is always dark -->
+    <color name="alert_background">#140C0B</color>
+    <color name="alert_header">#B3261E</color>
+    <color name="alert_header_test">#6A3FA0</color>
+    <color name="alert_text">#FFFFFF</color>
+    <color name="alert_text_soft">#F1DFDC</color>
+    <color name="alert_urgent">#FF8A80</color>
+
+    <color name="launcher_background">#A8322D</color>
+</resources>

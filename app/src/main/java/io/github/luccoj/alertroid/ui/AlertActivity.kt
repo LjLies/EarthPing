@@ -1,17 +1,14 @@
 package io.github.luccoj.alertroid.ui
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.Gravity
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import io.github.luccoj.alertroid.R
 import io.github.luccoj.alertroid.alert.AlertCenter
@@ -24,17 +21,17 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polygon
-import java.util.Locale
 
 /**
  * The full-screen warning: seconds until the S-wave, and a map with the epicentre, the user,
  * Google's intensity contours, and the expanding P- and S-wave fronts.
  */
-class AlertActivity : Activity() {
+class AlertActivity : AppCompatActivity() {
     private val main = Handler(Looper.getMainLooper())
     private lateinit var header: TextView
     private lateinit var countdown: TextView
     private lateinit var info: TextView
+    private lateinit var countdownLabel: TextView
     private lateinit var map: MapView
     private lateinit var stopBtn: Button
     private var pWave: Polygon? = null
@@ -55,45 +52,18 @@ class AlertActivity : Activity() {
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        val root = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setBackgroundColor(0xFF111111.toInt()) }
-        root.setOnApplyWindowInsetsListener { v, insets ->
-            @Suppress("DEPRECATION")
-            v.setPadding(insets.systemWindowInsetLeft, insets.systemWindowInsetTop, insets.systemWindowInsetRight, insets.systemWindowInsetBottom)
-            insets
-        }
-        header = TextView(this).apply {
-            setTextColor(Color.WHITE); textSize = 26f; setTypeface(typeface, Typeface.BOLD); gravity = Gravity.CENTER
-            maxLines = 1; setLines(1); ellipsize = android.text.TextUtils.TruncateAt.END
-            setBackgroundColor(0xFFC62828.toInt()); setPadding(16, 24, 16, 24)
-        }
-        // Fixed-height, single-line texts: nothing on screen may move while counting down.
-        countdown = TextView(this).apply {
-            setTextColor(Color.WHITE); textSize = 64f; setTypeface(Typeface.DEFAULT_BOLD); gravity = Gravity.CENTER
-            maxLines = 1; setLines(1)
-            setAutoSizeTextTypeUniformWithConfiguration(24, 64, 2, android.util.TypedValue.COMPLEX_UNIT_SP)
-        }
-        info = TextView(this).apply {
-            setTextColor(0xFFEEEEEE.toInt()); textSize = 16f; gravity = Gravity.CENTER; setPadding(16, 0, 16, 16)
-            setLines(2); maxLines = 2; ellipsize = android.text.TextUtils.TruncateAt.END
-        }
-        map = MapView(this).apply {
+        setContentView(R.layout.activity_alert)
+        header = findViewById(R.id.header)
+        countdown = findViewById(R.id.countdown)
+        countdownLabel = findViewById(R.id.countdown_label)
+        info = findViewById(R.id.info)
+        map = findViewById<MapView>(R.id.map).apply {
             setTileSource(TileSourceFactory.MAPNIK)
             setMultiTouchControls(true)
             minZoomLevel = 3.0
-            setBackgroundColor(0xFF263238.toInt())
         }
-        val buttons = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        stopBtn = Button(this).apply { text = getString(R.string.stop_alarm); isAllCaps = false; setOnClickListener { AlertCenter.silence() } }
-        val close = Button(this).apply { text = getString(R.string.close); isAllCaps = false; setOnClickListener { AlertCenter.silence(); finish() } }
-        buttons.addView(stopBtn, LinearLayout.LayoutParams(0, -2, 1f))
-        buttons.addView(close, LinearLayout.LayoutParams(0, -2, 1f))
-
-        root.addView(header, LinearLayout.LayoutParams(-1, -2))
-        root.addView(countdown, LinearLayout.LayoutParams(-1, -2))
-        root.addView(info, LinearLayout.LayoutParams(-1, -2))
-        root.addView(map, LinearLayout.LayoutParams(-1, 0, 1f))
-        root.addView(buttons, LinearLayout.LayoutParams(-1, -2))
-        setContentView(root)
+        stopBtn = findViewById<Button>(R.id.stop).apply { setOnClickListener { AlertCenter.silence() } }
+        findViewById<Button>(R.id.close).setOnClickListener { AlertCenter.silence(); finish() }
     }
 
     override fun onResume() {
@@ -187,19 +157,22 @@ class AlertActivity : Activity() {
             shown = q; shownAlertId = q.alert.id; shownRevision = q.revision
             if (keepView) rebuildOverlaysOnly(q) else rebuildMap(q)
         }
-        header.text = AlertCenter.localTitle(q)
-        header.setBackgroundColor(if (q.isTest) 0xFF6A1B9A.toInt() else 0xFFC62828.toInt())
-        info.text = AlertCenter.localText(q)
+        header.text = AlertCenter.localTitle(q, this)
+        val headerColor = getColor(if (q.isTest) R.color.alert_header_test else R.color.alert_header)
+        header.setBackgroundColor(headerColor)
+        window.statusBarColor = headerColor
+        info.text = AlertCenter.localText(q, this)
         stopBtn.isEnabled = AlertCenter.player.isPlaying
 
         val now = q.now() // Google-clock time
         val s = q.sArrivalMs
+        countdownLabel.setText(if (s == null) R.string.no_countdown else R.string.strong_shaking_in)
         countdown.text = when {
             s == null -> getString(R.string.take_cover)
             s > now -> getString(R.string.seconds_left, Math.ceil((s - now) / 1000.0).toInt())
             else -> getString(R.string.seconds_left, 0)
         }
-        countdown.setTextColor(if (s != null && s - now < 10_000) 0xFFFF5252.toInt() else Color.WHITE)
+        countdown.setTextColor(getColor(if (s != null && s - now < 10_000) R.color.alert_urgent else R.color.alert_text))
 
         val epi = q.epicenter
         val origin = q.originMs
@@ -219,7 +192,4 @@ class AlertActivity : Activity() {
             map.invalidate()
         }
     }
-
-    @Suppress("unused")
-    private fun fmt(v: Double) = String.format(Locale.getDefault(), "%.1f", v)
 }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/cat_alarm" app:iconSpaceReserved="true">
+        <ListPreference
+            app:key="loud_min_mmi"
+            app:icon="@drawable/ic_pref_gauge"
+            app:title="@string/loud_threshold"
+            app:entries="@array/loud_entries"
+            app:entryValues="@array/loud_values"
+            app:defaultValue="0"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:key="alarm_tone"
+            app:icon="@drawable/ic_pref_tone"
+            app:title="@string/alarm_tone"
+            app:entries="@array/tone_entries"
+            app:entryValues="@array/tone_values"
+            app:defaultValue="0"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:key="alarm_sound"
+            app:icon="@drawable/ic_pref_volume"
+            app:title="@string/alarm_sound"
+            app:entries="@array/sound_entries"
+            app:entryValues="@array/sound_values"
+            app:defaultValue="0"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:key="override_silence"
+            app:icon="@drawable/ic_pref_moon"
+            app:title="@string/override_silence"
+            app:summary="@string/override_silence_summary"
+            app:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/cat_speech">
+        <SwitchPreferenceCompat
+            app:key="tts"
+            app:icon="@drawable/ic_pref_speech"
+            app:title="@string/tts_enabled"
+            app:summary="@string/tts_enabled_summary"
+            app:defaultValue="true" />
+        <ListPreference
+            app:key="tts_lang"
+            app:dependency="tts"
+            app:icon="@drawable/ic_pref_language"
+            app:title="@string/tts_language"
+            app:entries="@array/tts_lang_entries"
+            app:entryValues="@array/tts_lang_values"
+            app:defaultValue=""
+            app:useSimpleSummaryProvider="true" />
+        <Preference
+            app:key="tts_test"
+            app:dependency="tts"
+            app:icon="@drawable/ic_pref_play"
+            app:title="@string/tts_try"
+            app:summary="@string/tts_try_summary" />
+        <Preference
+            app:key="tts_settings"
+            app:icon="@drawable/ic_link"
+            app:title="@string/tts_settings"
+            app:summary="@string/tts_settings_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/cat_notifications">
+        <SwitchPreferenceCompat
+            app:key="watched_notifs"
+            app:icon="@drawable/ic_pref_places"
+            app:title="@string/watched_notifs"
+            app:summary="@string/watched_notifs_summary"
+            app:defaultValue="true" />
+        <SwitchPreferenceCompat
+            app:key="crisis_alerts"
+            app:icon="@drawable/ic_pref_storm"
+            app:title="@string/crisis_alerts"
+            app:summary="@string/crisis_alerts_summary"
+            app:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/cat_general">
+        <Preference
+            app:key="location"
+            app:icon="@drawable/ic_pref_location"
+            app:title="@string/location" />
+        <Preference
+            app:key="app_language"
+            app:icon="@drawable/ic_pref_language"
+            app:title="@string/app_language" />
+        <Preference
+            app:key="permissions"
+            app:icon="@drawable/ic_pref_shield"
+            app:title="@string/permissions" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/cat_connection">
+        <SeekBarPreference
+            app:key="heartbeat_min"
+            app:icon="@drawable/ic_pref_heartbeat"
+            app:title="@string/heartbeat_minutes"
+            app:summary="@string/heartbeat_desc"
+            app:defaultValue="5"
+            app:min="1"
+            android:max="28"
+            app:showSeekBarValue="true" />
+        <Preference
+            app:key="diagnostics"
+            app:icon="@drawable/ic_pref_log"
+            app:title="@string/diagnostics"
+            app:summary="@string/diagnostics_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/cat_about">
+        <Preference
+            app:key="about"
+            app:icon="@drawable/ic_pref_info"
+            app:title="@string/app_name" />
+        <Preference
+            app:key="source"
+            app:icon="@drawable/ic_pref_code"
+            app:title="@string/source_code"
+            app:summary="@string/source_code_summary" />
+    </PreferenceCategory>
+</PreferenceScreen>

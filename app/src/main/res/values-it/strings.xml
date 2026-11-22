@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Schede -->
+    <string name="tab_alerts">Allerte</string>
+    <string name="tab_places">Luoghi</string>
+    <string name="tab_settings">Impostazioni</string>
+
+    <!-- Canali di notifica -->
+    <string name="ch_service">Connessione in background</string>
+    <string name="ch_service_desc">Mantiene attiva la connessione per le allerte. Si può nascondere.</string>
+    <string name="ch_status">Problemi di connessione</string>
+    <string name="ch_status_desc">Avvisa quando le allerte non possono essere ricevute.</string>
+    <string name="ch_watched">Luoghi seguiti</string>
+    <string name="ch_watched_desc">Terremoti e altre allerte nei luoghi che segui.</string>
+    <string name="ch_quake">Allerta terremoto (mia posizione)</string>
+    <string name="ch_quake_desc">Allarme sonoro a schermo intero per lo scuotimento atteso dove ti trovi.</string>
+    <string name="ch_info">Terremoto nella zona (mia posizione)</string>
+    <string name="ch_info_desc">Terremoti nella tua zona sotto la soglia dell\'allarme sonoro.</string>
+    <string name="ch_crisis">Altre allerte (mia posizione)</string>
+    <string name="ch_crisis_desc">Allerte di protezione civile per la tua zona: alluvioni, tempeste, incendi…</string>
+
+    <!-- Notifica del servizio -->
+    <string name="fg_connected">In ascolto delle allerte (%d zone)</string>
+    <string name="fg_connecting">Connessione…</string>
+    <string name="fg_no_network">In attesa della rete</string>
+    <string name="fg_waiting">Non connesso, nuovo tentativo a breve</string>
+    <string name="fg_starting">Avvio…</string>
+    <string name="status_disconnected_title">Le allerte non vengono ricevute</string>
+
+    <!-- Allerte -->
+    <string name="notif_quake_title">Terremoto%1$s</string>
+    <string name="notif_watched_quake">Terremoto vicino a %1$s %2$s</string>
+    <string name="test_prefix">PROVA</string>
+    <string name="km_away">a %s km</string>
+    <string name="km_from">%1$s km da %2$s</string>
+    <string name="est_intensity">intensità stimata %s</string>
+    <string name="updated_note">Aggiornato: %s</string>
+    <string name="stop_alarm">Ferma l\'allarme</string>
+    <string name="close">Chiudi</string>
+    <string name="crisis_generic">Allerta pubblica</string>
+    <string name="epicenter">Epicentro</string>
+    <string name="you">Tu</string>
+    <string name="strong_shaking_in">Scosse forti tra</string>
+    <string name="no_countdown">Ora di arrivo sconosciuta</string>
+    <string name="seconds_left">%d s</string>
+    <string name="take_cover">Mettiti al riparo</string>
+    <string name="no_active_alert">Nessuna allerta in corso</string>
+
+    <!-- Parlato -->
+    <string name="tts_test">Questa è una prova.</string>
+    <string name="tts_earthquake">Terremoto!</string>
+    <string name="tts_magnitude">Magnitudo %s.</string>
+    <string name="tts_distance">A %s chilometri.</string>
+    <plurals name="tts_seconds">
+        <item quantity="one">Scosse tra %d secondo.</item>
+        <item quantity="many">Scosse tra %d secondi.</item>
+        <item quantity="other">Scosse tra %d secondi.</item>
+    </plurals>
+    <string name="tts_now">Scosse in arrivo ora. Abbassati, riparati e tieniti forte.</string>
+    <string name="tts_take_cover">Abbassati, riparati e tieniti forte.</string>
+    <string name="tts_update_prefix">Aggiornamento:</string>
+
+    <!-- Scheda Allerte -->
+    <string name="chip_listening">In ascolto</string>
+    <string name="chip_connecting">Connessione</string>
+    <string name="chip_offline">Offline</string>
+    <string name="chip_off">Spento</string>
+    <string name="state_connected_title">In ascolto delle allerte</string>
+    <string name="state_connected_detail">Connesso %1$s · ultimo traffico %2$s</string>
+    <string name="state_connecting">Connessione…</string>
+    <string name="state_no_network">Nessuna rete</string>
+    <string name="state_waiting_title">Non connesso</string>
+    <string name="state_waiting">Prossimo tentativo %s</string>
+    <string name="state_disabled">Allerte disattivate</string>
+    <string name="state_disabled_detail">Non riceverai nessun avviso.</string>
+    <string name="alerts_on">Ricevi le allerte</string>
+    <string name="last_traffic">Ultimo traffico dal server: %s</string>
+    <string name="last_error">Ultimo problema: %s</string>
+    <string name="messages_count">Messaggi ricevuti: %1$d · riconnessioni: %2$d</string>
+    <string name="identity">Identità push anonima: %s</string>
+    <string name="needs_attention">Richiede attenzione</string>
+    <string name="required_tag">(necessario)</string>
+    <string name="fix_permissions">Controlla i permessi</string>
+    <string name="no_location_yet">La tua posizione non è ancora nota, quindi non si possono ricevere le allerte per la tua zona. Consenti l\'accesso alla posizione, oppure impostala a mano nelle Impostazioni.</string>
+    <string name="subscriptions">Zone</string>
+    <string name="my_location">La mia posizione</string>
+    <string name="location_unknown">Non ancora nota</string>
+    <string name="manual">impostata a mano</string>
+    <string name="watched_detail">Luogo seguito</string>
+    <string name="auto_decoy_detail">Esca automatica, allerte solo registrate</string>
+    <string name="edit_places">Luoghi seguiti</string>
+    <string name="test_mode">Allerta di prova</string>
+    <string name="test_mode_desc">Simula un terremoto vicino a te, con allarme, mappa e conto alla rovescia, più un aggiornamento qualche secondo dopo. Blocca lo schermo per vedere come appare lì.</string>
+    <string name="test_delay">Inizia tra</string>
+    <string name="test_lead">Secondi alle scosse</string>
+    <string name="test_magnitude">Magnitudo</string>
+    <string name="test_quiet">Prova silenziosa (senza suono d\'allarme)</string>
+    <string name="test_start">Programma l\'allerta di prova</string>
+    <string name="test_scheduled">Allerta di prova tra %d s</string>
+    <string name="seconds_short">%d s</string>
+    <string name="recent_alerts">Allerte recenti</string>
+    <string name="no_alerts_yet">Nessuna allerta ricevuta finora.</string>
+    <string name="note_test">prova</string>
+    <string name="note_revision">aggiornamento</string>
+    <string name="note_updated">aggiornata</string>
+    <string name="note_google_test">allerta di prova di Google, non mostrata</string>
+    <string name="kind_earthquake">Terremoto</string>
+    <string name="kind_public_alert">Allerta pubblica</string>
+    <string name="kind_sos_alert">Allerta SOS</string>
+    <string name="disclaimer">Alertroid è un\'app indipendente e non ufficiale. Ascolta lo stesso canale push che Google usa per le allerte terremoto di Android, che Google può modificare o interrompere in qualsiasi momento. Non è un sistema di allerta certificato: tieni attivi gli avvisi di emergenza ufficiali del telefono.</string>
+
+    <!-- Scheda Luoghi -->
+    <string name="places_desc">Fino a tre altri luoghi che ti stanno a cuore (famiglia, città d\'origine…). Riceverai notifiche su terremoti e allerte lì, senza conto alla rovescia. Servono anche a nascondere la tua vera zona a Google tra altri luoghi; uno spazio vuoto riceve un\'esca automatica casuale.</string>
+    <string name="place_n">Luogo %d</string>
+    <string name="place_name">Nome</string>
+    <string name="latitude">Latitudine</string>
+    <string name="longitude">Longitudine</string>
+    <string name="clear">Svuota</string>
+    <string name="save">Salva</string>
+    <string name="saved">Salvato</string>
+    <string name="search">Cerca</string>
+    <string name="search_place">Cerca un luogo</string>
+    <string name="slot_empty_hint">Vuoto: si usa un\'esca automatica. Cerca, inserisci le coordinate o tieni premuto sulla mappa.</string>
+    <string name="slot_set_hint">Tieni premuto sulla mappa per spostarlo.</string>
+    <string name="long_press_hint">Tieni premuto sulla mappa per collocare il luogo selezionato.</string>
+    <string name="no_geocoder">Su questo dispositivo non c\'è un servizio di ricerca dei luoghi. Inserisci le coordinate o tieni premuto sulla mappa.</string>
+    <string name="place_not_found">Luogo non trovato</string>
+    <string name="invalid_place">Il luogo %d ha coordinate non valide</string>
+    <string name="osm_attribution">Dati della mappa © contributori di OpenStreetMap</string>
+
+    <!-- Scheda Impostazioni -->
+    <string name="cat_alarm">Allarme</string>
+    <string name="cat_speech">Voce</string>
+    <string name="cat_notifications">Notifiche</string>
+    <string name="cat_general">Generali</string>
+    <string name="cat_connection">Connessione</string>
+    <string name="cat_about">Informazioni</string>
+    <string name="loud_threshold">Quando suonare l\'allarme</string>
+    <string name="alarm_tone">Suono dell\'allarme</string>
+    <string name="alarm_sound">Volume dell\'allarme</string>
+    <string name="override_silence">Ignora la modalità silenziosa</string>
+    <string name="override_silence_summary">Suona sul canale delle sveglie e sospende Non disturbare durante l\'allarme</string>
+    <string name="tts_enabled">Annuncio vocale</string>
+    <string name="tts_enabled_summary">Dice magnitudo e distanza, poi conta alla rovescia fino alle scosse</string>
+    <string name="tts_language">Lingua della voce</string>
+    <string name="tts_try">Prova la voce</string>
+    <string name="tts_try_summary">Ascolta un avviso di esempio nella lingua della voce</string>
+    <string name="tts_settings">Motore di sintesi vocale</string>
+    <string name="tts_settings_summary">Scegli il motore e installa le voci</string>
+    <string name="tts_unavailable">La sintesi vocale si sta avviando o non è disponibile; riprova tra un momento.</string>
+    <string name="tts_voice_missing">Nel motore di sintesi vocale non è installata una voce in %s.</string>
+    <string name="watched_notifs">Luoghi seguiti</string>
+    <string name="watched_notifs_summary">Avvisami di terremoti e allerte nei luoghi che seguo</string>
+    <string name="crisis_alerts">Altre allerte pubbliche</string>
+    <string name="crisis_alerts_summary">Alluvioni, tempeste, incendi e altre allerte che Google invia sullo stesso canale</string>
+    <string name="location">Posizione</string>
+    <string name="location_auto_summary">Rilevata automaticamente</string>
+    <string name="location_manual_summary">Impostata a mano: %s</string>
+    <string name="manual_location">Usa una posizione impostata a mano</string>
+    <string name="manual_location_desc">Di solito la posizione viene rilevata automaticamente. Puoi invece impostarla a mano.</string>
+    <string name="invalid_coords">Coordinate non valide</string>
+    <string name="app_language">Lingua dell\'app</string>
+    <string name="language_system">Lingua di sistema</string>
+    <string name="permissions">Permessi</string>
+    <string name="permissions_all_granted">Tutti concessi</string>
+    <string name="permissions_missing_count">%d non concessi</string>
+    <string name="heartbeat_minutes">Controllo della connessione (minuti)</string>
+    <string name="heartbeat_desc">Un intervallo più breve scopre prima una connessione interrotta, con un consumo di batteria leggermente maggiore. Nel sonno profondo può allungarsi fino a circa 10 minuti.</string>
+    <string name="diagnostics">Diagnostica</string>
+    <string name="diagnostics_summary">Dettagli della connessione e registro</string>
+    <string name="about_summary">Versione %s · GPL-3.0-or-later</string>
+    <string name="source_code">Codice sorgente</string>
+    <string name="source_code_summary">github.com/LuccoJ/alertroid</string>
+    <string name="cannot_open">Impossibile aprire questa schermata su questo dispositivo</string>
+
+    <string-array name="loud_entries">
+        <item>Sempre</item>
+        <item>Se l\'intensità stimata è III o più</item>
+        <item>Se l\'intensità stimata è IV o più</item>
+        <item>Se l\'intensità stimata è V o più</item>
+    </string-array>
+    <string-array name="tone_entries">
+        <item>Segnale di allerta (campane ascendenti)</item>
+        <item>Sirena</item>
+    </string-array>
+    <string-array name="sound_entries">
+        <item>Volume massimo</item>
+        <item>Volume attuale delle sveglie</item>
+        <item>Bip leggeri</item>
+        <item>Nessun suono (solo vibrazione e voce)</item>
+    </string-array>
+    <string-array name="tts_lang_entries">
+        <item>Come l\'app</item>
+        <item>English</item>
+        <item>Italiano</item>
+    </string-array>
+
+    <!-- Diagnostica -->
+    <string name="log_title">Registro</string>
+    <string name="copy_log">Copia</string>
+    <string name="copied">Copiato</string>
+    <string name="diag_state">Stato: %s</string>
+    <string name="diag_since">Connesso: %s</string>
+    <string name="diag_topics">Argomenti: %s</string>
+    <string name="diag_location">Posizione: %s</string>
+
+    <!-- Configurazione iniziale -->
+    <string name="welcome_short">Ti diamo il benvenuto</string>
+    <string name="welcome_title">Allerte terremoto, secondi prima</string>
+    <string name="welcome_body">Alertroid riceve le allerte terremoto che Google trasmette ai telefoni Android, direttamente e senza Google Play Services né un account Google, e ti avvisa prima che arrivino le scosse forti. Inoltra anche le altre allerte pubbliche per la tua zona.\n\nPer essere rapido e affidabile deve restare connesso in background, sapere più o meno dove ti trovi e poter suonare un allarme anche in modalità silenziosa.</string>
+    <string name="privacy_title">Privacy</string>
+    <string name="privacy_body">A Google viene inviata solo la tua zona approssimativa (una cella di circa 40 km, mescolata con altri tre luoghi), insieme a un\'identità anonima del dispositivo. Nient\'altro viene inviato altrove, e non ci sono statistiche d\'uso.</string>
+    <string name="permissions_intro">Consenti le voci necessarie per continuare. Quelle consigliate rendono gli avvisi più rapidi e più difficili da perdere.</string>
+    <string name="perm_ok">Consentito</string>
+    <string name="perm_required">Necessario</string>
+    <string name="perm_recommended">Consigliato</string>
+    <string name="grant">Consenti</string>
+    <string name="continue_btn">Continua</string>
+    <string name="done">Fatto</string>
+    <string name="grant_required_first">Consenti le voci necessarie per continuare</string>
+    <string name="vendor_title">Telefoni che chiudono le app in background</string>
+    <string name="vendor_body">Alcuni produttori (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) chiudono le app in background nonostante queste impostazioni. Se le allerte si interrompono, consenti anche l\'\"avvio automatico\" e disattiva ogni risparmio energetico specifico per Alertroid. dontkillmyapp.com spiega come fare per ogni telefono.</string>
+    <string name="perm_notif">Notifiche</string>
+    <string name="perm_notif_why">Per mostrare gli avvisi e mantenere attiva la connessione in background.</string>
+    <string name="perm_loc">Posizione</string>
+    <string name="perm_loc_why">Per sapere quale zona ascoltare e contare i secondi alle scosse. Si usa la posizione di rete; il GPS solo per poco e di rado, quando nient\'altro funziona.</string>
+    <string name="perm_bgloc">Posizione sempre</string>
+    <string name="perm_bgloc_why">Mantiene aggiornata la tua zona quando ti sposti, anche dopo un riavvio. Scegli \"Consenti sempre\".</string>
+    <string name="perm_battery">Uso della batteria senza restrizioni</string>
+    <string name="perm_battery_why">Mantiene aperta la connessione durante il sonno profondo e permette ad Alertroid di riavviarsi da solo. Senza, gli avvisi possono arrivare in ritardo o non arrivare.</string>
+    <string name="perm_data">Dati in background</string>
+    <string name="perm_data_why">Il Risparmio dati blocca i dati in background per questa app. Consenti l\'uso dei dati senza restrizioni perché le allerte arrivino.</string>
+    <string name="perm_dnd">Accesso a Non disturbare</string>
+    <string name="perm_dnd_why">Permette all\'allarme di suonare anche con Non disturbare attivo.</string>
+    <string name="perm_fullscreen">Allerte a schermo intero</string>
+    <string name="perm_fullscreen_why">Permette all\'avviso con mappa e conto alla rovescia di comparire sopra la schermata di blocco.</string>
+    <string name="perm_overlay">Mostra sopra le altre app</string>
+    <string name="perm_overlay_why">Permette all\'avviso di comparire subito, qualunque cosa tu stia facendo.</string>
+    <string name="perm_alarms">Sveglie e promemoria</string>
+    <string name="perm_alarms_why">Timer precisi controllano la connessione durante il sonno profondo e avviano in orario le allerte di prova.</string>
+</resources>

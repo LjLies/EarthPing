@@ -1,12 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
-        <item name="android:colorPrimary">#C62828</item>
-        <item name="android:colorPrimaryDark">#8E0000</item>
-        <item name="android:colorAccent">#C62828</item>
+    <style name="Theme.Alertroid.Base" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/accent_deep</item>
+        <item name="colorOnPrimary">@color/on_accent</item>
+        <item name="colorPrimaryContainer">@color/accent_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_accent_container</item>
+        <item name="colorSecondary">@color/accent_deep</item>
+        <item name="colorOnSecondary">@color/on_accent</item>
+        <item name="colorTertiary">@color/accent_deep</item>
+        <item name="colorSecondaryContainer">@color/accent_container</item>
+        <item name="colorOnSecondaryContainer">@color/on_accent_container</item>
+        <item name="android:colorBackground">@color/surface</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceContainerLowest">@color/surface</item>
+        <item name="colorSurfaceContainerLow">@color/surface</item>
+        <item name="colorSurfaceContainer">@color/nav</item>
+        <item name="colorSurfaceContainerHigh">@color/card</item>
+        <item name="colorSurfaceContainerHighest">@color/card</item>
+        <item name="colorSurfaceVariant">@color/card</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_soft</item>
+        <item name="colorOnBackground">@color/on_surface</item>
     </style>
-    <style name="AlertTheme" parent="android:Theme.Material.NoActionBar">
-        <item name="android:colorAccent">#FF5252</item>
-        <item name="android:windowBackground">@android:color/black</item>
+
+    <style name="Theme.Alertroid" parent="Theme.Alertroid.Base" />
+
+    <!-- Screens with their own title bar -->
+    <style name="Theme.Alertroid.WithActionBarBase" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">@color/accent_deep</item>
+        <item name="colorOnPrimary">@color/on_accent</item>
+        <item name="colorPrimaryContainer">@color/accent_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_accent_container</item>
+        <item name="colorSecondary">@color/accent_deep</item>
+        <item name="colorOnSecondary">@color/on_accent</item>
+        <item name="colorTertiary">@color/accent_deep</item>
+        <item name="colorSecondaryContainer">@color/accent_container</item>
+        <item name="colorOnSecondaryContainer">@color/on_accent_container</item>
+        <item name="android:colorBackground">@color/surface</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceContainerLowest">@color/surface</item>
+        <item name="colorSurfaceContainerLow">@color/surface</item>
+        <item name="colorSurfaceContainer">@color/nav</item>
+        <item name="colorSurfaceContainerHigh">@color/card</item>
+        <item name="colorSurfaceContainerHighest">@color/card</item>
+        <item name="colorSurfaceVariant">@color/card</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_soft</item>
+        <item name="colorOnBackground">@color/on_surface</item>
+        <item name="actionBarStyle">@style/ActionBar</item>
+    </style>
+
+    <style name="ActionBar" parent="Widget.Material3.ActionBar.Solid">
+        <item name="background">@color/surface</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Theme.Alertroid.WithActionBar" parent="Theme.Alertroid.WithActionBarBase" />
+
+    <!-- The full-screen warning: always dark, whatever the system theme -->
+    <style name="Theme.Alertroid.AlertBase" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#FFB4A9</item>
+        <item name="colorOnPrimary">#690003</item>
+        <item name="colorPrimaryContainer">#8A1C18</item>
+        <item name="colorOnPrimaryContainer">#FFDAD5</item>
+        <item name="colorSecondaryContainer">#8A1C18</item>
+        <item name="colorOnSecondaryContainer">#FFDAD5</item>
+        <item name="android:colorBackground">@color/alert_background</item>
+        <item name="android:windowBackground">@color/alert_background</item>
+        <item name="android:statusBarColor">@color/alert_header</item>
+    </style>
+
+    <style name="Theme.Alertroid.Alert" parent="Theme.Alertroid.AlertBase" />
+
+    <style name="Heading">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+    </style>
+
+    <style name="Body">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodyMedium</item>
+    </style>
+
+    <style name="CardTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardBackgroundColor">@color/card</item>
+    </style>
+
+    <style name="Chip">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/chip_background</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">?attr/textAppearanceLabelLarge</item>
     </style>
 </resources>

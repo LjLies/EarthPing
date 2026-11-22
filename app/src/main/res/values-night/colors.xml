@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent_deep">#FFB4A9</color>
+    <color name="on_accent">#690003</color>
+    <color name="accent_container">#8A1C18</color>
+    <color name="on_accent_container">#FFDAD5</color>
+    <color name="surface">#1A1110</color>
+    <color name="card">#2A201F</color>
+    <color name="nav">#2A201F</color>
+    <color name="on_surface">#F1DFDC</color>
+    <color name="on_surface_soft">#D8C2BF</color>
+    <color name="chip_ok_bg">#1E3B27</color>
+    <color name="chip_ok_fg">#B4E3C0</color>
+    <color name="chip_warn_bg">#4A3000</color>
+    <color name="chip_warn_fg">#FFDDB0</color>
+    <color name="chip_error_bg">#5C1A16</color>
+    <color name="chip_error_fg">#FFDAD6</color>
+    <color name="chip_neutral_bg">#3B302F</color>
+    <color name="chip_neutral_fg">#D8C2BF</color>
+</resources>

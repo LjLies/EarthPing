@@ -17,6 +17,8 @@ data class Subscription(val place: Place, val primary: Boolean) {
 }
 
 class Prefs(context: Context) {
+    val raw: SharedPreferences get() = p
+
     companion object {
         const val SOUND_SIREN_MAX = 0
         const val SOUND_SIREN = 1
@@ -24,9 +26,29 @@ class Prefs(context: Context) {
         const val SOUND_NONE = 3
         const val TONE_CHIME = 0
         const val TONE_SIREN = 1
+        const val FILE = "alertroid"
     }
 
-    private val p: SharedPreferences = context.applicationContext.getSharedPreferences("alertroid", Context.MODE_PRIVATE)
+    private val p: SharedPreferences = context.applicationContext.getSharedPreferences(FILE, Context.MODE_PRIVATE)
+
+    /** List preferences are stored as strings by the settings screen; older versions stored ints. */
+    private fun listInt(key: String, def: Int): Int = try {
+        p.getString(key, null)?.toIntOrNull() ?: def
+    } catch (e: ClassCastException) {
+        p.getInt(key, def)
+    }
+
+    /** Converts values older versions stored as ints into the strings the settings screen expects. */
+    fun migrate() {
+        for (key in listOf("loud_min_mmi", "alarm_sound", "alarm_tone")) {
+            try { p.getString(key, null) } catch (e: ClassCastException) {
+                val v = p.getInt(key, 0)
+                p.edit().remove(key).putString(key, v.toString()).commit()
+            }
+        }
+    }
+
+    private fun putListInt(key: String, v: Int) = p.edit().remove(key).putString(key, v.toString()).apply()
 
     private fun SharedPreferences.Editor.putDouble(k: String, v: Double) = putLong(k, java.lang.Double.doubleToRawLongBits(v))
     private fun getDouble(k: String, d: Double) = if (p.contains(k)) java.lang.Double.longBitsToDouble(p.getLong(k, 0)) else d
@@ -127,8 +149,8 @@ class Prefs(context: Context) {
     // ---- behaviour
     /** 0 = loud alert for every earthquake alert in my area; otherwise minimum estimated MMI. */
     var loudMinMmi: Int
-        get() = p.getInt("loud_min_mmi", 0)
-        set(v) = p.edit().putInt("loud_min_mmi", v).apply()
+        get() = listInt("loud_min_mmi", 0)
+        set(v) = putListInt("loud_min_mmi", v)
 
     var ttsEnabled: Boolean
         get() = p.getBoolean("tts", true)
@@ -144,13 +166,18 @@ class Prefs(context: Context) {
 
     /** One of [SOUND_SIREN_MAX], [SOUND_SIREN], [SOUND_BEEPS], [SOUND_NONE]. */
     var alarmSound: Int
-        get() = p.getInt("alarm_sound", SOUND_SIREN_MAX)
-        set(v) = p.edit().putInt("alarm_sound", v).apply()
+        get() = listInt("alarm_sound", SOUND_SIREN_MAX)
+        set(v) = putListInt("alarm_sound", v)
 
     /** [TONE_CHIME] (default) or [TONE_SIREN]. */
     var alarmTone: Int
-        get() = p.getInt("alarm_tone", TONE_CHIME)
-        set(v) = p.edit().putInt("alarm_tone", v).apply()
+        get() = listInt("alarm_tone", TONE_CHIME)
+        set(v) = putListInt("alarm_tone", v)
+
+    /** BCP-47 tag of the speech language, or "" for the app's language. */
+    var ttsLanguage: String
+        get() = p.getString("tts_lang", "") ?: ""
+        set(v) = p.edit().putString("tts_lang", v).apply()
 
     var testQuiet: Boolean
         get() = p.getBoolean("test_quiet", false)

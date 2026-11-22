@@ -5,7 +5,8 @@ Earthquake early warnings and public alerts for Android, **without Google Play S
 Alertroid listens to the push broadcasts Google sends for the Android Earthquake Alerts
 System. It talks to Google's push server directly, so it works with microG or with no
 Google software at all. It is 100% free software (GPL-3.0-or-later). Its only dependencies
-are the Kotlin standard library and [osmdroid](https://github.com/osmdroid/osmdroid) for the map.
+are AndroidX AppCompat and Preference, Material Components and
+[osmdroid](https://github.com/osmdroid/osmdroid) for the map, all Apache-2.0.
 
 > [!CAUTION]
 > Alertroid is unofficial. It relies on an undocumented Google service that can change or stop
@@ -31,6 +32,13 @@ are the Kotlin standard library and [osmdroid](https://github.com/osmdroid/osmdr
   alerts ("crisis alerts"). You are notified about the ones for your area and your watched places.
 - **Test mode.** Choose a delay, the seconds until shaking and a magnitude. Alertroid then
   stages a complete alert near you, so you can rehearse it, including with the screen locked.
+
+## Languages
+
+English and Italian. On Android 13 and later, choose the app's language in the system
+settings (Settings → Apps → Alertroid → Language). On older versions, choose it in
+Alertroid's own settings. The spoken warnings have their own language setting, so the
+app can be in one language and speak in another.
 
 ## How the protocol works
 
@@ -114,6 +122,12 @@ You can also set your location by hand. Precision doesn't matter much: the alert
 
 ```bash
 ./gradlew testDebugUnitTest
+```
+
+Render the screens to PNG files, like the screenshot test does:
+
+```bash
+./gradlew testDebugUnitTest --tests '*ScreenshotTest*' -Pscreenshots=/tmp/shots
 ```
 
 The live test performs a real checkin and MCS login:

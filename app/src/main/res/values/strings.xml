@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Alertroid</string>
+    <string name="app_name" translatable="false">Alertroid</string>
+    <string name="source_url" translatable="false">https://github.com/LuccoJ/alertroid</string>
+
+    <!-- Tabs -->
+    <string name="tab_alerts">Alerts</string>
+    <string name="tab_places">Places</string>
+    <string name="tab_settings">Settings</string>
 
     <!-- Notification channels -->
     <string name="ch_service">Background connection</string>
@@ -12,7 +18,7 @@
     <string name="ch_quake">Earthquake warning (my location)</string>
     <string name="ch_quake_desc">Loud, full-screen warning for shaking expected where you are.</string>
     <string name="ch_info">Earthquake nearby (my location)</string>
-    <string name="ch_info_desc">Earthquakes in your area below the loud-alert threshold.</string>
+    <string name="ch_info_desc">Earthquakes in your area below the loud-alarm threshold.</string>
     <string name="ch_crisis">Other alerts (my location)</string>
     <string name="ch_crisis_desc">Public safety alerts for your area: floods, storms, fires…</string>
 
@@ -31,132 +37,228 @@
     <string name="km_away">%s km away</string>
     <string name="km_from">%1$s km from %2$s</string>
     <string name="est_intensity">est. intensity %s</string>
+    <string name="updated_note">Updated: %s</string>
     <string name="stop_alarm">Stop alarm</string>
     <string name="close">Close</string>
     <string name="crisis_generic">Public alert</string>
     <string name="epicenter">Epicenter</string>
     <string name="you">You</string>
+    <string name="strong_shaking_in">Strong shaking in</string>
+    <string name="no_countdown">Arrival time unknown</string>
     <string name="seconds_left">%d s</string>
     <string name="take_cover">Take cover</string>
     <string name="no_active_alert">No active alert</string>
 
-    <!-- Spoken -->
+    <!-- Spoken (in the speech language, which can differ from the app's) -->
     <string name="tts_test">This is a test.</string>
     <string name="tts_earthquake">Earthquake!</string>
     <string name="tts_magnitude">Magnitude %s.</string>
     <string name="tts_distance">%s kilometers away.</string>
-    <string name="tts_seconds">Shaking in %d seconds.</string>
+    <plurals name="tts_seconds">
+        <item quantity="one">Shaking in %d second.</item>
+        <item quantity="other">Shaking in %d seconds.</item>
+    </plurals>
     <string name="tts_now">Shaking now. Drop, cover and hold on.</string>
     <string name="tts_take_cover">Drop, cover and hold on.</string>
     <string name="tts_update_prefix">Update:</string>
-    <string name="updated_note">Updated: %s</string>
 
-    <!-- Main screen -->
-    <string name="status">Status</string>
-    <string name="state_connected">Connected (port %1$d), since %2$s</string>
+    <!-- Alerts pane -->
+    <string name="chip_listening">Listening</string>
+    <string name="chip_connecting">Connecting</string>
+    <string name="chip_offline">Offline</string>
+    <string name="chip_off">Off</string>
+    <string name="state_connected_title">Listening for alerts</string>
+    <string name="state_connected_detail">Connected %1$s · last traffic %2$s</string>
     <string name="state_connecting">Connecting…</string>
-    <string name="state_no_network">No network: will connect as soon as there is one</string>
-    <string name="state_waiting">Not connected; next attempt %s</string>
-    <string name="state_stopped">Starting…</string>
-    <string name="state_disabled">Disabled: you will NOT receive alerts</string>
-    <string name="last_traffic">Last traffic from server: %s</string>
+    <string name="state_no_network">No network</string>
+    <string name="state_waiting_title">Not connected</string>
+    <string name="state_waiting">Next attempt %s</string>
+    <string name="state_disabled">Alerts are off</string>
+    <string name="state_disabled_detail">You will not receive any warning.</string>
+    <string name="alerts_on">Receive alerts</string>
+    <string name="last_traffic">Last traffic from the server: %s</string>
     <string name="last_error">Last problem: %s</string>
     <string name="messages_count">Messages received: %1$d · reconnections: %2$d</string>
     <string name="identity">Anonymous push identity: %s</string>
-    <string name="enable_service">Turn alerts on</string>
-    <string name="disable_service">Turn alerts off</string>
-    <string name="subscriptions">Areas</string>
-    <string name="my_location_line">My location: %1$s (%2$s)</string>
-    <string name="manual">manual</string>
-    <string name="auto_tag">(automatic decoy)</string>
-    <string name="edit_places">Watched places</string>
-    <string name="test_mode">Test alert</string>
-    <string name="test_mode_desc">Simulates an earthquake near you after a delay, with the full alarm, map and countdown. Lock the screen to see how it looks there.</string>
-    <string name="test_delay">Start after (seconds)</string>
-    <string name="test_lead">Seconds until shaking</string>
-    <string name="test_magnitude">Magnitude</string>
-    <string name="test_start">Schedule test alert</string>
-    <string name="test_scheduled">Test alert in %d s</string>
-    <string name="recent_alerts">Recent alerts</string>
-    <string name="no_alerts_yet">No alerts received yet.</string>
-    <string name="settings">Settings</string>
-    <string name="permissions">Permissions</string>
-    <string name="show_log">Show / hide diagnostic log</string>
     <string name="needs_attention">Needs your attention</string>
     <string name="required_tag">(required)</string>
     <string name="fix_permissions">Review permissions</string>
-    <string name="no_location_yet">Your location is not known yet, so alerts for your area cannot be received. Grant location access or set a manual location in Settings.</string>
+    <string name="no_location_yet">Your location is not known yet, so alerts for your area cannot be received. Allow location access, or set your location by hand in Settings.</string>
+    <string name="subscriptions">Areas</string>
+    <string name="my_location">My location</string>
+    <string name="location_unknown">Not known yet</string>
+    <string name="manual">set by hand</string>
+    <string name="watched_detail">Watched place</string>
+    <string name="auto_decoy_detail">Automatic decoy, alerts only logged</string>
+    <string name="edit_places">Watched places</string>
+    <string name="test_mode">Test alert</string>
+    <string name="test_mode_desc">Simulates an earthquake near you, with the alarm, the map and the countdown, plus one update a few seconds later. Lock the screen to see how it looks there.</string>
+    <string name="test_delay">Start after</string>
+    <string name="test_lead">Seconds until shaking</string>
+    <string name="test_magnitude">Magnitude</string>
+    <string name="test_quiet">Quiet test (no alarm sound)</string>
+    <string name="test_start">Schedule test alert</string>
+    <string name="test_scheduled">Test alert in %d s</string>
+    <string name="seconds_short">%d s</string>
+    <string name="recent_alerts">Recent alerts</string>
+    <string name="no_alerts_yet">No alerts received yet.</string>
+    <string name="note_test">test</string>
+    <string name="note_revision">update</string>
+    <string name="note_updated">updated</string>
+    <string name="note_google_test">Google test alert, not shown</string>
+    <string name="kind_earthquake">Earthquake</string>
+    <string name="kind_public_alert">Public alert</string>
+    <string name="kind_sos_alert">SOS alert</string>
     <string name="disclaimer">Alertroid is an independent, unofficial app. It listens to the same push channel Google uses for Android earthquake alerts, which Google may change or stop at any time. It is not a certified warning system: keep your phone\'s official emergency alerts enabled.</string>
 
-    <!-- Onboarding -->
-    <string name="welcome_title">Welcome to Alertroid</string>
-    <string name="welcome_body">Alertroid warns you of earthquakes seconds before the shaking reaches you, and of other public alerts for your area, using Google\'s Android earthquake-alert broadcasts directly—without Google Play Services or a Google account.\n\nTo be fast and reliable it must stay connected in the background, know roughly where you are, and be allowed to sound an alarm even in silent and Do Not Disturb mode. Please grant the permissions below.\n\nPrivacy: only your coarse area (a ~40 km cell, mixed with three other places) is sent to Google\'s push server, together with an anonymous device identity. Nothing is sent anywhere else.</string>
-    <string name="vendor_title">Phones that kill background apps</string>
-    <string name="vendor_body">Some manufacturers (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) stop background apps despite the settings above. If alerts stop, also allow \"autostart\" and disable any app-specific battery saver for Alertroid. See dontkillmyapp.com for your phone.</string>
-    <string name="continue_btn">Continue</string>
-    <string name="grant_required_first">Grant the required permissions to continue</string>
-    <string name="grant">Grant</string>
-    <string name="recommended">Recommended</string>
-    <string name="perm_notif">Notifications</string>
-    <string name="perm_notif_why">To show earthquake warnings and keep the background connection running.</string>
-    <string name="perm_loc">Location</string>
-    <string name="perm_loc_why">To know which area to receive alerts for and to count down until shaking reaches you. Network location is used; GPS only briefly and rarely, when nothing else works.</string>
-    <string name="perm_bgloc">Location all the time</string>
-    <string name="perm_bgloc_why">So your area is kept up to date when you travel, including after a reboot. Choose \"Allow all the time\".</string>
-    <string name="perm_battery">Unrestricted battery use</string>
-    <string name="perm_battery_why">Lets Alertroid keep its connection during deep sleep (Doze) and restart itself if stopped. Without this, warnings can arrive late or not at all.</string>
-    <string name="perm_data">Background data</string>
-    <string name="perm_data_why">Data Saver is on and blocks background data for this app. Allow unrestricted data so alerts arrive.</string>
-    <string name="perm_dnd">Do Not Disturb access</string>
-    <string name="perm_dnd_why">Lets the earthquake alarm sound through Do Not Disturb and silent mode.</string>
-    <string name="perm_fullscreen">Full-screen alerts</string>
-    <string name="perm_fullscreen_why">Lets the warning with map and countdown appear over the lock screen.</string>
-    <string name="perm_overlay">Display over other apps</string>
-    <string name="perm_overlay_why">Lets the warning pop up immediately, whatever you are doing.</string>
-    <string name="perm_alarms">Alarms and reminders</string>
-    <string name="perm_alarms_why">Precise timers keep the connection checked during deep sleep and run test alerts on time.</string>
-
-    <!-- Settings -->
-    <string name="alerting">Alerts</string>
-    <string name="loud_threshold">Loud alarm with countdown for earthquakes in my area:</string>
-    <string name="loud_any">Always (any alert Google sends for my area)</string>
-    <string name="loud_mmi">Only if estimated intensity is %s or more</string>
-    <string name="alarm_sound">Alarm sound for earthquakes in my area:</string>
-    <string name="sound_siren_max">Alarm tone at full volume</string>
-    <string name="sound_siren">Alarm tone at the current alarm volume</string>
-    <string name="alarm_tone">Alarm tone:</string>
-    <string name="tone_chime">Warning chime (rising bells)</string>
-    <string name="tone_siren">Siren</string>
-    <string name="sound_beeps">Soft beeps at the current alarm volume</string>
-    <string name="sound_none">No sound (vibration and speech only)</string>
-    <string name="test_quiet">Quiet test: no alarm sound (vibration and speech only)</string>
-    <string name="tts_enabled">Speak the warning and count down (text-to-speech)</string>
-    <string name="override_silence">Override silent mode and Do Not Disturb</string>
-    <string name="watched_notifs">Notify me about my watched places</string>
-    <string name="crisis_alerts">Other public alerts (floods, storms, fires…)</string>
-    <string name="location">Location</string>
-    <string name="manual_location_desc">Normally your location is detected automatically. You can set it by hand instead.</string>
-    <string name="manual_location">Use a manual location</string>
-    <string name="latitude">Latitude</string>
-    <string name="longitude">Longitude</string>
-    <string name="invalid_coords">Invalid coordinates</string>
-    <string name="save">Save</string>
-    <string name="saved">Saved</string>
-    <string name="connection">Connection</string>
-    <string name="heartbeat_minutes">Heartbeat interval (minutes)</string>
-    <string name="heartbeat_desc">How often the connection is checked. Shorter notices dead connections sooner but uses a little more battery. Deep sleep may stretch it to about 10 minutes.</string>
-
-    <!-- Places -->
-    <string name="places_desc">Choose up to three other places you care about (family, home town…). You will be notified about earthquakes and alerts there, without the countdown. They are also the \"decoys\" that hide your real area from Google; any slot you leave empty gets a random automatic decoy, whose alerts are only logged.</string>
+    <!-- Places pane -->
+    <string name="places_desc">Up to three other places you care about (family, home town…). You are notified about earthquakes and alerts there, without the countdown. They also hide your real area from Google among other places; an empty slot gets a random automatic decoy.</string>
     <string name="place_n">Place %d</string>
     <string name="place_name">Name</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
     <string name="clear">Clear</string>
-    <string name="pick_place">Find on the map</string>
-    <string name="search_place">Search for a place</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved</string>
     <string name="search">Search</string>
-    <string name="long_press_hint">Or long-press on the map to set the selected place.</string>
+    <string name="search_place">Search for a place</string>
+    <string name="slot_empty_hint">Empty: an automatic decoy is used. Search, type coordinates or long-press the map.</string>
+    <string name="slot_set_hint">Long-press the map to move it.</string>
+    <string name="long_press_hint">Long-press the map to place the selected place.</string>
     <string name="no_geocoder">No place search service is available on this device. Enter coordinates or long-press the map.</string>
     <string name="place_not_found">Place not found</string>
     <string name="invalid_place">Place %d has invalid coordinates</string>
     <string name="osm_attribution">Map data © OpenStreetMap contributors</string>
+
+    <!-- Settings pane -->
+    <string name="cat_alarm">Alarm</string>
+    <string name="cat_speech">Speech</string>
+    <string name="cat_notifications">Notifications</string>
+    <string name="cat_general">General</string>
+    <string name="cat_connection">Connection</string>
+    <string name="cat_about">About</string>
+    <string name="loud_threshold">When to sound the alarm</string>
+    <string name="alarm_tone">Alarm tone</string>
+    <string name="alarm_sound">Alarm volume</string>
+    <string name="override_silence">Override silent mode</string>
+    <string name="override_silence_summary">Sounds on the alarm channel and lifts Do Not Disturb during the alarm</string>
+    <string name="tts_enabled">Speak the warning</string>
+    <string name="tts_enabled_summary">Says the magnitude and distance, then counts down to the shaking</string>
+    <string name="tts_language">Speech language</string>
+    <string name="tts_try">Test speech</string>
+    <string name="tts_try_summary">Hear a sample warning in the speech language</string>
+    <string name="tts_settings">Text-to-speech engine</string>
+    <string name="tts_settings_summary">Choose the engine and install voices</string>
+    <string name="tts_unavailable">Text-to-speech is starting or not available; try again in a moment.</string>
+    <string name="tts_voice_missing">No %s voice is installed in the text-to-speech engine.</string>
+    <string name="watched_notifs">Watched places</string>
+    <string name="watched_notifs_summary">Notify me about earthquakes and alerts at my watched places</string>
+    <string name="crisis_alerts">Other public alerts</string>
+    <string name="crisis_alerts_summary">Floods, storms, fires and other alerts Google sends on the same channel</string>
+    <string name="location">Location</string>
+    <string name="location_auto_summary">Detected automatically</string>
+    <string name="location_manual_summary">Set by hand: %s</string>
+    <string name="manual_location">Use a location set by hand</string>
+    <string name="manual_location_desc">Normally your location is detected automatically. You can set it by hand instead.</string>
+    <string name="invalid_coords">Invalid coordinates</string>
+    <string name="app_language">App language</string>
+    <string name="language_system">System language</string>
+    <string name="permissions">Permissions</string>
+    <string name="permissions_all_granted">All granted</string>
+    <string name="permissions_missing_count">%d not granted</string>
+    <string name="heartbeat_minutes">Connection check (minutes)</string>
+    <string name="heartbeat_desc">Shorter notices a dead connection sooner, using a little more battery. Deep sleep may stretch it to about 10 minutes.</string>
+    <string name="diagnostics">Diagnostics</string>
+    <string name="diagnostics_summary">Connection details and log</string>
+    <string name="about_summary">Version %s · GPL-3.0-or-later</string>
+    <string name="source_code">Source code</string>
+    <string name="source_code_summary">github.com/LuccoJ/alertroid</string>
+    <string name="cannot_open">Cannot open this screen on this device</string>
+
+    <string-array name="loud_entries">
+        <item>Always</item>
+        <item>If estimated intensity is III or more</item>
+        <item>If estimated intensity is IV or more</item>
+        <item>If estimated intensity is V or more</item>
+    </string-array>
+    <string-array name="loud_values" translatable="false">
+        <item>0</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="tone_entries">
+        <item>Warning chime (rising bells)</item>
+        <item>Siren</item>
+    </string-array>
+    <string-array name="tone_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="sound_entries">
+        <item>Full volume</item>
+        <item>Current alarm volume</item>
+        <item>Soft beeps</item>
+        <item>No sound (vibration and speech only)</item>
+    </string-array>
+    <string-array name="sound_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="tts_lang_entries">
+        <item>Same as the app</item>
+        <item>English</item>
+        <item>Italiano</item>
+    </string-array>
+    <string-array name="tts_lang_values" translatable="false">
+        <item></item>
+        <item>en</item>
+        <item>it</item>
+    </string-array>
+
+    <!-- Diagnostics -->
+    <string name="log_title">Log</string>
+    <string name="copy_log">Copy</string>
+    <string name="copied">Copied</string>
+    <string name="diag_state">State: %s</string>
+    <string name="diag_since">Connected: %s</string>
+    <string name="diag_topics">Topics: %s</string>
+    <string name="diag_location">Location: %s</string>
+
+    <!-- Onboarding -->
+    <string name="welcome_short">Welcome</string>
+    <string name="welcome_title">Earthquake warnings, seconds ahead</string>
+    <string name="welcome_body">Alertroid receives the earthquake alerts Google broadcasts for Android phones, directly and without Google Play Services or a Google account, and warns you before the strong shaking arrives. It also relays other public alerts for your area.\n\nTo be fast and reliable it has to stay connected in the background, know roughly where you are, and be allowed to sound an alarm even in silent mode.</string>
+    <string name="privacy_title">Privacy</string>
+    <string name="privacy_body">Only your coarse area (a cell about 40 km wide, mixed with three other places) is sent to Google\'s push server, with an anonymous device identity. Nothing is sent anywhere else, and there are no analytics.</string>
+    <string name="permissions_intro">Allow what is required to continue. The recommended items make warnings faster and harder to miss.</string>
+    <string name="perm_ok">Allowed</string>
+    <string name="perm_required">Required</string>
+    <string name="perm_recommended">Recommended</string>
+    <string name="grant">Allow</string>
+    <string name="continue_btn">Continue</string>
+    <string name="done">Done</string>
+    <string name="grant_required_first">Allow the required items to continue</string>
+    <string name="vendor_title">Phones that stop background apps</string>
+    <string name="vendor_body">Some manufacturers (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) stop background apps despite these settings. If alerts stop, also allow \"autostart\" and turn off any app-specific battery saver for Alertroid. dontkillmyapp.com explains how for each phone.</string>
+    <string name="perm_notif">Notifications</string>
+    <string name="perm_notif_why">To show warnings and keep the background connection running.</string>
+    <string name="perm_loc">Location</string>
+    <string name="perm_loc_why">To know which area to listen to and to count down to the shaking. Network location is used; GPS only briefly and rarely, when nothing else works.</string>
+    <string name="perm_bgloc">Location all the time</string>
+    <string name="perm_bgloc_why">Keeps your area up to date when you travel, including after a restart. Choose \"Allow all the time\".</string>
+    <string name="perm_battery">Unrestricted battery use</string>
+    <string name="perm_battery_why">Keeps the connection open during deep sleep and lets Alertroid restart itself. Without it, warnings can arrive late or not at all.</string>
+    <string name="perm_data">Background data</string>
+    <string name="perm_data_why">Data Saver blocks background data for this app. Allow unrestricted data so alerts arrive.</string>
+    <string name="perm_dnd">Do Not Disturb access</string>
+    <string name="perm_dnd_why">Lets the alarm sound through Do Not Disturb.</string>
+    <string name="perm_fullscreen">Full-screen alerts</string>
+    <string name="perm_fullscreen_why">Lets the warning with map and countdown appear over the lock screen.</string>
+    <string name="perm_overlay">Display over other apps</string>
+    <string name="perm_overlay_why">Lets the warning pop up at once, whatever you are doing.</string>
+    <string name="perm_alarms">Alarms and reminders</string>
+    <string name="perm_alarms_why">Precise timers check the connection during deep sleep and start test alerts on time.</string>
 </resources>

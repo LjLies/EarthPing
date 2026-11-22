@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- These screens lay out below the system bars rather than edge-to-edge -->
+    <style name="Theme.Alertroid" parent="Theme.Alertroid.Base">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+    <style name="Theme.Alertroid.WithActionBar" parent="Theme.Alertroid.WithActionBarBase">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+    <style name="Theme.Alertroid.Alert" parent="Theme.Alertroid.AlertBase">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+</resources>

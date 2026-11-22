@@ -107,6 +107,43 @@ object AlertCenter {
     private fun fmt1(v: Double) = String.format(Locale.getDefault(), "%.1f", v)
     private fun km(v: Double) = if (v < 10) fmt1(v) else Math.round(v).toString()
 
+    // ---- speech, in its own language (independent of the app's)
+
+    /** The language to speak: the one chosen in settings, or the app's current language. */
+    fun speechLocale(): Locale {
+        val tag = prefs.ttsLanguage
+        if (tag.isNotBlank()) return Locale.forLanguageTag(tag)
+        return app.resources.configuration.locales[0] ?: Locale.getDefault()
+    }
+
+    private fun speechContext(): Context {
+        val conf = android.content.res.Configuration(app.resources.configuration)
+        conf.setLocale(speechLocale())
+        return app.createConfigurationContext(conf)
+    }
+
+    private class Spoken(val ctx: Context, val locale: Locale) {
+        fun s(id: Int, vararg args: Any) = ctx.getString(id, *args)
+        fun seconds(n: Int) = ctx.resources.getQuantityString(R.plurals.tts_seconds, n, n)
+        fun fmt1(v: Double) = String.format(locale, "%.1f", v)
+        fun km(v: Double) = if (v < 10) fmt1(v) else Math.round(v).toString()
+    }
+
+    private fun spoken(): Spoken {
+        val l = speechLocale()
+        speaker.setLocale(l)
+        return Spoken(speechContext(), l)
+    }
+
+    /** "Test speech" in settings: a sample warning in the chosen language. */
+    fun speakSample(): Boolean? {
+        if (!speaker.available) { speaker.warmUp(); return null }
+        val sp = spoken()
+        speaker.announce(listOf(sp.s(R.string.tts_test), sp.s(R.string.tts_earthquake), sp.s(R.string.tts_magnitude, sp.fmt1(5.8)),
+            sp.s(R.string.tts_distance, sp.km(82.0)), sp.seconds(20)).joinToString(" "))
+        return speaker.localeSupported
+    }
+
     // ------------------------------------------------------------------ incoming
 
     fun onDataMessage(msg: DataMessage) {
@@ -236,7 +273,7 @@ object AlertCenter {
             !q.loud && shouldBeLoud(q) -> startLoud(q)
             else -> {
                 if (q.loud && prefs.ttsEnabled && (magChanged || distChanged || timeChanged)) {
-                    speaker.announce(updateSpeech(q, magChanged, distChanged))
+                    speaker.announce(updateSpeech(q, magChanged, distChanged, spoken()))
                 }
                 postLocalNotification(q)
             }
@@ -244,13 +281,13 @@ object AlertCenter {
         changed()
     }
 
-    private fun updateSpeech(q: LocalQuake, mag: Boolean, dist: Boolean): String {
-        val sb = StringBuilder(str(R.string.tts_update_prefix)).append(' ')
-        if (mag) q.magnitude?.let { sb.append(str(R.string.tts_magnitude, fmt1(it))).append(' ') }
-        if (dist) q.distanceKm?.let { sb.append(str(R.string.tts_distance, km(it))).append(' ') }
+    private fun updateSpeech(q: LocalQuake, mag: Boolean, dist: Boolean, sp: Spoken): String {
+        val sb = StringBuilder(sp.s(R.string.tts_update_prefix)).append(' ')
+        if (mag) q.magnitude?.let { sb.append(sp.s(R.string.tts_magnitude, sp.fmt1(it))).append(' ') }
+        if (dist) q.distanceKm?.let { sb.append(sp.s(R.string.tts_distance, sp.km(it))).append(' ') }
         q.sArrivalLocalMs?.let {
             val secs = ((it - System.currentTimeMillis()) / 1000).toInt()
-            if (secs > 3) sb.append(str(R.string.tts_seconds, secs))
+            if (secs > 3) sb.append(sp.seconds(secs))
         }
         return sb.toString().trim()
     }
@@ -270,24 +307,27 @@ object AlertCenter {
         player.start(q.sound, prefs.alarmTone, prefs.overrideSilence)
         postLocalNotification(q)
         showAlertScreen()
-        if (prefs.ttsEnabled) speaker.start(announcement(q), { q.sArrivalLocalMs?.takeIf { it > System.currentTimeMillis() - 1000 } }, str(R.string.tts_now))
+        if (prefs.ttsEnabled) {
+            val sp = spoken()
+            speaker.start(announcement(q, sp), { q.sArrivalLocalMs?.takeIf { it > System.currentTimeMillis() - 1000 } }, sp.s(R.string.tts_now))
+        }
         // Stop the siren a while after the shaking should have started (or after a minute).
         val stopAt = (q.sArrivalLocalMs?.let { it + 30_000 } ?: (System.currentTimeMillis() + 60_000)).coerceAtLeast(System.currentTimeMillis() + 20_000)
         main.postDelayed({ if (active === q) player.stop() }, stopAt - System.currentTimeMillis())
     }
 
-    private fun announcement(q: LocalQuake): String {
+    private fun announcement(q: LocalQuake, sp: Spoken): String {
         val sb = StringBuilder()
-        if (q.isTest) sb.append(str(R.string.tts_test)).append(' ')
-        sb.append(str(R.string.tts_earthquake)).append(' ')
-        q.magnitude?.let { sb.append(str(R.string.tts_magnitude, fmt1(it))).append(' ') }
-        q.distanceKm?.let { sb.append(str(R.string.tts_distance, km(it))).append(' ') }
+        if (q.isTest) sb.append(sp.s(R.string.tts_test)).append(' ')
+        sb.append(sp.s(R.string.tts_earthquake)).append(' ')
+        q.magnitude?.let { sb.append(sp.s(R.string.tts_magnitude, sp.fmt1(it))).append(' ') }
+        q.distanceKm?.let { sb.append(sp.s(R.string.tts_distance, sp.km(it))).append(' ') }
         val s = q.sArrivalLocalMs
         if (s != null) {
             val secs = ((s - System.currentTimeMillis()) / 1000).toInt()
-            if (secs > 0) sb.append(str(R.string.tts_seconds, secs)) else sb.append(str(R.string.tts_now))
+            if (secs > 0) sb.append(sp.seconds(secs)) else sb.append(sp.s(R.string.tts_now))
         } else {
-            sb.append(str(R.string.tts_take_cover))
+            sb.append(sp.s(R.string.tts_take_cover))
         }
         return sb.toString()
     }
@@ -311,18 +351,19 @@ object AlertCenter {
         }
     }
 
-    fun localTitle(q: LocalQuake): String {
+    /** Title for the notification or screen; [ctx] decides the language (an activity may differ). */
+    fun localTitle(q: LocalQuake, ctx: Context = app): String {
         val mag = q.magnitude?.let { " M${fmt1(it)}" } ?: ""
-        return (if (q.isTest) str(R.string.test_prefix) + " " else "") + str(R.string.notif_quake_title, mag)
+        return (if (q.isTest) ctx.getString(R.string.test_prefix) + " " else "") + ctx.getString(R.string.notif_quake_title, mag)
     }
 
-    fun localText(q: LocalQuake): String {
+    fun localText(q: LocalQuake, ctx: Context = app): String {
         val parts = ArrayList<String>()
-        q.distanceKm?.let { parts += str(R.string.km_away, km(it)) }
-        q.effectiveMmi?.let { parts += str(R.string.est_intensity, Geo.roman(it)) }
+        q.distanceKm?.let { parts += ctx.getString(R.string.km_away, km(it)) }
+        q.effectiveMmi?.let { parts += ctx.getString(R.string.est_intensity, Geo.roman(it)) }
         q.alert.title?.let { parts += it }
         var text = parts.joinToString(" · ")
-        q.updateNote?.let { text += "\n" + str(R.string.updated_note, it) }
+        q.updateNote?.let { text += "\n" + ctx.getString(R.string.updated_note, it) }
         return text
     }
 
