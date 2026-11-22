@@ -89,6 +89,19 @@ class AlertActivity : AppCompatActivity() {
 
     private fun gp(l: LatLng) = GeoPoint(l.lat, l.lon)
 
+    /** A revision changed this text: show it in a highlight colour for two seconds. */
+    private fun flashIfChanged(view: android.widget.TextView, text: String, normal: Int) {
+        val old = view.text?.toString()
+        if (old == text) return
+        view.text = text
+        if (old.isNullOrEmpty()) { view.setTextColor(getColor(normal)); return }
+        view.setTextColor(getColor(R.color.alert_changed))
+        view.removeCallbacks(view.tag as? Runnable)
+        val reset = Runnable { view.setTextColor(getColor(normal)) }
+        view.tag = reset
+        view.postDelayed(reset, 2000)
+    }
+
     private fun rebuildMap(q: LocalQuake, refit: Boolean = true) {
         map.overlays.clear()
         pWave = null; sWave = null
@@ -159,11 +172,11 @@ class AlertActivity : AppCompatActivity() {
             shown = q; shownAlertId = q.alert.id; shownRevision = q.revision
             if (keepView) rebuildOverlaysOnly(q) else rebuildMap(q)
         }
-        header.text = AlertCenter.localTitle(q, this)
+        flashIfChanged(header, AlertCenter.localTitle(q, this), R.color.alert_text)
         val headerColor = getColor(if (q.isTest) R.color.alert_header_test else R.color.alert_header)
         header.setBackgroundColor(headerColor)
         window.statusBarColor = headerColor
-        info.text = AlertCenter.localText(q, this)
+        flashIfChanged(info, AlertCenter.localText(q, this), R.color.alert_text_soft)
         stopBtn.isEnabled = AlertCenter.player.isPlaying
 
         val now = q.now() // Google-clock time

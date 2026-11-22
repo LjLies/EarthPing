@@ -15,6 +15,10 @@ import java.util.Locale
 
 /** Tests: a full staged alert, the alarm tone and the speech. Work even with alerts turned off. */
 class TestActivity : AppCompatActivity() {
+    companion object {
+        const val EXTRA_SECTION = "section"
+    }
+
     private lateinit var prefs: Prefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +59,21 @@ class TestActivity : AppCompatActivity() {
             if (playing) it.postDelayed({ it.setText(R.string.test_tone_play) }, 4200)
         }
         findViewById<Button>(R.id.play_update).setOnClickListener { AlertCenter.player.playUpdateChime() }
+        findViewById<Button>(R.id.play_notice).setOnClickListener { AlertCenter.playNoticeChime() }
+        fun openSettings(key: String) = startActivity(android.content.Intent(this, MainActivity::class.java)
+            .addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            .putExtra(MainActivity.EXTRA_SETTINGS_KEY, key))
+        findViewById<Button>(R.id.alert_settings).setOnClickListener { openSettings("loud_min_mmi") }
+        findViewById<Button>(R.id.tone_settings).setOnClickListener { openSettings("alarm_tone") }
+        findViewById<Button>(R.id.speech_settings).setOnClickListener { openSettings("tts") }
+        // Opened from a "Test" link in the settings: show that section.
+        intent.getStringExtra(EXTRA_SECTION)?.let { section ->
+            val target = when (section) { "tone" -> R.id.tone_card; "speech" -> R.id.speech_card; else -> 0 }
+            if (target != 0) findViewById<android.view.View>(target).post {
+                (findViewById<android.view.View>(R.id.column).parent as androidx.core.widget.NestedScrollView)
+                    .smoothScrollTo(0, findViewById<android.view.View>(target).top)
+            }
+        }
         findViewById<Button>(R.id.speak).setOnClickListener {
             when (AlertCenter.speakSample()) {
                 null -> Toast.makeText(this, R.string.tts_unavailable, Toast.LENGTH_LONG).show()

@@ -65,6 +65,13 @@ object AlertHistory {
     @Synchronized
     fun list(): List<HistoryEntry> = entries.toList()
 
+    @Synchronized
+    fun clear(ctx: Context) {
+        init(ctx)
+        entries.clear()
+        save()
+    }
+
     private fun save() {
         try {
             val arr = JSONArray()

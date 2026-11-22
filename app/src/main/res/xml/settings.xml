@@ -26,12 +26,31 @@
             app:entryValues="@array/sound_values"
             app:defaultValue="0"
             app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:key="siren_min_mmi"
+            app:icon="@drawable/ic_pref_warning"
+            app:title="@string/siren_threshold"
+            app:entries="@array/siren_entries"
+            app:entryValues="@array/siren_values"
+            app:defaultValue="7" />
         <SwitchPreferenceCompat
             app:key="override_silence"
             app:icon="@drawable/ic_pref_moon"
             app:title="@string/override_silence"
             app:summary="@string/override_silence_summary"
             app:defaultValue="true" />
+        <ListPreference
+            app:key="notice_sound"
+            app:icon="@drawable/ic_pref_bell"
+            app:title="@string/notice_sound"
+            app:entries="@array/notice_sound_entries"
+            app:entryValues="@array/notice_sound_values"
+            app:defaultValue="chime"
+            app:useSimpleSummaryProvider="true" />
+        <Preference
+            app:key="test_alarm"
+            app:icon="@drawable/ic_pref_play"
+            app:title="@string/test_alarm_link" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/cat_speech">
@@ -50,6 +69,10 @@
             app:entryValues="@array/tts_lang_values"
             app:defaultValue=""
             app:useSimpleSummaryProvider="true" />
+        <Preference
+            app:key="test_speech"
+            app:icon="@drawable/ic_pref_play"
+            app:title="@string/test_speech_link" />
         <Preference
             app:key="tts_settings"
             app:icon="@drawable/ic_link"

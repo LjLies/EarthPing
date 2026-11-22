@@ -38,9 +38,10 @@ class LocalQuake(
     @Volatile var dismissed = false
     /** Sound to use; tests may be quiet. */
     var sound = 0
+    /** Playing the full-volume siren because the expected shaking is strong. */
+    @Volatile var siren = false
     /** Incremented on every revision received from Google (the UI redraws on change). */
     @Volatile var revision = 0
-    @Volatile var updateNote: String? = null
     @Volatile var updatedAtMs = 0L
 
     val quake get() = alert.quake
@@ -113,8 +114,9 @@ object AlertCenter {
     /** The language to speak: the one chosen in settings, or the app's current language. */
     fun speechLocale(): Locale {
         val tag = prefs.ttsLanguage
-        if (tag.isNotBlank()) return Locale.forLanguageTag(tag)
-        return app.resources.configuration.locales[0] ?: Locale.getDefault()
+        val l = if (tag.isNotBlank()) Locale.forLanguageTag(tag) else app.resources.configuration.locales[0] ?: Locale.getDefault()
+        // Only language and region: regional-preference extensions (-u-…) confuse some engines.
+        return Locale.Builder().setLanguage(l.language).setRegion(l.country).build()
     }
 
     private fun speechContext(): Context {
@@ -126,7 +128,7 @@ object AlertCenter {
     private class Spoken(val ctx: Context, val locale: Locale) {
         fun s(id: Int, vararg args: Any) = ctx.getString(id, *args)
         fun seconds(n: Int) = ctx.resources.getQuantityString(R.plurals.tts_seconds, n, n)
-        fun secondsShort(n: Int) = ctx.resources.getQuantityString(R.plurals.tts_seconds_short, n, n)
+        fun shaking(mmi: Double) = ctx.resources.getStringArray(R.array.shaking_terms)[(Math.round(mmi).toInt().coerceIn(3, 10)) - 3]
         fun fmt1(v: Double) = String.format(locale, "%.1f", v)
         fun km(v: Double) = if (v < 10) fmt1(v) else Math.round(v).toString()
     }
@@ -135,6 +137,24 @@ object AlertCenter {
         val l = speechLocale()
         speaker.setLocale(l)
         return Spoken(speechContext(), l)
+    }
+
+    /** Tests page: the chime of the discreet "earthquake nearby" notification, as configured. */
+    fun playNoticeChime() {
+        try {
+            val usage = if (prefs.noticeSound == "chime_always") android.media.AudioAttributes.USAGE_ALARM
+                else android.media.AudioAttributes.USAGE_NOTIFICATION_EVENT
+            android.media.MediaPlayer().apply {
+                setAudioAttributes(android.media.AudioAttributes.Builder().setUsage(usage)
+                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
+                setDataSource(app, android.net.Uri.parse("android.resource://${app.packageName}/${R.raw.notice_chime}"))
+                setOnCompletionListener { it.release() }
+                prepare()
+                start()
+            }
+        } catch (e: Exception) {
+            EventLog.log("Notice chime failed: $e")
+        }
     }
 
     /** "Test speech" in settings: a sample warning in the chosen language. */
@@ -212,6 +232,8 @@ object AlertCenter {
 
     private fun sameQuake(q: LocalQuake, a: GoogleAlert): Boolean {
         if (q.alert.id == a.id) return true
+        // Tests only ever revise themselves, and real alerts never merge into a test.
+        if (q.isTest || a.id.startsWith("test-")) return false
         val e1 = q.epicenter; val e2 = a.quake?.epicenter
         val o1 = q.originMs; val o2 = a.quake?.originMs
         return e1 != null && e2 != null && o1 != null && o2 != null &&
@@ -228,7 +250,11 @@ object AlertCenter {
         q.sound = if (isTest && prefs.testQuiet) Prefs.SOUND_NONE else prefs.alarmSound
         active = q
         AlertHistory.add(app, a, null, note = if (isTest) "Test" else null, local = true, distanceKm = q.distanceKm)
-        if (shouldBeLoud(q)) startLoud(q) else postLocalNotification(q)
+        val loud = shouldBeLoud(q)
+        EventLog.log("Decision for ${a.id}: estimated intensity ${q.estimatedMmi?.let { String.format(Locale.US, "%.1f", it) } ?: "?"}" +
+            ", inside contour ${q.contourMmi ?: "none"}, loud threshold ${prefs.loudMinMmi.takeIf { it > 0 } ?: "any"}" +
+            ", siren threshold ${prefs.sirenMinMmi.takeIf { it > 0 } ?: "never"} → ${if (loud) "LOUD" else "notice"}")
+        if (loud) startLoud(q) else postLocalNotification(q)
         changed()
     }
 
@@ -256,11 +282,10 @@ object AlertCenter {
         val timeChanged = oldS != null && newS != null && kotlin.math.abs(newS - oldS) >= 2000
         val mmiChanged = oldMmi != null && newMmi != null && Geo.roman(oldMmi) != Geo.roman(newMmi)
         val notes = ArrayList<String>()
-        if (magChanged) notes += "M${fmt1(oldMag!!)} → M${fmt1(newMag!!)}"
-        if (distChanged) notes += "${km(oldDist!!)} → ${str(R.string.km_away, km(newDist!!))}"
-        if (mmiChanged) notes += "${Geo.roman(oldMmi!!)} → ${Geo.roman(newMmi!!)}"
-        if (notes.isNotEmpty()) q.updateNote = notes.joinToString(", ")
-        EventLog.log("Revision ${q.revision} of ${a.id}: ${q.updateNote ?: "no visible change"}")
+        if (magChanged) notes += String.format(Locale.US, "M%.1f → M%.1f", oldMag, newMag)
+        if (distChanged) notes += "${Math.round(oldDist!!)} → ${Math.round(newDist!!)} km"
+        if (mmiChanged) notes += "intensity ${Geo.roman(oldMmi!!)} → ${Geo.roman(newMmi!!)}"
+        EventLog.log("Revision ${q.revision} of ${a.id}: ${notes.joinToString(", ").ifEmpty { "no visible change" }}")
 
         val worse = (newMag != null && oldMag != null && newMag - oldMag >= 0.5) ||
             (newMmi != null && oldMmi != null && newMmi - oldMmi >= 1.0)
@@ -281,16 +306,25 @@ object AlertCenter {
                         // Long after the shaking, with the warning closed: a plain notification.
                         postUpdateNotification(q)
                     } else {
-                        if (q.sound != Prefs.SOUND_NONE) player.playUpdateChime()
-                        if (prefs.ttsEnabled && (magChanged || distChanged || timeChanged)) {
-                            speaker.announce(updateSpeech(q, magChanged, distChanged, spoken()))
+                        if (!q.siren && sirenWanted(q)) {
+                            // Now expected to be strong: switch to the full-volume siren.
+                            q.siren = true
+                            player.stop()
+                            player.start(Prefs.SOUND_SIREN_MAX, Prefs.TONE_SIREN, overrideSilence = true)
+                            scheduleSirenStop(q)
+                        } else if (q.sound != Prefs.SOUND_NONE) {
+                            player.playUpdateChime()
+                        }
+                        if (prefs.ttsEnabled && (magChanged || mmiChanged)) {
+                            speaker.announce(updateSpeech(q, magChanged, mmiChanged, spoken()))
                         }
                     }
                 }
                 postLocalNotification(q) // updates the existing notification in place, quietly
             }
         }
-        if (q.dismissed && !worse && (magChanged || distChanged || mmiChanged)) postUpdateNotification(q)
+        // Silenced, and the warning no longer on screen: changes arrive as a heads-up notification.
+        if (q.dismissed && !worse && !alertScreenVisible && (magChanged || distChanged || mmiChanged)) postUpdateNotification(q)
         changed()
     }
 
@@ -327,16 +361,25 @@ object AlertCenter {
 
     private var lastChannel: String? = null
 
-    /** Terse: "Update: magnitude 6.2. 18 seconds." */
-    private fun updateSpeech(q: LocalQuake, mag: Boolean, dist: Boolean, sp: Spoken): String {
+    /** Terse, shaking first: "Update: now expecting strong shaking, magnitude 6.3." */
+    private fun updateSpeech(q: LocalQuake, mag: Boolean, mmi: Boolean, sp: Spoken): String {
         val parts = ArrayList<String>()
-        if (mag) q.magnitude?.let { parts += sp.s(R.string.tts_magnitude, sp.fmt1(it)) }
-        if (dist) q.distanceKm?.let { parts += sp.s(R.string.tts_distance_short, sp.km(it)) }
-        q.sArrivalLocalMs?.let {
-            val secs = ((it - System.currentTimeMillis()) / 1000).toInt()
-            if (secs > 3) parts += sp.secondsShort(secs)
-        }
-        return sp.s(R.string.tts_update_prefix) + " " + parts.joinToString(" ")
+        if (mmi) q.effectiveMmi?.let { parts += sp.s(R.string.tts_expecting, sp.shaking(it)) }
+        if (mag || parts.isNotEmpty()) q.magnitude?.let { parts += sp.s(R.string.tts_magnitude_short, sp.fmt1(it)) }
+        return sp.s(R.string.tts_update_prefix) + " " + parts.joinToString(", ") + "."
+    }
+
+    /** Intensity index into the shaking/intensity term arrays (III and below → 0 … X → 7). */
+    private fun termIndex(mmi: Double) = (Math.round(mmi).toInt().coerceIn(3, 10)) - 3
+
+    fun intensityTerm(ctx: Context, mmi: Double): String = ctx.resources.getStringArray(R.array.intensity_terms)[termIndex(mmi)]
+
+    /** The full-volume siren is used when the expected shaking reaches the chosen level. */
+    private fun sirenWanted(q: LocalQuake): Boolean {
+        if (q.isTest && prefs.testQuiet) return false
+        val min = prefs.sirenMinMmi
+        val mmi = q.effectiveMmi ?: return false
+        return min > 0 && mmi >= min
     }
 
     private fun shouldBeLoud(q: LocalQuake): Boolean {
@@ -353,7 +396,10 @@ object AlertCenter {
         app.getSystemService(PowerManager::class.java)
             .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "alertroid:alert").acquire(3 * 60_000L)
         if (!speaker.available) speaker.warmUp()
-        player.start(q.sound, prefs.alarmTone, prefs.overrideSilence)
+        q.siren = sirenWanted(q)
+        if (q.siren) EventLog.log("Strong shaking expected: full-volume siren")
+        if (q.siren) player.start(Prefs.SOUND_SIREN_MAX, Prefs.TONE_SIREN, overrideSilence = true)
+        else player.start(q.sound, prefs.alarmTone, prefs.overrideSilence)
         if (showAlertScreen()) {
             // The screen is on its way: only fall back to the loud notification if it didn't show.
             postLocalNotification(q, screenExpected = true)
@@ -432,11 +478,9 @@ object AlertCenter {
     fun localText(q: LocalQuake, ctx: Context = app): String {
         val parts = ArrayList<String>()
         q.distanceKm?.let { parts += ctx.getString(R.string.km_away, km(it)) }
-        q.effectiveMmi?.let { parts += ctx.getString(R.string.est_intensity, Geo.roman(it)) }
+        q.effectiveMmi?.let { parts += ctx.getString(R.string.est_intensity, Geo.roman(it) + " (" + intensityTerm(ctx, it) + ")") }
         q.alert.title?.let { parts += it }
-        var text = parts.joinToString(" · ")
-        q.updateNote?.let { text += "\n" + ctx.getString(R.string.updated_note, it) }
-        return text
+        return parts.joinToString(" · ")
     }
 
     private fun postLocalNotification(q: LocalQuake, screenExpected: Boolean = false) {
@@ -445,7 +489,7 @@ object AlertCenter {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
         val stop = PendingIntent.getBroadcast(app, 11, Intent(app, StopReceiver::class.java), PendingIntent.FLAG_IMMUTABLE)
         val channel = when {
-            !q.loud -> Notifications.CH_NOTICE
+            !q.loud -> Notifications.noticeChannel(app)
             // The warning is on screen: a silent notification, so no heads-up covers it.
             alertScreenVisible || screenExpected -> Notifications.CH_ALERT_SHOWN
             else -> Notifications.quakeChannel(app)
@@ -559,6 +603,8 @@ object AlertCenter {
             EventLog.log("Firing test alert: M$mag, ${Math.round(epi)} km away, S-wave in $lead s")
             localQuake(alert, user, isTest = true, now)
             if (lead >= 10) main.postDelayed({
+                // Only while this test is still the current alert (another test may have started).
+                if (active?.alert?.id != alert.id) return@postDelayed
                 val q2 = alert.quake!!
                 val mag2 = mag + 0.4
                 val epi2 = Geo.destination(epicenter, Random.nextDouble(0.0, 360.0), 8.0)
@@ -566,7 +612,7 @@ object AlertCenter {
                     Geo.radiusForMmi(mag2, depth, mmi)?.takeIf { it > 1 }?.let { Contour(level, listOf(Geo.circle(epi2, it)), emptyList()) }
                 }
                 localQuake(alert.copy(contours = contours2, quake = q2.copy(magnitude = mag2, epicenter = epi2)), user, isTest = true, now)
-            }, 4000)
+            }, (lead * 1000L / 2).coerceIn(4000, 10_000)) // after the first announcement
         }
     }
 }

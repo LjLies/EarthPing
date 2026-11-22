@@ -103,6 +103,9 @@ class AlarmPlayer(private val ctx: Context) {
     private fun attrs() = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
 
+    /** Short tracks being played; referenced so they are not collected before they finish. */
+    private val oneShots = java.util.Collections.synchronizedList(ArrayList<AudioTrack>())
+
     /** Plays the update chime once, alongside whatever else is playing. */
     fun playUpdateChime() {
         try {
@@ -117,10 +120,14 @@ class AlarmPlayer(private val ctx: Context) {
             t.write(data, 0, data.size)
             t.setNotificationMarkerPosition(data.size - 1)
             t.setPlaybackPositionUpdateListener(object : AudioTrack.OnPlaybackPositionUpdateListener {
-                override fun onMarkerReached(track: AudioTrack) { track.release() }
+                override fun onMarkerReached(track: AudioTrack) { oneShots.remove(track); track.release() }
                 override fun onPeriodicNotification(track: AudioTrack) {}
             }, android.os.Handler(android.os.Looper.getMainLooper()))
+            oneShots += t
             t.play()
+            // Safety net in case the end marker is never reported.
+            handler.postDelayed({ if (oneShots.remove(t)) t.release() }, 3000)
+            EventLog.log("Update chime played")
         } catch (e: Exception) {
             EventLog.log("Update chime failed: $e")
         }

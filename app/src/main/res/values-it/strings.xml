@@ -38,7 +38,6 @@
     <string name="km_away">a %s km</string>
     <string name="km_from">%1$s km da %2$s</string>
     <string name="est_intensity">intensità stimata %s</string>
-    <string name="updated_note">Aggiornato: %s</string>
     <string name="notif_update_title">Aggiornamento · %s</string>
     <string name="stop_alarm">Ferma l\'allarme</string>
     <string name="close">Chiudi</string>
@@ -62,12 +61,6 @@
     </plurals>
     <string name="tts_now">Scosse in arrivo.</string>
     <string name="tts_update_prefix">Aggiornamento:</string>
-    <string name="tts_distance_short">%s chilometri.</string>
-    <plurals name="tts_seconds_short">
-        <item quantity="one">%d secondo.</item>
-        <item quantity="many">%d secondi.</item>
-        <item quantity="other">%d secondi.</item>
-    </plurals>
 
     <!-- Scheda Allerte -->
     <string name="chip_listening">In ascolto</string>
@@ -199,14 +192,13 @@
 
     <string-array name="loud_entries">
         <item>Ogni allerta per la mia zona</item>
-        <item>Scosse deboli o più (III+)</item>
         <item>Scosse leggere o più (IV+)</item>
         <item>Scosse moderate o più (V+)</item>
         <item>Scosse forti o più (VI+)</item>
     </string-array>
     <string-array name="tone_entries">
-        <item>Segnale di allerta (campane ascendenti)</item>
-        <item>Sirena</item>
+        <item>Campane ascendenti</item>
+        <item>Sirena (forte!)</item>
     </string-array>
     <string-array name="sound_entries">
         <item>Volume massimo</item>
@@ -264,4 +256,54 @@
     <string name="perm_overlay_why">Permette all\'avviso di comparire subito, qualunque cosa tu stia facendo.</string>
     <string name="perm_alarms">Sveglie e promemoria</string>
     <string name="perm_alarms_why">Timer precisi controllano la connessione durante il sonno profondo e avviano in orario le allerte di prova.</string>
+    <string name="ch_notice_always">Terremoto nella zona, anche in silenzioso</string>
+    <string name="ch_notice_always_desc">Come "Terremoto nella zona", ma il suono si sente anche con il telefono in silenzioso o vibrazione (non con Non disturbare).</string>
+    <string name="legend_v">V+ moderate</string>
+    <string name="legend_iv">IV leggere</string>
+    <string name="legend_iii">III deboli</string>
+    <string name="legend_p">Onda P (primo sobbalzo)</string>
+    <string name="legend_s">Onda S (scosse forti)</string>
+    <string name="link_alarm_settings">Impostazioni dell\'allarme</string>
+    <string name="link_speech_settings">Impostazioni della voce</string>
+    <string name="test_notice_play">Suono della notifica</string>
+    <string name="test_alarm_link">Prova i suoni dell\'allarme</string>
+    <string name="test_speech_link">Prova la voce</string>
+    <string name="siren_threshold">Sirena piena per scosse forti</string>
+    <string name="siren_threshold_note">Sirena al volume massimo, indipendentemente da suono e volume scelti sopra.</string>
+    <string name="notice_sound">Terremoti più deboli nella zona</string>
+    <string name="clear_history">Cancella</string>
+    <string name="clear_history_title">Cancellare le allerte recenti?</string>
+    <string name="clear_history_message">L\'elenco delle allerte recenti, prove comprese, verrà svuotato.</string>
+    <string name="tts_expecting">ora si attendono %s</string>
+    <string name="tts_magnitude_short">magnitudo %s</string>
+    <string-array name="shaking_terms">
+        <item>scosse deboli</item>
+        <item>scosse leggere</item>
+        <item>scosse moderate</item>
+        <item>scosse forti</item>
+        <item>scosse molto forti</item>
+        <item>scosse severe</item>
+        <item>scosse violente</item>
+        <item>scosse estreme</item>
+    </string-array>
+    <string-array name="intensity_terms">
+        <item>debole</item>
+        <item>leggera</item>
+        <item>moderata</item>
+        <item>forte</item>
+        <item>molto forte</item>
+        <item>severa</item>
+        <item>violenta</item>
+        <item>estrema</item>
+    </string-array>
+    <string-array name="siren_entries">
+        <item>Mai</item>
+        <item>Scosse forti o più (VI+)</item>
+        <item>Scosse molto forti o più (VII+)</item>
+        <item>Scosse severe o più (VIII+)</item>
+    </string-array>
+    <string-array name="notice_sound_entries">
+        <item>Breve suono</item>
+        <item>Breve suono, anche in silenzioso</item>
+    </string-array>
 </resources>

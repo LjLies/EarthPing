@@ -68,6 +68,14 @@ class StatusFragment : Fragment() {
         view.findViewById<View>(R.id.warning_button).setOnClickListener {
             startActivity(Intent(requireContext(), OnboardingActivity::class.java).putExtra(OnboardingActivity.EXTRA_REVIEW, true))
         }
+        view.findViewById<View>(R.id.clear_history).setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.clear_history_title)
+                .setMessage(R.string.clear_history_message)
+                .setPositiveButton(R.string.clear_history) { _, _ -> AlertHistory.clear(requireContext()); refresh() }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+        }
         view.findViewById<View>(R.id.edit_places).setOnClickListener { (activity as? MainActivity)?.selectTab(R.id.tab_places) }
 
     }
@@ -222,6 +230,7 @@ class StatusFragment : Fragment() {
         val history = root.findViewById<LinearLayout>(R.id.history)
         history.removeAllViews()
         val entries = AlertHistory.list()
+        root.findViewById<View>(R.id.clear_history).visibility = if (entries.isEmpty()) View.INVISIBLE else View.VISIBLE
         if (entries.isEmpty()) {
             history.addView(TextView(ctx).apply {
                 text = getString(R.string.no_alerts_yet)

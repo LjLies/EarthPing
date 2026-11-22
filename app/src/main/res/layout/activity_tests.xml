@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/column"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -149,11 +150,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/test_start" />
+                <Button
+                    android:id="@+id/alert_settings"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/link_alarm_settings"
+                    android:textAppearance="?attr/textAppearanceLabelMedium" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Alarm tone -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tone_card"
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -175,34 +185,41 @@
                     style="@style/Body"
                     android:textColor="@color/on_surface_soft" />
 
-                <LinearLayout
+                <Button
+                    android:id="@+id/play_tone"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
+                    android:text="@string/test_tone_play" />
 
-                    <Button
-                        android:id="@+id/play_tone"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="@string/test_tone_play" />
+                <Button
+                    android:id="@+id/play_update"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_update_play" />
 
-                    <Button
-                        android:id="@+id/play_update"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/test_update_play" />
-                </LinearLayout>
+                <Button
+                    android:id="@+id/play_notice"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_notice_play" />
+                <Button
+                    android:id="@+id/tone_settings"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/link_alarm_settings"
+                    android:textAppearance="?attr/textAppearanceLabelMedium" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Speech -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/speech_card"
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -231,6 +248,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/tts_try_button" />
+                <Button
+                    android:id="@+id/speech_settings"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/link_speech_settings"
+                    android:textAppearance="?attr/textAppearanceLabelMedium" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

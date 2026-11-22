@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.format.DateUtils
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -37,19 +36,33 @@ class LogActivity : AppCompatActivity() {
     override fun onResume() { super.onResume(); ticker.run() }
     override fun onPause() { handler.removeCallbacks(ticker); super.onPause() }
 
-    private fun ago(ms: Long) = if (ms <= 0) "—" else DateUtils.getRelativeTimeSpanString(ms, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS)
+    /** Diagnostics are always in English, whatever the app's language, to be useful in reports. */
+    private val en by lazy {
+        createConfigurationContext(android.content.res.Configuration(resources.configuration).apply { setLocale(java.util.Locale.ENGLISH) })
+    }
+
+    private fun ago(ms: Long): String {
+        if (ms <= 0) return "—"
+        val s = (System.currentTimeMillis() - ms) / 1000
+        return when {
+            s < 0 -> "in ${-s} s"
+            s < 90 -> "$s s ago"
+            s < 5400 -> "${s / 60} min ago"
+            else -> "${s / 3600} h ago"
+        }
+    }
 
     private fun details(): String {
         val s = ServiceStatus
         return listOf(
-            getString(R.string.diag_state, s.state.name.lowercase()),
-            getString(R.string.diag_since, ago(s.connectedSinceMs)),
-            getString(R.string.last_traffic, ago(s.lastRxMs)),
-            getString(R.string.messages_count, s.messages, s.reconnects),
-            getString(R.string.identity, if (s.androidId != 0L) java.lang.Long.toHexString(s.androidId) else "—"),
-            getString(R.string.diag_topics, s.topics.joinToString(", ").ifEmpty { "—" }),
-            getString(R.string.diag_location, s.locationInfo ?: "—"),
-        ).joinToString("\n") + (s.lastError?.let { "\n" + getString(R.string.last_error, it) } ?: "")
+            en.getString(R.string.diag_state, s.state.name.lowercase()),
+            en.getString(R.string.diag_since, ago(s.connectedSinceMs)),
+            en.getString(R.string.last_traffic, ago(s.lastRxMs)),
+            en.getString(R.string.messages_count, s.messages, s.reconnects),
+            en.getString(R.string.identity, if (s.androidId != 0L) java.lang.Long.toHexString(s.androidId) else "—"),
+            en.getString(R.string.diag_topics, s.topics.joinToString(", ").ifEmpty { "—" }),
+            en.getString(R.string.diag_location, s.locationInfo ?: "—"),
+        ).joinToString("\n") + (s.lastError?.let { "\n" + en.getString(R.string.last_error, it) } ?: "")
     }
 
     /** Device, settings and permissions: what is needed to understand a report. */
@@ -62,7 +75,7 @@ class LogActivity : AppCompatActivity() {
             "App ${io.github.luccoj.alertroid.BuildConfig.VERSION_NAME} (${io.github.luccoj.alertroid.BuildConfig.VERSION_CODE})",
             "Android ${android.os.Build.VERSION.RELEASE} (SDK ${android.os.Build.VERSION.SDK_INT}), ${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}, ${android.os.Build.DISPLAY}",
             "Permissions: " + Perms.applicable().joinToString(", ") { "${it.key}=${if (it.granted(this)) "yes" else "NO"}" },
-            "Settings: alerts=${p.serviceEnabled}, loud>=${p.loudMinMmi}, tone=${p.alarmTone}, volume=${p.alarmSound}, override=${p.overrideSilence}, " +
+            "Settings: alerts=${p.serviceEnabled}, loud>=${p.loudMinMmi}, siren>=${p.sirenMinMmi}, notice=${p.noticeSound}, tone=${p.alarmTone}, volume=${p.alarmSound}, override=${p.overrideSilence}, " +
                 "tts=${p.ttsEnabled} (${p.ttsLanguage.ifEmpty { "app" }}, engine $engine), heartbeat=${p.heartbeatMinutes} min, manual location=${p.manualLocationEnabled}",
             "Audio: ringer=${am.ringerMode}, alarm volume=${am.getStreamVolume(android.media.AudioManager.STREAM_ALARM)}/${am.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM)}, DND filter=${nm.currentInterruptionFilter}",
             "Clock offset to Google: ${p.clockOffsetMs} ms",

@@ -46,6 +46,8 @@ class Prefs(context: Context) {
                 p.edit().remove(key).putString(key, v.toString()).commit()
             }
         }
+        // "III or more" was dropped: Google's alert areas start at III, so it meant "any alert".
+        if (p.getString("loud_min_mmi", null) == "3") p.edit().putString("loud_min_mmi", "0").commit()
     }
 
     private fun putListInt(key: String, v: Int) = p.edit().remove(key).putString(key, v.toString()).apply()
@@ -178,6 +180,16 @@ class Prefs(context: Context) {
     var ttsLanguage: String
         get() = p.getString("tts_lang", "") ?: ""
         set(v) = p.edit().putString("tts_lang", v).apply()
+
+    /** Full-volume siren, whatever the other sound settings, from this estimated intensity (0 = never). */
+    var sirenMinMmi: Int
+        get() = listInt("siren_min_mmi", 7)
+        set(v) = putListInt("siren_min_mmi", v)
+
+    /** "chime" (ordinary notification) or "chime_always" (also in silent/vibrate mode). */
+    var noticeSound: String
+        get() = p.getString("notice_sound", "chime") ?: "chime"
+        set(v) = p.edit().putString("notice_sound", v).apply()
 
     var testQuiet: Boolean
         get() = p.getBoolean("test_quiet", false)

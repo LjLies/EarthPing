@@ -41,7 +41,6 @@
     <string name="km_away">%s km away</string>
     <string name="km_from">%1$s km from %2$s</string>
     <string name="est_intensity">est. intensity %s</string>
-    <string name="updated_note">Updated: %s</string>
     <string name="notif_update_title">Update · %s</string>
     <string name="stop_alarm">Stop alarm</string>
     <string name="close">Close</string>
@@ -64,11 +63,6 @@
     </plurals>
     <string name="tts_now">Shaking now.</string>
     <string name="tts_update_prefix">Update:</string>
-    <string name="tts_distance_short">%s kilometers.</string>
-    <plurals name="tts_seconds_short">
-        <item quantity="one">%d second.</item>
-        <item quantity="other">%d seconds.</item>
-    </plurals>
 
     <!-- Alerts pane -->
     <string name="chip_listening">Listening</string>
@@ -200,21 +194,19 @@
 
     <string-array name="loud_entries">
         <item>Any alert for my area</item>
-        <item>Weak shaking or more (III+)</item>
         <item>Light shaking or more (IV+)</item>
         <item>Moderate shaking or more (V+)</item>
         <item>Strong shaking or more (VI+)</item>
     </string-array>
     <string-array name="loud_values" translatable="false">
         <item>0</item>
-        <item>3</item>
         <item>4</item>
         <item>5</item>
         <item>6</item>
     </string-array>
     <string-array name="tone_entries">
-        <item>Warning chime (rising bells)</item>
-        <item>Siren</item>
+        <item>Rising bells</item>
+        <item>Siren (loud!)</item>
     </string-array>
     <string-array name="tone_values" translatable="false">
         <item>0</item>
@@ -287,4 +279,64 @@
     <string name="perm_overlay_why">Lets the warning pop up at once, whatever you are doing.</string>
     <string name="perm_alarms">Alarms and reminders</string>
     <string name="perm_alarms_why">Precise timers check the connection during deep sleep and start test alerts on time.</string>
+    <string name="ch_notice_always">Earthquake nearby, also in silent mode</string>
+    <string name="ch_notice_always_desc">Like "Earthquake nearby", but the chime also sounds when the phone is on silent or vibrate (not in Do Not Disturb).</string>
+    <string name="legend_v">V+ moderate</string>
+    <string name="legend_iv">IV light</string>
+    <string name="legend_iii">III weak</string>
+    <string name="legend_p">P wave (first jolt)</string>
+    <string name="legend_s">S wave (strong shaking)</string>
+    <string name="link_alarm_settings">Alarm settings</string>
+    <string name="link_speech_settings">Speech settings</string>
+    <string name="test_notice_play">Play notification chime</string>
+    <string name="test_alarm_link">Test the alarm sounds</string>
+    <string name="test_speech_link">Test speech</string>
+    <string name="siren_threshold">Full siren for strong shaking</string>
+    <string name="siren_threshold_note">Siren at maximum volume, whatever the tone and volume above.</string>
+    <string name="notice_sound">Weaker earthquakes nearby</string>
+    <string name="clear_history">Clear</string>
+    <string name="clear_history_title">Clear recent alerts?</string>
+    <string name="clear_history_message">The list of recent alerts, including tests, will be emptied.</string>
+    <string name="tts_expecting">now expecting %s</string>
+    <string name="tts_magnitude_short">magnitude %s</string>
+    <string-array name="shaking_terms">
+        <item>weak shaking</item>
+        <item>light shaking</item>
+        <item>moderate shaking</item>
+        <item>strong shaking</item>
+        <item>very strong shaking</item>
+        <item>severe shaking</item>
+        <item>violent shaking</item>
+        <item>extreme shaking</item>
+    </string-array>
+    <string-array name="intensity_terms">
+        <item>weak</item>
+        <item>light</item>
+        <item>moderate</item>
+        <item>strong</item>
+        <item>very strong</item>
+        <item>severe</item>
+        <item>violent</item>
+        <item>extreme</item>
+    </string-array>
+    <string-array name="siren_entries">
+        <item>Never</item>
+        <item>Strong shaking or more (VI+)</item>
+        <item>Very strong shaking or more (VII+)</item>
+        <item>Severe shaking or more (VIII+)</item>
+    </string-array>
+    <string-array name="siren_values" translatable="false">
+        <item>0</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+    <string-array name="notice_sound_entries">
+        <item>Short chime</item>
+        <item>Short chime, also in silent mode</item>
+    </string-array>
+    <string-array name="notice_sound_values" translatable="false">
+        <item>chime</item>
+        <item>chime_always</item>
+    </string-array>
 </resources>

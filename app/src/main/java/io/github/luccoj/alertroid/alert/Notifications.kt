@@ -17,16 +17,22 @@ object Notifications {
     const val CH_STATUS = "status"
     private const val CH_QUAKE_BASE = "quake_local"
     /** Earthquakes below the loud-alarm threshold: an ordinary notification (no DND bypass). */
-    const val CH_NOTICE = "quake_notice"
+    const val CH_NOTICE = "quake_notice_chime"
+    /** Same, but its chime plays on the alarm stream, so also in silent/vibrate mode (not in DND). */
+    const val CH_NOTICE_ALWAYS = "quake_notice_chime_always"
     /** Public alerts for my location: an ordinary, prominent notification. */
     const val CH_CRISIS = "crisis"
     /** While the full-screen warning is on screen: silent, so no heads-up covers it. */
     const val CH_ALERT_SHOWN = "alert_on_screen"
     /** Revisions arriving after the warning was closed. */
-    const val CH_UPDATES = "quake_updates"
+    const val CH_UPDATES = "quake_updates_headsup"
     const val CH_WATCHED = "watched"
     /** Channels of older versions that are no longer used. */
     private val OBSOLETE_PREFIXES = listOf("quake_info_", "crisis_local_")
+    private val OBSOLETE_IDS = listOf("quake_notice", "quake_updates")
+
+    fun noticeChannel(ctx: Context) =
+        if (io.github.luccoj.alertroid.Prefs(ctx).noticeSound == "chime_always") CH_NOTICE_ALWAYS else CH_NOTICE
 
     const val ID_SERVICE = 1
     const val ID_STATUS = 2
@@ -54,13 +60,21 @@ object Notifications {
         nm.createNotificationChannel(NotificationChannel(CH_WATCHED, ctx.getString(R.string.ch_watched), NotificationManager.IMPORTANCE_DEFAULT).apply {
             description = ctx.getString(R.string.ch_watched_desc)
         })
-        nm.notificationChannels.filter { ch -> OBSOLETE_PREFIXES.any { ch.id.startsWith(it) } }
+        nm.notificationChannels.filter { ch -> OBSOLETE_PREFIXES.any { ch.id.startsWith(it) } || ch.id in OBSOLETE_IDS }
             .forEach { nm.deleteNotificationChannel(it.id) }
+        val chime = android.net.Uri.parse("android.resource://${ctx.packageName}/${R.raw.notice_chime}")
+        nm.createNotificationChannel(NotificationChannel(CH_NOTICE_ALWAYS, ctx.getString(R.string.ch_notice_always), NotificationManager.IMPORTANCE_HIGH).apply {
+            description = ctx.getString(R.string.ch_notice_always_desc)
+            setSound(chime, AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
+            enableVibration(true)
+            lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
+        })
         val notifAttrs = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
         nm.createNotificationChannel(NotificationChannel(CH_NOTICE, ctx.getString(R.string.ch_info), NotificationManager.IMPORTANCE_HIGH).apply {
             description = ctx.getString(R.string.ch_info_desc)
-            setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), notifAttrs)
+            setSound(chime, notifAttrs)
             enableVibration(true)
             lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
         })
@@ -76,8 +90,9 @@ object Notifications {
             enableVibration(false)
             lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
         })
-        nm.createNotificationChannel(NotificationChannel(CH_UPDATES, ctx.getString(R.string.ch_updates), NotificationManager.IMPORTANCE_DEFAULT).apply {
+        nm.createNotificationChannel(NotificationChannel(CH_UPDATES, ctx.getString(R.string.ch_updates), NotificationManager.IMPORTANCE_HIGH).apply {
             description = ctx.getString(R.string.ch_updates_desc)
+            setSound(chime, notifAttrs)
             lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
         })
         // The loud alert plays its own siren on the alarm stream; the channel itself only vibrates.

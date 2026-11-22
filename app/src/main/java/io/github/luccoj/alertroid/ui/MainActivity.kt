@@ -29,6 +29,26 @@ class MainActivity : AppCompatActivity() {
             true
         }
         if (savedInstanceState == null) nav.selectedItemId = R.id.tab_alerts
+        openSettingsFrom(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        openSettingsFrom(intent)
+    }
+
+    /** "Settings" links on the Tests page: show the Settings tab at that preference. */
+    private fun openSettingsFrom(intent: Intent?) {
+        val key = intent?.getStringExtra(EXTRA_SETTINGS_KEY) ?: return
+        intent.removeExtra(EXTRA_SETTINGS_KEY)
+        selectTab(R.id.tab_settings)
+        (supportFragmentManager.findFragmentByTag("tab${R.id.tab_settings}") as? SettingsFragment)?.let { f ->
+            f.view?.post { f.scrollToPreference(key) }
+        }
+    }
+
+    companion object {
+        const val EXTRA_SETTINGS_KEY = "settings_key"
     }
 
     override fun onResume() {

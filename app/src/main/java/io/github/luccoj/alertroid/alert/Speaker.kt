@@ -222,7 +222,8 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
 
     private fun shouldSpeak(r: Int) = r <= 10 || (r <= 60 && r % 5 == 0) || r % 10 == 0
 
-    private fun number(n: Int): String = NumberWords.spell(n, wanted)
+    /** "Nine." rather than "nine": a whole sentence keeps neural voices from clipping its start. */
+    private fun number(n: Int): String = NumberWords.spell(n, wanted).replaceFirstChar { it.titlecase(wanted) } + "."
 
     private fun stopInternal() {
         finished = true

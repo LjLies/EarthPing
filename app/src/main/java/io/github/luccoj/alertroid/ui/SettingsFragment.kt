@@ -37,6 +37,10 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         AlertCenter.init(requireContext())
 
         click("tests") { startActivity(Intent(requireContext(), TestActivity::class.java)) }
+        click("test_alarm") { startActivity(Intent(requireContext(), TestActivity::class.java).putExtra(TestActivity.EXTRA_SECTION, "tone")) }
+        click("test_speech") { startActivity(Intent(requireContext(), TestActivity::class.java).putExtra(TestActivity.EXTRA_SECTION, "speech")) }
+        findPreference<androidx.preference.ListPreference>("siren_min_mmi")?.summaryProvider =
+            Preference.SummaryProvider<androidx.preference.ListPreference> { p -> "${p.entry}\n${getString(R.string.siren_threshold_note)}" }
         click("tts_settings") {
             open(Intent("com.android.settings.TTS_SETTINGS"))
         }
