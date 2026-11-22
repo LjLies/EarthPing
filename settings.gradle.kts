@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Alertroid"
+rootProject.name = "EarthPing"
 include(":app")

@@ -38,7 +38,7 @@
         android:label="@string/app_name"
         android:localeConfig="@xml/locales_config"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Alertroid"
+        android:theme="@style/Theme.EarthPing"
         tools:targetApi="35">
 
         <activity
@@ -53,19 +53,19 @@
         <activity
             android:name=".ui.OnboardingActivity"
             android:exported="false"
-            android:theme="@style/Theme.Alertroid.WithActionBar" />
+            android:theme="@style/Theme.EarthPing.WithActionBar" />
         <activity
             android:name=".ui.TestActivity"
             android:exported="false"
-            android:theme="@style/Theme.Alertroid.WithActionBar" />
+            android:theme="@style/Theme.EarthPing.WithActionBar" />
         <activity
             android:name=".ui.LocationActivity"
             android:exported="false"
-            android:theme="@style/Theme.Alertroid.WithActionBar" />
+            android:theme="@style/Theme.EarthPing.WithActionBar" />
         <activity
             android:name=".ui.LogActivity"
             android:exported="false"
-            android:theme="@style/Theme.Alertroid.WithActionBar" />
+            android:theme="@style/Theme.EarthPing.WithActionBar" />
         <activity
             android:name=".ui.AlertActivity"
             android:exported="false"
@@ -73,8 +73,8 @@
             android:launchMode="singleTask"
             android:showWhenLocked="true"
             android:turnScreenOn="true"
-            android:taskAffinity="io.github.luccoj.alertroid.alert"
-            android:theme="@style/Theme.Alertroid.Alert" />
+            android:taskAffinity="io.github.ljlies.earthping.alert"
+            android:theme="@style/Theme.EarthPing.Alert" />
 
         <service
             android:name=".service.ListenerService"

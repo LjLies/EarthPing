@@ -1,4 +1,4 @@
-<p>Alertroid warns you of earthquakes <b>seconds before the shaking reaches you</b>, using the same push broadcasts Google sends for the Android Earthquake Alerts System — but without Google Play Services, a Google account or any proprietary library. It works with microG or with no Google software at all.</p>
+<p>EarthPing warns you of earthquakes <b>seconds before the shaking reaches you</b>, using the same push broadcasts Google sends for the Android Earthquake Alerts System — but without Google Play Services, a Google account or any proprietary library. It works with microG or with no Google software at all.</p>
 
 <p>When an alert arrives for your area:</p>
 <ul>
@@ -11,4 +11,4 @@
 
 <p>Privacy: only a coarse area (an S2 cell about 40 km wide, mixed with three other places) is sent to Google's push server, with an anonymous device identity. Nothing else is collected or sent anywhere.</p>
 
-<p><b>Not an official warning system.</b> Alertroid is unofficial and relies on a Google service that can change or stop at any time. Keep your phone's official emergency alerts enabled.</p>
+<p><b>Not an official warning system.</b> EarthPing is unofficial and relies on a Google service that can change or stop at any time. Keep your phone's official emergency alerts enabled.</p>

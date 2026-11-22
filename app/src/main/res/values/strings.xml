@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Alertroid</string>
-    <string name="source_url" translatable="false">https://github.com/LuccoJ/alertroid</string>
+    <string name="app_name" translatable="false">EarthPing</string>
+    <string name="source_url" translatable="false">https://github.com/LjLies/EarthPing</string>
 
     <!-- Tabs -->
     <string name="tab_alerts">Alerts</string>
@@ -123,7 +123,7 @@
     <string name="kind_earthquake">Earthquake</string>
     <string name="kind_public_alert">Public alert</string>
     <string name="kind_sos_alert">SOS alert</string>
-    <string name="disclaimer">Alertroid is an independent, unofficial app. It listens to the same push channel Google uses for Android earthquake alerts, which Google may change or stop at any time. It is not a certified warning system: keep your phone\'s official emergency alerts enabled.</string>
+    <string name="disclaimer">EarthPing is an independent, unofficial app. It listens to the same push channel Google uses for Android earthquake alerts, which Google may change or stop at any time. It is not a certified warning system: keep your phone\'s official emergency alerts enabled.</string>
 
     <!-- Places pane -->
     <string name="places_desc">Up to three other places you care about (family, home town…). You are notified about earthquakes and alerts there, without the countdown. They also hide your real area from Google among other places; an empty slot gets a random automatic decoy.</string>
@@ -185,7 +185,7 @@
     <string name="diagnostics_summary">Connection details and log</string>
     <string name="about_summary">Version %s · GPL-3.0-or-later</string>
     <string name="source_code">Source code</string>
-    <string name="source_code_summary">github.com/LuccoJ/alertroid</string>
+    <string name="source_code_summary">github.com/LjLies/EarthPing</string>
     <string name="cannot_open">Cannot open this screen on this device</string>
 
     <string-array name="loud_entries">
@@ -244,7 +244,7 @@
     <!-- Onboarding -->
     <string name="welcome_short">Welcome</string>
     <string name="welcome_title">Earthquake warnings, seconds ahead</string>
-    <string name="welcome_body">Alertroid receives the earthquake alerts Google broadcasts for Android phones, directly and without Google Play Services or a Google account, and warns you before the strong shaking arrives. It also relays other public alerts for your area.\n\nTo be fast and reliable it has to stay connected in the background, know roughly where you are, and be allowed to sound an alarm even in silent mode.</string>
+    <string name="welcome_body">EarthPing receives the earthquake alerts Google broadcasts for Android phones, directly and without Google Play Services or a Google account, and warns you before the strong shaking arrives. It also relays other public alerts for your area.\n\nTo be fast and reliable it has to stay connected in the background, know roughly where you are, and be allowed to sound an alarm even in silent mode.</string>
     <string name="privacy_title">Privacy</string>
     <string name="privacy_body">Only your coarse area (a cell about 40 km wide, mixed with three other places) is sent to Google\'s push server, with an anonymous device identity. Nothing is sent anywhere else, and there are no analytics.</string>
     <string name="permissions_intro">Allow what is required to continue. The recommended items make warnings faster and harder to miss.</string>
@@ -256,7 +256,7 @@
     <string name="done">Done</string>
     <string name="grant_required_first">Allow the required items to continue</string>
     <string name="vendor_title">Phones that stop background apps</string>
-    <string name="vendor_body">Some manufacturers (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) stop background apps despite these settings. If alerts stop, also allow \"autostart\" and turn off any app-specific battery saver for Alertroid. dontkillmyapp.com explains how for each phone.</string>
+    <string name="vendor_body">Some manufacturers (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) stop background apps despite these settings. If alerts stop, also allow \"autostart\" and turn off any app-specific battery saver for EarthPing. dontkillmyapp.com explains how for each phone.</string>
     <string name="perm_notif">Notifications</string>
     <string name="perm_notif_why">To show warnings and keep the background connection running.</string>
     <string name="perm_loc">Location</string>
@@ -264,7 +264,7 @@
     <string name="perm_bgloc">Location all the time</string>
     <string name="perm_bgloc_why">Keeps your area up to date when you travel, including after a restart. Choose \"Allow all the time\".</string>
     <string name="perm_battery">Unrestricted battery use</string>
-    <string name="perm_battery_why">Keeps the connection open during deep sleep and lets Alertroid restart itself. Without it, warnings can arrive late or not at all.</string>
+    <string name="perm_battery_why">Keeps the connection open during deep sleep and lets EarthPing restart itself. Without it, warnings can arrive late or not at all.</string>
     <string name="perm_data">Background data</string>
     <string name="perm_data_why">Data Saver blocks background data for this app. Allow unrestricted data so alerts arrive.</string>
     <string name="perm_dnd">Do Not Disturb access</string>

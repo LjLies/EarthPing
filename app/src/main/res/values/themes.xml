@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Alertroid.Base" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.EarthPing.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/accent_deep</item>
         <item name="colorOnPrimary">@color/on_accent</item>
         <item name="colorPrimaryContainer">@color/accent_container</item>
@@ -23,10 +23,10 @@
         <item name="colorOnBackground">@color/on_surface</item>
     </style>
 
-    <style name="Theme.Alertroid" parent="Theme.Alertroid.Base" />
+    <style name="Theme.EarthPing" parent="Theme.EarthPing.Base" />
 
     <!-- Screens with their own title bar -->
-    <style name="Theme.Alertroid.WithActionBarBase" parent="Theme.Material3.DayNight">
+    <style name="Theme.EarthPing.WithActionBarBase" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/accent_deep</item>
         <item name="colorOnPrimary">@color/on_accent</item>
         <item name="colorPrimaryContainer">@color/accent_container</item>
@@ -55,10 +55,10 @@
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="Theme.Alertroid.WithActionBar" parent="Theme.Alertroid.WithActionBarBase" />
+    <style name="Theme.EarthPing.WithActionBar" parent="Theme.EarthPing.WithActionBarBase" />
 
     <!-- The full-screen warning: always dark, whatever the system theme -->
-    <style name="Theme.Alertroid.AlertBase" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Theme.EarthPing.AlertBase" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">#FFB4A9</item>
         <item name="colorOnPrimary">#690003</item>
         <item name="colorPrimaryContainer">#8A1C18</item>
@@ -70,7 +70,7 @@
         <item name="android:statusBarColor">@color/alert_header</item>
     </style>
 
-    <style name="Theme.Alertroid.Alert" parent="Theme.Alertroid.AlertBase" />
+    <style name="Theme.EarthPing.Alert" parent="Theme.EarthPing.AlertBase" />
 
     <style name="Heading">
         <item name="android:layout_width">match_parent</item>
