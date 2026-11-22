@@ -75,7 +75,7 @@ jobs:
       - name: Unit tests and APKs
         env:
           RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
-        run: ./gradlew --no-daemon testDebugUnitTest assembleDebug assembleRelease
+        run: ./gradlew --no-daemon testDebugUnitTest assembleDebug assembleRelease -ProbolectricRepoUrl=https://maven-central.storage-download.googleapis.com/maven2
       - name: Show the release signing certificate
         if: hashFiles('app/build/outputs/apk/release/app-release.apk') != ''
         run: '"$ANDROID_HOME"/build-tools/34.0.0/apksigner verify --print-certs app/build/outputs/apk/release/app-release.apk'
