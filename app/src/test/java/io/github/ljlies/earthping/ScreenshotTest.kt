@@ -77,4 +77,12 @@ class ScreenshotTest {
         ShadowLooper.idleMainLooper()
         shoot("alert-it", AlertActivity::class.java)
     }
+
+    @Test fun historyMap() {
+        prefs()
+        val app = RuntimeEnvironment.getApplication()
+        StayAliveTest.seedHistory(app)
+        shoot("history-map", io.github.ljlies.earthping.ui.HistoryMapActivity::class.java)
+        shoot("alerts-history", MainActivity::class.java)
+    }
 }

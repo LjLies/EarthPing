@@ -43,6 +43,8 @@ class LocalQuake(
     /** Incremented on every revision received from Google (the UI redraws on change). */
     @Volatile var revision = 0
     @Volatile var updatedAtMs = 0L
+    /** The first alert's id: revisions may come with other ids. */
+    val eventId = alert.id
 
     val quake get() = alert.quake
     val epicenter get() = quake?.epicenter ?: alert.center()
@@ -250,7 +252,7 @@ object AlertCenter {
         val q = LocalQuake(a, user, isTest, receivedAt, prefs.clockOffsetMs)
         q.sound = if (isTest && prefs.testQuiet) Prefs.SOUND_NONE else prefs.alarmSound
         active = q
-        AlertHistory.add(app, a, null, note = if (isTest) "Test" else null, local = true, distanceKm = q.distanceKm)
+        AlertHistory.add(app, a, null, note = if (isTest) "Test" else null, local = true, distanceKm = q.distanceKm, at = user)
         val loud = shouldBeLoud(q)
         EventLog.log("Decision for ${a.id}: estimated intensity ${q.estimatedMmi?.let { String.format(Locale.US, "%.1f", it) } ?: "?"}" +
             ", inside contour ${q.contourMmi ?: "none"}, loud threshold ${prefs.loudMinMmi.takeIf { it > 0 } ?: "any"}" +
@@ -272,7 +274,7 @@ object AlertCenter {
         q.alert = a
         q.revision++
         q.updatedAtMs = System.currentTimeMillis()
-        AlertHistory.add(app, a, null, note = "Revision", local = true, distanceKm = q.distanceKm)
+        AlertHistory.add(app, a, null, local = true, distanceKm = q.distanceKm, event = q.eventId, at = q.user)
 
         val newMag = q.magnitude
         val newDist = q.distanceKm
@@ -563,7 +565,7 @@ object AlertCenter {
         val fingerprint = "${a.title}|${a.areaText}|${a.expiresMs}"
         val previous = crisisSeen.put(a.id, fingerprint)
         if (previous == fingerprint) return // periodic re-issue
-        AlertHistory.add(app, a, sub, note = if (previous != null) "Updated" else null)
+        AlertHistory.add(app, a, sub)
         if (!prefs.crisisAlerts || sub == null) return
         val local = sub.primary
         if (!local && (Places.isAutoDecoy(sub.place) || !prefs.watchedNotifications)) return

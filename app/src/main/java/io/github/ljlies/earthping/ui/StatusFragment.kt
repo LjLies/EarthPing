@@ -1,5 +1,6 @@
 package io.github.ljlies.earthping.ui
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -68,6 +69,9 @@ class StatusFragment : Fragment() {
         view.findViewById<View>(R.id.warning_button).setOnClickListener {
             startActivity(Intent(requireContext(), OnboardingActivity::class.java).putExtra(OnboardingActivity.EXTRA_REVIEW, true))
         }
+        view.findViewById<View>(R.id.history_map).setOnClickListener {
+            startActivity(Intent(requireContext(), HistoryMapActivity::class.java))
+        }
         view.findViewById<View>(R.id.clear_history).setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.clear_history_title)
@@ -114,7 +118,7 @@ class StatusFragment : Fragment() {
         androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(view, ColorStateList.valueOf(c.getColor(fg)))
     }
 
-    private fun row(parent: LinearLayout, icon: Int, title: String, detail: String?, chipText: String? = null) {
+    private fun row(parent: LinearLayout, icon: Int, title: String, detail: String?, chipText: String? = null, onClick: (() -> Unit)? = null) {
         val v = layoutInflater.inflate(R.layout.row_two_line, parent, false)
         v.findViewById<ImageView>(R.id.row_icon).setImageResource(icon)
         v.findViewById<TextView>(R.id.row_title).text = title
@@ -124,23 +128,31 @@ class StatusFragment : Fragment() {
             c.visibility = View.VISIBLE
             chip(c, chipText, R.color.chip_neutral_bg, R.color.chip_neutral_fg)
         }
+        if (onClick != null) {
+            val ripple = android.util.TypedValue()
+            requireContext().theme.resolveAttribute(android.R.attr.selectableItemBackground, ripple, true)
+            v.setBackgroundResource(ripple.resourceId)
+            v.setOnClickListener { onClick() }
+        }
         parent.addView(v)
     }
 
-    /** History notes are stored in English; show them in the app's language. */
-    private fun noteLabel(note: String) = when (note) {
-        "Test" -> getString(R.string.note_test)
-        "Revision" -> getString(R.string.note_revision)
-        "Updated" -> getString(R.string.note_updated)
-        "Google test alert (not shown)" -> getString(R.string.note_google_test)
-        else -> note
-    }
+    companion object {
+        /** History notes are stored in English; show them in the app's language. */
+        fun noteLabel(ctx: Context, note: String) = when (note) {
+            "Test" -> ctx.getString(R.string.note_test)
+            "Revision" -> ctx.getString(R.string.note_revision)
+            "Updated" -> ctx.getString(R.string.note_updated)
+            "Google test alert (not shown)" -> ctx.getString(R.string.note_google_test)
+            else -> note
+        }
 
-    private fun kindLabel(kind: String) = when (kind) {
-        "earthquake" -> getString(R.string.kind_earthquake)
-        "public alert" -> getString(R.string.kind_public_alert)
-        "SOS alert" -> getString(R.string.kind_sos_alert)
-        else -> kind
+        fun kindLabel(ctx: Context, kind: String) = when (kind) {
+            "earthquake" -> ctx.getString(R.string.kind_earthquake)
+            "public alert" -> ctx.getString(R.string.kind_public_alert)
+            "SOS alert" -> ctx.getString(R.string.kind_sos_alert)
+            else -> kind
+        }
     }
 
     private fun refresh() {
@@ -231,6 +243,7 @@ class StatusFragment : Fragment() {
         history.removeAllViews()
         val entries = AlertHistory.list()
         root.findViewById<View>(R.id.clear_history).visibility = if (entries.isEmpty()) View.INVISIBLE else View.VISIBLE
+        root.findViewById<View>(R.id.history_map).visibility = if (entries.any { it.position != null }) View.VISIBLE else View.GONE
         if (entries.isEmpty()) {
             history.addView(TextView(ctx).apply {
                 text = getString(R.string.no_alerts_yet)
@@ -243,13 +256,17 @@ class StatusFragment : Fragment() {
         entries.take(15).forEach { e ->
             val icon = if (e.kind == "earthquake") R.drawable.ic_tab_alerts else R.drawable.ic_pref_storm
             val where = if (e.where == "my location") getString(R.string.my_location) else e.where
-            val title = listOf(where, if (e.kind == "earthquake") e.summary else kindLabel(e.kind) + ": " + e.summary).joinToString(" · ")
+            val title = listOf(where, if (e.kind == "earthquake") e.summary else kindLabel(ctx, e.kind) + ": " + e.summary).joinToString(" · ")
             val detail = buildList {
                 add(df.format(Date(e.timeMs)))
                 e.distanceKm?.let { add(getString(R.string.km_away, Math.round(it).toString())) }
-                e.note?.let { add(noteLabel(it)) }
+                e.mmi?.let { add(getString(R.string.est_intensity, io.github.ljlies.earthping.geo.Geo.roman(it))) }
+                if (e.revisions > 0) add(resources.getQuantityString(R.plurals.history_revisions, e.revisions, e.revisions))
+                e.note?.let { add(noteLabel(ctx, it)) }
             }.joinToString(" · ")
-            row(history, icon, title, detail)
+            row(history, icon, title, detail, onClick = if (e.position == null) null else ({
+                startActivity(Intent(ctx, HistoryMapActivity::class.java).putExtra(HistoryMapActivity.EXTRA_EVENT, e.event))
+            }))
         }
     }
 }

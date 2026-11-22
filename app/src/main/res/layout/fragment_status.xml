@@ -191,6 +191,15 @@
                         app:drawableStartCompat="@drawable/ic_pref_bell" />
 
                     <Button
+                        android:id="@+id/history_map"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="0dp"
+                        android:text="@string/history_map"
+                        android:textAppearance="?attr/textAppearanceLabelMedium" />
+
+                    <Button
                         android:id="@+id/clear_history"
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"

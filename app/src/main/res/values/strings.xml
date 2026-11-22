@@ -343,4 +343,26 @@
     <string name="tts_mag_lower">now lower magnitude %s</string>
     <string name="back_alarm_settings">←  Alarm settings</string>
     <string name="back_speech_settings">←  Speech settings</string>
+    <string name="history_map">Map</string>
+    <string name="history_map_title">Alert map</string>
+    <string name="history_map_empty">No recent alerts with a location.</string>
+    <string name="history_quake_title">Magnitude %s earthquake</string>
+    <string name="history_occurred">Occurred: %s</string>
+    <string name="history_received">Received: %s</string>
+    <string name="history_epicentre">Epicenter: %s</string>
+    <string name="history_epicentre_depth">Epicenter: %1$s, depth %2$s km</string>
+    <string name="history_area_centre">Area center: %s</string>
+    <string name="history_older">Older alert</string>
+    <string name="history_newer">Newer alert</string>
+    <string name="arrow_left" translatable="false">←</string>
+    <string name="arrow_right" translatable="false">→</string>
+    <plurals name="history_updated">
+        <item quantity="one">Updated once by Google, at %2$s</item>
+        <item quantity="other">Updated %1$d times by Google, last at %2$s</item>
+    </plurals>
+    <plurals name="history_revisions">
+        <item quantity="one">updated once</item>
+        <item quantity="other">updated %d times</item>
+    </plurals>
+    <string name="history_km_from_you">%s km from you</string>
 </resources>

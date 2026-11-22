@@ -310,4 +310,26 @@
     <string name="tts_mag_lower">ora magnitudo più bassa, %s</string>
     <string name="back_alarm_settings">←  Impostazioni dell\'allarme</string>
     <string name="back_speech_settings">←  Impostazioni della voce</string>
+    <string name="history_map">Mappa</string>
+    <string name="history_map_title">Mappa delle allerte</string>
+    <string name="history_map_empty">Nessuna allerta recente con una posizione.</string>
+    <string name="history_quake_title">Terremoto di magnitudo %s</string>
+    <string name="history_occurred">Avvenuto: %s</string>
+    <string name="history_received">Ricevuta: %s</string>
+    <string name="history_epicentre">Epicentro: %s</string>
+    <string name="history_epicentre_depth">Epicentro: %1$s, profondità %2$s km</string>
+    <string name="history_area_centre">Centro dell\'area: %s</string>
+    <string name="history_older">Allerta precedente</string>
+    <string name="history_newer">Allerta successiva</string>
+    <plurals name="history_updated">
+        <item quantity="one">Aggiornata una volta da Google, alle %2$s</item>
+        <item quantity="many">Aggiornata %1$d volte da Google, l\'ultima alle %2$s</item>
+        <item quantity="other">Aggiornata %1$d volte da Google, l\'ultima alle %2$s</item>
+    </plurals>
+    <plurals name="history_revisions">
+        <item quantity="one">aggiornata una volta</item>
+        <item quantity="many">aggiornata %d volte</item>
+        <item quantity="other">aggiornata %d volte</item>
+    </plurals>
+    <string name="history_km_from_you">a %s km da te</string>
 </resources>

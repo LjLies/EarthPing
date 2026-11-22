@@ -30,6 +30,8 @@ are AndroidX AppCompat and Preference, Material Components and
   automatic decoys, whose alerts are only logged.
 - **Other public alerts.** Google uses the same channel for floods, storms, fires and similar
   alerts ("crisis alerts"). You are notified about the ones for your area and your watched places.
+- **History map.** Recent alerts are listed on the main screen and shown on a map, each with
+  the latest magnitude, epicentre, depth and estimated intensity that Google sent for it.
 - **Test mode.** Choose a delay, the seconds until shaking and a magnitude. EarthPing then
   stages a complete alert near you, so you can rehearse it, including with the screen locked.
 

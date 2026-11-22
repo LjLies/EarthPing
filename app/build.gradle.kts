@@ -23,8 +23,8 @@ android {
         applicationId = "io.github.ljlies.earthping"
         minSdk = 26
         targetSdk = 35
-        versionCode = 8
-        versionName = "0.3.5"
+        versionCode = 9
+        versionName = "0.3.6"
         // Only the app's own languages, so library texts match the rest of the app
         resourceConfigurations += listOf("en", "it")
     }
