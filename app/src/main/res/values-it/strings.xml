@@ -121,7 +121,7 @@
     <string name="kind_earthquake">Terremoto</string>
     <string name="kind_public_alert">Allerta pubblica</string>
     <string name="kind_sos_alert">Allerta SOS</string>
-    <string name="disclaimer">Alertroid è un\'app indipendente e non ufficiale. Ascolta lo stesso canale push che Google usa per le allerte terremoto di Android, che Google può modificare o interrompere in qualsiasi momento. Non è un sistema di allerta certificato: tieni attivi gli avvisi di emergenza ufficiali del telefono.</string>
+    <string name="disclaimer">EarthPing è un\'app indipendente e non ufficiale. Ascolta lo stesso canale push che Google usa per le allerte terremoto di Android, che Google può modificare o interrompere in qualsiasi momento. Non è un sistema di allerta certificato: tieni attivi gli avvisi di emergenza ufficiali del telefono.</string>
 
     <!-- Scheda Luoghi -->
     <string name="places_desc">Fino a tre altri luoghi che ti stanno a cuore (famiglia, città d\'origine…). Riceverai notifiche su terremoti e allerte lì, senza conto alla rovescia. Servono anche a nascondere la tua vera zona a Google tra altri luoghi; uno spazio vuoto riceve un\'esca automatica casuale.</string>
@@ -183,7 +183,7 @@
     <string name="diagnostics_summary">Dettagli della connessione e registro</string>
     <string name="about_summary">Versione %s · GPL-3.0-or-later</string>
     <string name="source_code">Codice sorgente</string>
-    <string name="source_code_summary">github.com/LuccoJ/alertroid</string>
+    <string name="source_code_summary">github.com/LjLies/EarthPing</string>
     <string name="cannot_open">Impossibile aprire questa schermata su questo dispositivo</string>
 
     <string-array name="loud_entries">
@@ -221,7 +221,7 @@
     <!-- Configurazione iniziale -->
     <string name="welcome_short">Ti diamo il benvenuto</string>
     <string name="welcome_title">Allerte terremoto, secondi prima</string>
-    <string name="welcome_body">Alertroid riceve le allerte terremoto che Google trasmette ai telefoni Android, direttamente e senza Google Play Services né un account Google, e ti avvisa prima che arrivino le scosse forti. Inoltra anche le altre allerte pubbliche per la tua zona.\n\nPer essere rapido e affidabile deve restare connesso in background, sapere più o meno dove ti trovi e poter suonare un allarme anche in modalità silenziosa.</string>
+    <string name="welcome_body">EarthPing riceve le allerte terremoto che Google trasmette ai telefoni Android, direttamente e senza Google Play Services né un account Google, e ti avvisa prima che arrivino le scosse forti. Inoltra anche le altre allerte pubbliche per la tua zona.\n\nPer essere rapido e affidabile deve restare connesso in background, sapere più o meno dove ti trovi e poter suonare un allarme anche in modalità silenziosa.</string>
     <string name="privacy_title">Privacy</string>
     <string name="privacy_body">A Google viene inviata solo la tua zona approssimativa (una cella di circa 40 km, mescolata con altri tre luoghi), insieme a un\'identità anonima del dispositivo. Nient\'altro viene inviato altrove, e non ci sono statistiche d\'uso.</string>
     <string name="permissions_intro">Consenti le voci necessarie per continuare. Quelle consigliate rendono gli avvisi più rapidi e più difficili da perdere.</string>
@@ -233,7 +233,7 @@
     <string name="done">Fatto</string>
     <string name="grant_required_first">Consenti le voci necessarie per continuare</string>
     <string name="vendor_title">Telefoni che chiudono le app in background</string>
-    <string name="vendor_body">Alcuni produttori (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) chiudono le app in background nonostante queste impostazioni. Se le allerte si interrompono, consenti anche l\'\"avvio automatico\" e disattiva ogni risparmio energetico specifico per Alertroid. dontkillmyapp.com spiega come fare per ogni telefono.</string>
+    <string name="vendor_body">Alcuni produttori (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) chiudono le app in background nonostante queste impostazioni. Se le allerte si interrompono, consenti anche l\'\"avvio automatico\" e disattiva ogni risparmio energetico specifico per EarthPing. dontkillmyapp.com spiega come fare per ogni telefono.</string>
     <string name="perm_notif">Notifiche</string>
     <string name="perm_notif_why">Per mostrare gli avvisi e mantenere attiva la connessione in background.</string>
     <string name="perm_loc">Posizione</string>
@@ -241,7 +241,7 @@
     <string name="perm_bgloc">Posizione sempre</string>
     <string name="perm_bgloc_why">Mantiene aggiornata la tua zona quando ti sposti, anche dopo un riavvio. Scegli \"Consenti sempre\".</string>
     <string name="perm_battery">Uso della batteria senza restrizioni</string>
-    <string name="perm_battery_why">Mantiene aperta la connessione durante il sonno profondo e permette ad Alertroid di riavviarsi da solo. Senza, gli avvisi possono arrivare in ritardo o non arrivare.</string>
+    <string name="perm_battery_why">Mantiene aperta la connessione durante il sonno profondo e permette ad EarthPing di riavviarsi da solo. Senza, gli avvisi possono arrivare in ritardo o non arrivare.</string>
     <string name="perm_data">Dati in background</string>
     <string name="perm_data_why">Il Risparmio dati blocca i dati in background per questa app. Consenti l\'uso dei dati senza restrizioni perché le allerte arrivino.</string>
     <string name="perm_dnd">Accesso a Non disturbare</string>
