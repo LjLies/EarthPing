@@ -36,7 +36,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         prefs = Prefs(requireContext())
         AlertCenter.init(requireContext())
 
-        click("tests") { startActivity(Intent(requireContext(), TestActivity::class.java)) }
         click("test_alarm") { startActivity(Intent(requireContext(), TestActivity::class.java).putExtra(TestActivity.EXTRA_SECTION, "tone")) }
         click("test_speech") { startActivity(Intent(requireContext(), TestActivity::class.java).putExtra(TestActivity.EXTRA_SECTION, "speech")) }
         findPreference<androidx.preference.ListPreference>("siren_min_mmi")?.summaryProvider =

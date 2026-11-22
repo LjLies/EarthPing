@@ -63,12 +63,11 @@ class TestActivity : AppCompatActivity() {
         fun openSettings(key: String) = startActivity(android.content.Intent(this, MainActivity::class.java)
             .addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP)
             .putExtra(MainActivity.EXTRA_SETTINGS_KEY, key))
-        findViewById<Button>(R.id.alert_settings).setOnClickListener { openSettings("loud_min_mmi") }
-        findViewById<Button>(R.id.tone_settings).setOnClickListener { openSettings("alarm_tone") }
+        findViewById<Button>(R.id.alarm_settings).setOnClickListener { openSettings("loud_min_mmi") }
         findViewById<Button>(R.id.speech_settings).setOnClickListener { openSettings("tts") }
         // Opened from a "Test" link in the settings: show that section.
         intent.getStringExtra(EXTRA_SECTION)?.let { section ->
-            val target = when (section) { "tone" -> R.id.tone_card; "speech" -> R.id.speech_card; else -> 0 }
+            val target = when (section) { "speech" -> R.id.speech_settings; else -> 0 }
             if (target != 0) findViewById<android.view.View>(target).post {
                 (findViewById<android.view.View>(R.id.column).parent as androidx.core.widget.NestedScrollView)
                     .smoothScrollTo(0, findViewById<android.view.View>(target).top)

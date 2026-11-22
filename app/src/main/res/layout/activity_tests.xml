@@ -11,11 +11,70 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <Button
+            android:id="@+id/alarm_settings"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-12dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/back_alarm_settings"
+            android:textAppearance="?attr/textAppearanceLabelLarge" />
+
+        <!-- Alarm tone -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tone_card"
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/CardTitle"
+                    android:text="@string/test_tone_title"
+                    app:drawableStartCompat="@drawable/ic_pref_tone" />
+
+                <TextView
+                    android:id="@+id/tone_desc"
+                    style="@style/Body"
+                    android:textColor="@color/on_surface_soft" />
+
+                <Button
+                    android:id="@+id/play_tone"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/test_tone_play" />
+
+                <Button
+                    android:id="@+id/play_update"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_update_play" />
+
+                <Button
+                    android:id="@+id/play_notice"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_notice_play" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <!-- Full test alert -->
         <com.google.android.material.card.MaterialCardView
             style="@style/Card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -150,72 +209,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/test_start" />
-                <Button
-                    android:id="@+id/alert_settings"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@string/link_alarm_settings"
-                    android:textAppearance="?attr/textAppearanceLabelMedium" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Alarm tone -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/tone_card"
-            style="@style/Card"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/speech_settings"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    style="@style/CardTitle"
-                    android:text="@string/test_tone_title"
-                    app:drawableStartCompat="@drawable/ic_pref_tone" />
-
-                <TextView
-                    android:id="@+id/tone_desc"
-                    style="@style/Body"
-                    android:textColor="@color/on_surface_soft" />
-
-                <Button
-                    android:id="@+id/play_tone"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/test_tone_play" />
-
-                <Button
-                    android:id="@+id/play_update"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_update_play" />
-
-                <Button
-                    android:id="@+id/play_notice"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/test_notice_play" />
-                <Button
-                    android:id="@+id/tone_settings"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@string/link_alarm_settings"
-                    android:textAppearance="?attr/textAppearanceLabelMedium" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_marginStart="-12dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/back_speech_settings"
+            android:textAppearance="?attr/textAppearanceLabelLarge" />
 
         <!-- Speech -->
         <com.google.android.material.card.MaterialCardView
@@ -223,7 +228,7 @@
             style="@style/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -248,14 +253,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/tts_try_button" />
-                <Button
-                    android:id="@+id/speech_settings"
-                    style="@style/Widget.Material3.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@string/link_speech_settings"
-                    android:textAppearance="?attr/textAppearanceLabelMedium" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

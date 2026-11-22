@@ -49,7 +49,7 @@
             app:useSimpleSummaryProvider="true" />
         <Preference
             app:key="test_alarm"
-            app:icon="@drawable/ic_pref_play"
+            app:layout="@layout/pref_test_link"
             app:title="@string/test_alarm_link" />
     </PreferenceCategory>
 
@@ -70,22 +70,14 @@
             app:defaultValue=""
             app:useSimpleSummaryProvider="true" />
         <Preference
-            app:key="test_speech"
-            app:icon="@drawable/ic_pref_play"
-            app:title="@string/test_speech_link" />
-        <Preference
             app:key="tts_settings"
             app:icon="@drawable/ic_link"
             app:title="@string/tts_settings"
             app:summary="@string/tts_settings_summary" />
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/cat_tests">
         <Preference
-            app:key="tests"
-            app:icon="@drawable/ic_pref_play"
-            app:title="@string/tests_title"
-            app:summary="@string/tests_summary" />
+            app:key="test_speech"
+            app:layout="@layout/pref_test_link"
+            app:title="@string/test_speech_link" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/cat_notifications">

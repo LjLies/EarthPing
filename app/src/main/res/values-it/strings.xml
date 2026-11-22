@@ -97,8 +97,6 @@
     <string name="test_mode">Allerta di prova</string>
     <string name="test_mode_desc">Simula un terremoto vicino a te, con allarme, mappa e conto alla rovescia, più un aggiornamento qualche secondo dopo. Blocca lo schermo per vedere come appare lì. Funziona anche con le allerte disattivate.</string>
     <string name="tests_title">Prove</string>
-    <string name="tests_summary">Simula un\'allerta, ascolta il suono dell\'allarme e la voce</string>
-    <string name="cat_tests">Prove</string>
     <string name="test_tone_title">Suono dell\'allarme</string>
     <string name="test_tone_desc">%1$s · %2$s. L\'anteprima dura pochi secondi al volume attuale delle sveglie.</string>
     <string name="test_tone_play">Riproduci l\'allarme</string>
@@ -261,11 +259,9 @@
     <string name="legend_iii">III deboli</string>
     <string name="legend_p">Onda P (primo sobbalzo)</string>
     <string name="legend_s">Onda S (scosse forti)</string>
-    <string name="link_alarm_settings">Impostazioni dell\'allarme</string>
-    <string name="link_speech_settings">Impostazioni della voce</string>
     <string name="test_notice_play">Suono della notifica</string>
-    <string name="test_alarm_link">Prova i suoni dell\'allarme</string>
-    <string name="test_speech_link">Prova la voce</string>
+    <string name="test_alarm_link">Prova i suoni dell\'allarme  →</string>
+    <string name="test_speech_link">Prova la voce  →</string>
     <string name="siren_threshold">Sirena piena per scosse forti</string>
     <string name="siren_threshold_note">Suona sempre al volume massimo.</string>
     <string name="notice_sound">Terremoti più deboli nella zona</string>
@@ -312,4 +308,6 @@
     <string name="use_detected_location">Usa quella rilevata</string>
     <string name="tts_mag_higher">ora magnitudo più alta, %s</string>
     <string name="tts_mag_lower">ora magnitudo più bassa, %s</string>
+    <string name="back_alarm_settings">←  Impostazioni dell\'allarme</string>
+    <string name="back_speech_settings">←  Impostazioni della voce</string>
 </resources>

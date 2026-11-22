@@ -99,8 +99,6 @@
     <string name="test_mode">Test alert</string>
     <string name="test_mode_desc">Simulates an earthquake near you, with the alarm, the map and the countdown, plus one update a few seconds later. Lock the screen to see how it looks there. Works even with alerts turned off.</string>
     <string name="tests_title">Tests</string>
-    <string name="tests_summary">Rehearse an alert, hear the alarm tone and the speech</string>
-    <string name="cat_tests">Tests</string>
     <string name="test_tone_title">Alarm tone</string>
     <string name="test_tone_desc">%1$s · %2$s. The preview plays for a few seconds at the current alarm volume.</string>
     <string name="test_tone_play">Play alarm</string>
@@ -284,11 +282,9 @@
     <string name="legend_iii">III weak</string>
     <string name="legend_p">P wave (first jolt)</string>
     <string name="legend_s">S wave (strong shaking)</string>
-    <string name="link_alarm_settings">Alarm settings</string>
-    <string name="link_speech_settings">Speech settings</string>
     <string name="test_notice_play">Play notification chime</string>
-    <string name="test_alarm_link">Test the alarm sounds</string>
-    <string name="test_speech_link">Test speech</string>
+    <string name="test_alarm_link">Test the alarm sounds  →</string>
+    <string name="test_speech_link">Test speech  →</string>
     <string name="siren_threshold">Full siren for strong shaking</string>
     <string name="siren_threshold_note">Always rings at maximum volume.</string>
     <string name="notice_sound">Weaker earthquakes nearby</string>
@@ -345,4 +341,6 @@
     <string name="use_detected_location">Use detected</string>
     <string name="tts_mag_higher">now higher magnitude %s</string>
     <string name="tts_mag_lower">now lower magnitude %s</string>
+    <string name="back_alarm_settings">←  Alarm settings</string>
+    <string name="back_speech_settings">←  Speech settings</string>
 </resources>
