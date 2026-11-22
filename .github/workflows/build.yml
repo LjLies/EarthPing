@@ -76,13 +76,31 @@ jobs:
         env:
           RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
         run: ./gradlew --no-daemon testDebugUnitTest assembleDebug assembleRelease -ProbolectricRepoUrl=https://maven-central.storage-download.googleapis.com/maven2
-      - name: Show the release signing certificate
-        if: hashFiles('app/build/outputs/apk/release/app-release.apk') != ''
-        run: '"$ANDROID_HOME"/build-tools/34.0.0/apksigner verify --print-certs app/build/outputs/apk/release/app-release.apk'
       - name: Remove the release key
         if: always()
         run: rm -f "$RUNNER_TEMP/release.jks"
-      - uses: actions/upload-artifact@v4
+      # Each APK is uploaded on its own and unzipped, so it downloads as an .apk named after the
+      # version. The release APK only when signed: an unsigned one can't be installed.
+      - name: Name the APKs after the version
+        run: |
+          version=$(sed -n 's/.*versionName = "\(.*\)".*/\1/p' app/build.gradle.kts)
+          cp app/build/outputs/apk/debug/app-debug.apk "Alertroid-$version-debug.apk"
+          echo "APK=Alertroid-$version-debug.apk" >> "$GITHUB_ENV"
+          if [ -f app/build/outputs/apk/release/app-release.apk ]; then
+            cp app/build/outputs/apk/release/app-release.apk "Alertroid-$version.apk"
+            echo "RELEASE_APK=Alertroid-$version.apk" >> "$GITHUB_ENV"
+          fi
+      - name: Show the release signing certificate
+        if: env.RELEASE_APK != ''
+        run: '"$ANDROID_HOME"/build-tools/34.0.0/apksigner verify --print-certs "$RELEASE_APK"'
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v7
         with:
-          name: apks
-          path: app/build/outputs/apk/**/*.apk
+          path: ${{ env.APK }}
+          archive: false
+      - name: Upload signed release APK
+        if: env.RELEASE_APK != ''
+        uses: actions/upload-artifact@v7
+        with:
+          path: ${{ env.RELEASE_APK }}
+          archive: false
