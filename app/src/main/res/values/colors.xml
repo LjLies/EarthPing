@@ -30,4 +30,7 @@
     <color name="alert_urgent">#FF8A80</color>
 
     <color name="launcher_background">#A8322D</color>
+    <!-- "Alerts are off": impossible to miss -->
+    <color name="off_bg">#C62828</color>
+    <color name="off_fg">#FFFFFF</color>
 </resources>

@@ -36,14 +36,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         prefs = Prefs(requireContext())
         AlertCenter.init(requireContext())
 
-        click("tts_test") {
-            when (AlertCenter.speakSample()) {
-                null -> Toast.makeText(requireContext(), R.string.tts_unavailable, Toast.LENGTH_LONG).show()
-                false -> Toast.makeText(requireContext(), getString(R.string.tts_voice_missing,
-                    AlertCenter.speechLocale().getDisplayLanguage(Locale.getDefault())), Toast.LENGTH_LONG).show()
-                true -> Unit
-            }
-        }
+        click("tests") { startActivity(Intent(requireContext(), TestActivity::class.java)) }
         click("tts_settings") {
             open(Intent("com.android.settings.TTS_SETTINGS"))
         }
@@ -54,6 +47,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         }
         click("diagnostics") { startActivity(Intent(requireContext(), LogActivity::class.java)) }
         click("source") { open(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.source_url)))) }
+        findPreference<androidx.preference.ListPreference>("loud_min_mmi")?.summaryProvider =
+            Preference.SummaryProvider<androidx.preference.ListPreference> { p -> "${p.entry}\n${getString(R.string.loud_threshold_note)}" }
         findPreference<Preference>("about")?.summary = getString(R.string.about_summary, BuildConfig.VERSION_NAME)
         updateSummaries()
     }
@@ -72,6 +67,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         super.onResume()
         prefs.raw.registerOnSharedPreferenceChangeListener(this)
         updateSummaries()
+        // Back from the system's text-to-speech settings: use the engine chosen there.
+        AlertCenter.speaker.refreshEngine()
     }
 
     override fun onPause() {

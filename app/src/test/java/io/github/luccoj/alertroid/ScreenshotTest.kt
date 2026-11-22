@@ -52,6 +52,10 @@ class ScreenshotTest {
     @Test @Config(qualifiers = "it-w411dp-h891dp-night-xhdpi")
     fun alertsItalianNight() { prefs(); shoot("alerts-it-night", MainActivity::class.java) }
 
+    @Test fun alertsOff() { prefs().serviceEnabled = false; shoot("alerts-off", MainActivity::class.java) }
+
+    @Test fun tests() { prefs(); shoot("tests", io.github.luccoj.alertroid.ui.TestActivity::class.java) }
+
     @Test fun places() { prefs(); shoot("places", MainActivity::class.java) { it.findViewById<View>(R.id.tab_places).performClick() } }
 
     @Test fun settings() { prefs(); shoot("settings", MainActivity::class.java) { it.findViewById<View>(R.id.tab_settings).performClick() } }

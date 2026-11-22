@@ -16,17 +16,23 @@ object Notifications {
     const val CH_SERVICE = "service"
     const val CH_STATUS = "status"
     private const val CH_QUAKE_BASE = "quake_local"
-    private const val CH_INFO_BASE = "quake_info"
-    private const val CH_CRISIS_BASE = "crisis_local"
+    /** Earthquakes below the loud-alarm threshold: an ordinary notification (no DND bypass). */
+    const val CH_NOTICE = "quake_notice"
+    /** Public alerts for my location: an ordinary, prominent notification. */
+    const val CH_CRISIS = "crisis"
+    /** While the full-screen warning is on screen: silent, so no heads-up covers it. */
+    const val CH_ALERT_SHOWN = "alert_on_screen"
+    /** Revisions arriving after the warning was closed. */
+    const val CH_UPDATES = "quake_updates"
     const val CH_WATCHED = "watched"
+    /** Channels of older versions that are no longer used. */
+    private val OBSOLETE_PREFIXES = listOf("quake_info_", "crisis_local_")
 
     const val ID_SERVICE = 1
     const val ID_STATUS = 2
     const val ID_LOCAL_QUAKE = 100
 
     fun quakeChannel(ctx: Context) = current(ctx, CH_QUAKE_BASE)
-    fun infoChannel(ctx: Context) = current(ctx, CH_INFO_BASE)
-    fun crisisChannel(ctx: Context) = current(ctx, CH_CRISIS_BASE)
 
     private fun nm(ctx: Context) = ctx.getSystemService(NotificationManager::class.java)
 
@@ -48,8 +54,32 @@ object Notifications {
         nm.createNotificationChannel(NotificationChannel(CH_WATCHED, ctx.getString(R.string.ch_watched), NotificationManager.IMPORTANCE_DEFAULT).apply {
             description = ctx.getString(R.string.ch_watched_desc)
         })
-        val alarmAttrs = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
+        nm.notificationChannels.filter { ch -> OBSOLETE_PREFIXES.any { ch.id.startsWith(it) } }
+            .forEach { nm.deleteNotificationChannel(it.id) }
+        val notifAttrs = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
+        nm.createNotificationChannel(NotificationChannel(CH_NOTICE, ctx.getString(R.string.ch_info), NotificationManager.IMPORTANCE_HIGH).apply {
+            description = ctx.getString(R.string.ch_info_desc)
+            setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), notifAttrs)
+            enableVibration(true)
+            lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
+        })
+        nm.createNotificationChannel(NotificationChannel(CH_CRISIS, ctx.getString(R.string.ch_crisis), NotificationManager.IMPORTANCE_HIGH).apply {
+            description = ctx.getString(R.string.ch_crisis_desc)
+            setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), notifAttrs)
+            enableVibration(true)
+            lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
+        })
+        nm.createNotificationChannel(NotificationChannel(CH_ALERT_SHOWN, ctx.getString(R.string.ch_alert_shown), NotificationManager.IMPORTANCE_LOW).apply {
+            description = ctx.getString(R.string.ch_alert_shown_desc)
+            setSound(null, null)
+            enableVibration(false)
+            lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
+        })
+        nm.createNotificationChannel(NotificationChannel(CH_UPDATES, ctx.getString(R.string.ch_updates), NotificationManager.IMPORTANCE_DEFAULT).apply {
+            description = ctx.getString(R.string.ch_updates_desc)
+            lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
+        })
         // The loud alert plays its own siren on the alarm stream; the channel itself only vibrates.
         ensureDndChannel(ctx, CH_QUAKE_BASE, hasDnd) {
             NotificationChannel(it, ctx.getString(R.string.ch_quake), NotificationManager.IMPORTANCE_HIGH).apply {
@@ -57,24 +87,6 @@ object Notifications {
                 setSound(null, null)
                 enableVibration(true)
                 vibrationPattern = longArrayOf(0, 800, 300, 800, 300, 800)
-                lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
-                setBypassDnd(true)
-            }
-        }
-        ensureDndChannel(ctx, CH_INFO_BASE, hasDnd) {
-            NotificationChannel(it, ctx.getString(R.string.ch_info), NotificationManager.IMPORTANCE_HIGH).apply {
-                description = ctx.getString(R.string.ch_info_desc)
-                setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM), alarmAttrs)
-                enableVibration(true)
-                lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
-                setBypassDnd(true)
-            }
-        }
-        ensureDndChannel(ctx, CH_CRISIS_BASE, hasDnd) {
-            NotificationChannel(it, ctx.getString(R.string.ch_crisis), NotificationManager.IMPORTANCE_HIGH).apply {
-                description = ctx.getString(R.string.ch_crisis_desc)
-                setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), alarmAttrs)
-                enableVibration(true)
                 lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
                 setBypassDnd(true)
             }

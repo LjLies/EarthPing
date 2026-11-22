@@ -55,6 +55,25 @@ class ListenerService : Service() {
         fun refresh(ctx: Context) {
             if (Prefs(ctx).serviceEnabled) start(ctx, "refresh", ACTION_REFRESH)
         }
+
+        /** Test alerts work whether or not the service runs (alerts may be turned off). */
+        fun scheduleTest(ctx: Context) {
+            val prefs = Prefs(ctx)
+            val delayMs = prefs.testDelayS.coerceIn(0, 3600) * 1000L
+            EventLog.log("Test alert scheduled in ${delayMs / 1000} s")
+            val am = ctx.getSystemService(AlarmManager::class.java)
+            val pi = PendingIntent.getBroadcast(ctx, 77, Intent(ctx, AlarmReceiver::class.java).setAction(ACTION_TEST_FIRE),
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            val at = SystemClock.elapsedRealtime() + delayMs
+            try {
+                if (Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms()) am.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, at, pi)
+                else am.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, at, pi)
+            } catch (e: SecurityException) {
+                EventLog.log("Exact alarm refused ($e); using a timer")
+                AlertCenter.init(ctx)
+                android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({ AlertCenter.fireTest() }, delayMs)
+            }
+        }
     }
 
     lateinit var controller: ConnectionController
@@ -69,13 +88,23 @@ class ListenerService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
+    private var running = false
+
     override fun onCreate() {
         super.onCreate()
         prefs = Prefs(this)
         Notifications.ensureChannels(this)
         goForeground()
+        if (!prefs.serviceEnabled) {
+            // Started while alerts are off (e.g. by an old alarm): leave without connecting.
+            EventLog.log("Service start ignored: alerts are turned off")
+            stopSelf()
+            return
+        }
+        running = true
         instance = this
-        EventLog.log("Service started")
+        EventLog.log("Service started (Android ${android.os.Build.VERSION.RELEASE}, ${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}, app ${io.github.luccoj.alertroid.BuildConfig.VERSION_NAME})")
+        logPermissions()
         AlertCenter.init(this)
         controller = ConnectionController(this) { AlertCenter.onDataMessage(it) }
         location = LocationTracker(this) { onLocation(it) }
@@ -90,14 +119,25 @@ class ListenerService : Service() {
 
     private val statusListener: () -> Unit = { main.post { updateNotification() } }
 
+    /** One line with the state of everything the app depends on, for the diagnostic log. */
+    private fun logPermissions() {
+        val states = io.github.luccoj.alertroid.ui.Perms.applicable().joinToString(", ") { "${it.key}=${if (it.granted(this)) "yes" else "NO"}" }
+        val am = getSystemService(android.media.AudioManager::class.java)
+        val nm = getSystemService(NotificationManager::class.java)
+        EventLog.log("Permissions: $states; ringer=${am.ringerMode}, alarm volume=${am.getStreamVolume(android.media.AudioManager.STREAM_ALARM)}/" +
+            "${am.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM)}, DND filter=${nm.currentInterruptionFilter}, " +
+            "quake channel bypasses DND=${Notifications.quakeChannelBypassesDnd(this)}")
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         goForeground()
-        if (!prefs.serviceEnabled) {
+        if (!running || !prefs.serviceEnabled) {
             stopSelf()
             return START_NOT_STICKY
         }
+        intent?.getStringExtra("why")?.takeIf { it != "refresh" }?.let { EventLog.log("Service command: ${intent.action ?: "start"} ($it)") }
         when (intent?.action) {
-            ACTION_TEST_SCHEDULE -> scheduleTest()
+            ACTION_TEST_SCHEDULE -> scheduleTest(this)
             ACTION_REFRESH -> {
                 Notifications.ensureChannels(this)
                 if (!AlertCenter.speaker.available) AlertCenter.speaker.warmUp()
@@ -218,7 +258,15 @@ class ListenerService : Service() {
             override fun onAvailable(network: Network) {
                 val previous = currentNetwork
                 currentNetwork = network
-                controller.onNetwork(available = true, changed = previous != null && previous != network)
+                val caps = try { getSystemService(ConnectivityManager::class.java).getNetworkCapabilities(network) } catch (e: Exception) { null }
+                val kind = when {
+                    caps == null -> "other"
+                    caps.hasTransport(android.net.NetworkCapabilities.TRANSPORT_WIFI) -> "wifi"
+                    caps.hasTransport(android.net.NetworkCapabilities.TRANSPORT_CELLULAR) -> "cellular"
+                    caps.hasTransport(android.net.NetworkCapabilities.TRANSPORT_ETHERNET) -> "ethernet"
+                    else -> "other"
+                }
+                controller.onNetwork(available = true, changed = previous != null && previous != network, kind = kind)
             }
 
             override fun onLost(network: Network) {
@@ -236,22 +284,10 @@ class ListenerService : Service() {
         }
     }
 
-    private fun scheduleTest() {
-        val delayMs = prefs.testDelayS.coerceIn(0, 3600) * 1000L
-        EventLog.log("Test alert scheduled in ${delayMs / 1000} s")
-        val am = getSystemService(AlarmManager::class.java)
-        val pi = PendingIntent.getBroadcast(this, 77, Intent(this, AlarmReceiver::class.java).setAction(ACTION_TEST_FIRE),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-        val at = SystemClock.elapsedRealtime() + delayMs
-        try {
-            if (Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms()) am.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, at, pi)
-            else am.setAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP, at, pi)
-        } catch (e: SecurityException) {
-            main.postDelayed({ AlertCenter.fireTest() }, delayMs)
-        }
-    }
+
 
     override fun onTaskRemoved(rootIntent: Intent?) {
+        if (!running) return
         super.onTaskRemoved(rootIntent)
         scheduleRestart(2_000)
     }
@@ -265,6 +301,8 @@ class ListenerService : Service() {
     }
 
     override fun onDestroy() {
+        if (!running) { super.onDestroy(); return }
+        running = false
         instance = null
         ServiceStatus.removeListener(statusListener)
         main.removeCallbacksAndMessages(null)

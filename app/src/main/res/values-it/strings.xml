@@ -18,6 +18,10 @@
     <string name="ch_info_desc">Terremoti nella tua zona sotto la soglia dell\'allarme sonoro.</string>
     <string name="ch_crisis">Altre allerte (mia posizione)</string>
     <string name="ch_crisis_desc">Allerte di protezione civile per la tua zona: alluvioni, tempeste, incendi…</string>
+    <string name="ch_alert_shown">Allerta terremoto sullo schermo</string>
+    <string name="ch_alert_shown_desc">Notifica silenziosa mentre è visibile l\'avviso a schermo intero.</string>
+    <string name="ch_updates">Aggiornamenti sui terremoti</string>
+    <string name="ch_updates_desc">Revisioni arrivate dopo la chiusura dell\'avviso.</string>
 
     <!-- Notifica del servizio -->
     <string name="fg_connected">In ascolto delle allerte (%d zone)</string>
@@ -35,6 +39,7 @@
     <string name="km_from">%1$s km da %2$s</string>
     <string name="est_intensity">intensità stimata %s</string>
     <string name="updated_note">Aggiornato: %s</string>
+    <string name="notif_update_title">Aggiornamento · %s</string>
     <string name="stop_alarm">Ferma l\'allarme</string>
     <string name="close">Chiudi</string>
     <string name="crisis_generic">Allerta pubblica</string>
@@ -43,7 +48,6 @@
     <string name="strong_shaking_in">Scosse forti tra</string>
     <string name="no_countdown">Ora di arrivo sconosciuta</string>
     <string name="seconds_left">%d s</string>
-    <string name="take_cover">Mettiti al riparo</string>
     <string name="no_active_alert">Nessuna allerta in corso</string>
 
     <!-- Parlato -->
@@ -56,9 +60,14 @@
         <item quantity="many">Scosse tra %d secondi.</item>
         <item quantity="other">Scosse tra %d secondi.</item>
     </plurals>
-    <string name="tts_now">Scosse in arrivo ora. Abbassati, riparati e tieniti forte.</string>
-    <string name="tts_take_cover">Abbassati, riparati e tieniti forte.</string>
+    <string name="tts_now">Scosse in arrivo.</string>
     <string name="tts_update_prefix">Aggiornamento:</string>
+    <string name="tts_distance_short">%s chilometri.</string>
+    <plurals name="tts_seconds_short">
+        <item quantity="one">%d secondo.</item>
+        <item quantity="many">%d secondi.</item>
+        <item quantity="other">%d secondi.</item>
+    </plurals>
 
     <!-- Scheda Allerte -->
     <string name="chip_listening">In ascolto</string>
@@ -71,9 +80,14 @@
     <string name="state_no_network">Nessuna rete</string>
     <string name="state_waiting_title">Non connesso</string>
     <string name="state_waiting">Prossimo tentativo %s</string>
-    <string name="state_disabled">Allerte disattivate</string>
+    <string name="state_disabled">Allerte DISATTIVATE</string>
     <string name="state_disabled_detail">Non riceverai nessun avviso.</string>
     <string name="alerts_on">Ricevi le allerte</string>
+    <string name="alerts_off_item">Le allerte sono disattivate: non riceverai avvisi</string>
+    <string name="turn_off_title">Disattivare le allerte?</string>
+    <string name="turn_off_message">Non riceverai avvisi di terremoti o altre allerte finché non le riattivi.</string>
+    <string name="turn_off_confirm">Disattiva</string>
+    <string name="keep_on">Lascia attive</string>
     <string name="last_traffic">Ultimo traffico dal server: %s</string>
     <string name="last_error">Ultimo problema: %s</string>
     <string name="messages_count">Messaggi ricevuti: %1$d · riconnessioni: %2$d</string>
@@ -87,10 +101,20 @@
     <string name="location_unknown">Non ancora nota</string>
     <string name="manual">impostata a mano</string>
     <string name="watched_detail">Luogo seguito</string>
-    <string name="auto_decoy_detail">Esca automatica, allerte solo registrate</string>
     <string name="edit_places">Luoghi seguiti</string>
     <string name="test_mode">Allerta di prova</string>
-    <string name="test_mode_desc">Simula un terremoto vicino a te, con allarme, mappa e conto alla rovescia, più un aggiornamento qualche secondo dopo. Blocca lo schermo per vedere come appare lì.</string>
+    <string name="test_mode_desc">Simula un terremoto vicino a te, con allarme, mappa e conto alla rovescia, più un aggiornamento qualche secondo dopo. Blocca lo schermo per vedere come appare lì. Funziona anche con le allerte disattivate.</string>
+    <string name="tests_title">Prove</string>
+    <string name="tests_summary">Simula un\'allerta, ascolta il suono dell\'allarme e la voce</string>
+    <string name="cat_tests">Prove</string>
+    <string name="test_tone_title">Suono dell\'allarme</string>
+    <string name="test_tone_desc">%1$s · %2$s. L\'anteprima dura pochi secondi al volume attuale delle sveglie.</string>
+    <string name="test_tone_play">Riproduci l\'allarme</string>
+    <string name="test_tone_stop">Ferma</string>
+    <string name="test_update_play">Suono di aggiornamento</string>
+    <string name="tts_try_button">Pronuncia un avviso di esempio</string>
+    <string name="tts_try_desc">Lingua della voce: %s.</string>
+    <string name="tts_off_note">L\'annuncio vocale è disattivato nelle Impostazioni; qui l\'esempio viene comunque pronunciato.</string>
     <string name="test_delay">Inizia tra</string>
     <string name="test_lead">Secondi alle scosse</string>
     <string name="test_magnitude">Magnitudo</string>
@@ -136,6 +160,7 @@
     <string name="cat_connection">Connessione</string>
     <string name="cat_about">Informazioni</string>
     <string name="loud_threshold">Quando suonare l\'allarme</string>
+    <string name="loud_threshold_note">Per i terremoti più deboli nella tua zona arriva comunque una notifica normale.</string>
     <string name="alarm_tone">Suono dell\'allarme</string>
     <string name="alarm_sound">Volume dell\'allarme</string>
     <string name="override_silence">Ignora la modalità silenziosa</string>
@@ -144,7 +169,6 @@
     <string name="tts_enabled_summary">Dice magnitudo e distanza, poi conta alla rovescia fino alle scosse</string>
     <string name="tts_language">Lingua della voce</string>
     <string name="tts_try">Prova la voce</string>
-    <string name="tts_try_summary">Ascolta un avviso di esempio nella lingua della voce</string>
     <string name="tts_settings">Motore di sintesi vocale</string>
     <string name="tts_settings_summary">Scegli il motore e installa le voci</string>
     <string name="tts_unavailable">La sintesi vocale si sta avviando o non è disponibile; riprova tra un momento.</string>
@@ -174,10 +198,11 @@
     <string name="cannot_open">Impossibile aprire questa schermata su questo dispositivo</string>
 
     <string-array name="loud_entries">
-        <item>Sempre</item>
-        <item>Se l\'intensità stimata è III o più</item>
-        <item>Se l\'intensità stimata è IV o più</item>
-        <item>Se l\'intensità stimata è V o più</item>
+        <item>Ogni allerta per la mia zona</item>
+        <item>Scosse deboli o più (III+)</item>
+        <item>Scosse leggere o più (IV+)</item>
+        <item>Scosse moderate o più (V+)</item>
+        <item>Scosse forti o più (VI+)</item>
     </string-array>
     <string-array name="tone_entries">
         <item>Segnale di allerta (campane ascendenti)</item>
@@ -203,6 +228,7 @@
     <string name="diag_since">Connesso: %s</string>
     <string name="diag_topics">Argomenti: %s</string>
     <string name="diag_location">Posizione: %s</string>
+    <string name="clear_log">Cancella</string>
 
     <!-- Configurazione iniziale -->
     <string name="welcome_short">Ti diamo il benvenuto</string>

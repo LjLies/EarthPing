@@ -9,8 +9,7 @@
             app:title="@string/loud_threshold"
             app:entries="@array/loud_entries"
             app:entryValues="@array/loud_values"
-            app:defaultValue="0"
-            app:useSimpleSummaryProvider="true" />
+            app:defaultValue="0" />
         <ListPreference
             app:key="alarm_tone"
             app:icon="@drawable/ic_pref_tone"
@@ -52,16 +51,18 @@
             app:defaultValue=""
             app:useSimpleSummaryProvider="true" />
         <Preference
-            app:key="tts_test"
-            app:dependency="tts"
-            app:icon="@drawable/ic_pref_play"
-            app:title="@string/tts_try"
-            app:summary="@string/tts_try_summary" />
-        <Preference
             app:key="tts_settings"
             app:icon="@drawable/ic_link"
             app:title="@string/tts_settings"
             app:summary="@string/tts_settings_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/cat_tests">
+        <Preference
+            app:key="tests"
+            app:icon="@drawable/ic_pref_play"
+            app:title="@string/tests_title"
+            app:summary="@string/tests_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/cat_notifications">

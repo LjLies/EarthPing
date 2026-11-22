@@ -59,7 +59,10 @@ class ConnectionController(private val ctx: Context, private val onMessage: (Dat
         private val BACKOFF_S = longArrayOf(2, 5, 10, 20, 40, 80, 160, 300, 600)
         private const val STABLE_SESSION_MS = 3 * 60_000L
         private const val MAX_ATTEMPTS_PER_HOUR = 30
-        private const val HEARTBEAT_ACK_TIMEOUT_MS = 20_000L
+        /** Cellular radios can take seconds to wake up from deep sleep: be lenient. */
+        private const val HEARTBEAT_ACK_TIMEOUT_MS = 30_000L
+        /** Learned heartbeat intervals never go below this. */
+        private const val MIN_HEARTBEAT_MS = 2 * 60_000L
         private const val MAX_REGISTRATIONS_PER_DAY = 3
         private const val MIN_REGISTRATION_GAP_MS = 15 * 60_000L
     }
@@ -127,8 +130,15 @@ class ConnectionController(private val ctx: Context, private val onMessage: (Dat
         }
     }
 
-    fun onNetwork(available: Boolean, changed: Boolean) = post {
+    /** Transport of the current network ("wifi", "cellular", "other"): heartbeats are learned per kind. */
+    private var networkKind = "other"
+
+    fun onNetwork(available: Boolean, changed: Boolean, kind: String = networkKind) = post {
         networkAvailable = available
+        if (available && kind != networkKind) {
+            EventLog.log("Network: $kind (heartbeat every ${heartbeatIntervalMsFor(kind) / 1000} s)")
+            networkKind = kind
+        }
         if (!available) {
             EventLog.log("Network lost")
             client?.let { expectedClose = true; it.close() }
@@ -171,6 +181,7 @@ class ConnectionController(private val ctx: Context, private val onMessage: (Dat
             return
         }
         val sentAt = now()
+        val idleBefore = sentAt - c.lastRxElapsed
         try {
             c.sendHeartbeat()
         } catch (e: IOException) {
@@ -178,18 +189,49 @@ class ConnectionController(private val ctx: Context, private val onMessage: (Dat
             c.close()
             return
         }
+        // Keep the CPU up until the answer arrives (or the check below gives up).
+        try {
+            power.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "alertroid:heartbeat").acquire(HEARTBEAT_ACK_TIMEOUT_MS + 5_000)
+        } catch (_: Exception) {}
+        val interval = heartbeatIntervalMs()
         checkFuture?.cancel(false)
         checkFuture = exec.schedule({
-            if (client === c && c.isOpen && c.lastRxElapsed < sentAt) {
-                EventLog.log("No answer to heartbeat: connection is dead")
+            if (client !== c || !c.isOpen) return@schedule
+            if (c.lastRxElapsed < sentAt) {
+                // Like microG: a missed answer means the network dropped an idle connection
+                // sooner than we pinged, so ping more often on this kind of network.
+                learn(shorter = true, interval)
+                EventLog.log("No answer to heartbeat within ${HEARTBEAT_ACK_TIMEOUT_MS / 1000} s on $networkKind: connection is dead")
                 c.close()
+            } else {
+                val rtt = c.lastRxElapsed - sentAt
+                if (rtt > 5_000) EventLog.log("Slow heartbeat answer: ${rtt} ms")
+                // The link survived a long idle period: try a slightly longer interval next time.
+                if (idleBefore >= interval * 3 / 4) learn(shorter = false, interval)
             }
         }, HEARTBEAT_ACK_TIMEOUT_MS, TimeUnit.MILLISECONDS)
         scheduleHeartbeat()
     }
 
-    private fun heartbeatIntervalMs(): Long {
+    private fun learnedKey(kind: String) = "hb_learned_$kind"
+
+    private fun heartbeatIntervalMsFor(kind: String): Long {
         val user = prefs.heartbeatMinutes * 60_000L
+        val learned = prefs.raw.getLong(learnedKey(kind), user)
+        return learned.coerceIn(minOf(MIN_HEARTBEAT_MS, user), user)
+    }
+
+    private fun learn(shorter: Boolean, current: Long) {
+        val user = prefs.heartbeatMinutes * 60_000L
+        val next = (if (shorter) current * 0.8 else current * 1.05).toLong().coerceIn(minOf(MIN_HEARTBEAT_MS, user), user)
+        if (next != prefs.raw.getLong(learnedKey(networkKind), user)) {
+            prefs.raw.edit().putLong(learnedKey(networkKind), next).apply()
+            if (shorter || next == user) EventLog.log("Heartbeat on $networkKind now every ${next / 1000} s")
+        }
+    }
+
+    private fun heartbeatIntervalMs(): Long {
+        val user = heartbeatIntervalMsFor(networkKind)
         val server = client?.serverHeartbeatMs?.takeIf { it >= 60_000 }
         return if (server != null) minOf(user, server) else user
     }

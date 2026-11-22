@@ -83,14 +83,70 @@ class AlarmPlayer(private val ctx: Context) {
         }
     }
 
-    fun warmUp() { pcm.size; beeps.size; chime.size }
+    /** A short, soft two-note chime announcing an update to an alert already under way. */
+    private val updateChime: ShortArray by lazy {
+        val n = (sampleRate * 0.55).toInt()
+        val mix = DoubleArray(n)
+        for ((start, f) in listOf(0.0 to 1318.5, 0.16 to 1760.0)) {
+            val s0 = (start * sampleRate).toInt()
+            for (k in 0 until n - s0) {
+                val t = k.toDouble() / sampleRate
+                mix[s0 + k] += sin(2 * PI * f * t) * kotlin.math.exp(-t / 0.08) * minOf(1.0, t / 0.004)
+            }
+        }
+        val peak = mix.maxOf { kotlin.math.abs(it) }.coerceAtLeast(1e-9)
+        ShortArray(n) { (mix[it] / peak * Short.MAX_VALUE * 0.45).toInt().toShort() }
+    }
+
+    fun warmUp() { pcm.size; beeps.size; chime.size; updateChime.size }
+
+    private fun attrs() = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
+
+    /** Plays the update chime once, alongside whatever else is playing. */
+    fun playUpdateChime() {
+        try {
+            val data = updateChime
+            val t = AudioTrack.Builder()
+                .setAudioAttributes(attrs())
+                .setAudioFormat(AudioFormat.Builder().setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+                    .setSampleRate(sampleRate).setChannelMask(AudioFormat.CHANNEL_OUT_MONO).build())
+                .setBufferSizeInBytes(data.size * 2)
+                .setTransferMode(AudioTrack.MODE_STATIC)
+                .build()
+            t.write(data, 0, data.size)
+            t.setNotificationMarkerPosition(data.size - 1)
+            t.setPlaybackPositionUpdateListener(object : AudioTrack.OnPlaybackPositionUpdateListener {
+                override fun onMarkerReached(track: AudioTrack) { track.release() }
+                override fun onPeriodicNotification(track: AudioTrack) {}
+            }, android.os.Handler(android.os.Looper.getMainLooper()))
+            t.play()
+        } catch (e: Exception) {
+            EventLog.log("Update chime failed: $e")
+        }
+    }
+
+    private val handler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val previewStop = Runnable { stop() }
+
+    /** Settings preview: a few seconds of the tone at the current alarm volume, never louder. */
+    @Synchronized
+    fun preview(sound: Int, tone: Int, seconds: Int = 4): Boolean {
+        if (started) { stop(); return false }
+        val s = if (sound == Prefs.SOUND_SIREN_MAX) Prefs.SOUND_SIREN else sound
+        start(s, tone, overrideSilence = false, vibrate = s == Prefs.SOUND_NONE)
+        handler.postDelayed(previewStop, seconds * 1000L)
+        return true
+    }
 
     private var started = false
 
     @Synchronized
-    fun start(sound: Int, tone: Int, overrideSilence: Boolean) {
+    fun start(sound: Int, tone: Int, overrideSilence: Boolean, vibrate: Boolean = true) {
         if (started) return
         started = true
+        handler.removeCallbacks(previewStop)
+        EventLog.log("Alarm sound start: sound=$sound tone=$tone override=$overrideSilence")
         // Speech also uses the alarm stream, so DND is lifted even when no siren is played;
         // the alarm volume is only forced to maximum for the full siren.
         if (overrideSilence) liftSilence(raiseVolume = sound == Prefs.SOUND_SIREN_MAX)
@@ -116,7 +172,7 @@ class AlarmPlayer(private val ctx: Context) {
         } catch (e: Exception) {
             EventLog.log("Alarm sound failed: $e")
         }
-        try {
+        if (vibrate) try {
             val pattern = longArrayOf(0, 700, 300)
             vibrator?.vibrate(VibrationEffect.createWaveform(pattern, 0),
                 AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build())
@@ -133,7 +189,9 @@ class AlarmPlayer(private val ctx: Context) {
 
     @Synchronized
     fun stop() {
+        if (started) EventLog.log("Alarm sound stop")
         started = false
+        handler.removeCallbacks(previewStop)
         track?.let {
             try { it.stop() } catch (_: Exception) {}
             it.release()

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
+import android.os.SystemClock
 import android.provider.Settings
 import io.github.luccoj.alertroid.EventLog
 import io.github.luccoj.alertroid.Places
@@ -125,6 +126,7 @@ object AlertCenter {
     private class Spoken(val ctx: Context, val locale: Locale) {
         fun s(id: Int, vararg args: Any) = ctx.getString(id, *args)
         fun seconds(n: Int) = ctx.resources.getQuantityString(R.plurals.tts_seconds, n, n)
+        fun secondsShort(n: Int) = ctx.resources.getQuantityString(R.plurals.tts_seconds_short, n, n)
         fun fmt1(v: Double) = String.format(locale, "%.1f", v)
         fun km(v: Double) = if (v < 10) fmt1(v) else Math.round(v).toString()
     }
@@ -272,24 +274,69 @@ object AlertCenter {
             q.dismissed -> Unit // stay silent; the screen and history still update
             !q.loud && shouldBeLoud(q) -> startLoud(q)
             else -> {
-                if (q.loud && prefs.ttsEnabled && (magChanged || distChanged || timeChanged)) {
-                    speaker.announce(updateSpeech(q, magChanged, distChanged, spoken()))
+                val visibleChange = magChanged || distChanged || mmiChanged || timeChanged
+                val shakingOver = (q.sArrivalLocalMs ?: q.receivedAtMs) < System.currentTimeMillis() - 30_000
+                if (visibleChange && q.loud) {
+                    if (shakingOver && !alertScreenVisible) {
+                        // Long after the shaking, with the warning closed: a plain notification.
+                        postUpdateNotification(q)
+                    } else {
+                        if (q.sound != Prefs.SOUND_NONE) player.playUpdateChime()
+                        if (prefs.ttsEnabled && (magChanged || distChanged || timeChanged)) {
+                            speaker.announce(updateSpeech(q, magChanged, distChanged, spoken()))
+                        }
+                    }
                 }
-                postLocalNotification(q)
+                postLocalNotification(q) // updates the existing notification in place, quietly
             }
         }
+        if (q.dismissed && !worse && (magChanged || distChanged || mmiChanged)) postUpdateNotification(q)
         changed()
     }
 
+    /** A revision that arrives when the warning is no longer on screen: an ordinary notification. */
+    private fun postUpdateNotification(q: LocalQuake) {
+        val nm = app.getSystemService(NotificationManager::class.java)
+        val open = PendingIntent.getActivity(app, 13, Intent(app, AlertActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        nm.notify(Notifications.ID_LOCAL_QUAKE + 1, Notification.Builder(app, Notifications.CH_UPDATES)
+            .setSmallIcon(R.drawable.ic_stat_quake)
+            .setContentTitle(str(R.string.notif_update_title, localTitle(q)))
+            .setContentText(localText(q))
+            .setStyle(Notification.BigTextStyle().bigText(localText(q)))
+            .setContentIntent(open)
+            .setAutoCancel(true)
+            .build())
+        EventLog.log("Update notification posted")
+    }
+
+    /** The full-screen warning reports whether it is on screen (no heads-up should cover it). */
+    @Volatile var alertScreenVisible = false
+        private set
+
+    fun onAlertScreen(visible: Boolean) {
+        alertScreenVisible = visible
+        EventLog.log("Alert screen ${if (visible) "shown" else "hidden"}")
+        val q = active ?: return
+        if (visible && q.loud && !q.dismissed && lastChannel != Notifications.CH_ALERT_SHOWN) {
+            // Replace the heads-up with the silent version, so it doesn't cover the screen.
+            app.getSystemService(NotificationManager::class.java).cancel(Notifications.ID_LOCAL_QUAKE)
+            postLocalNotification(q)
+        }
+    }
+
+    private var lastChannel: String? = null
+
+    /** Terse: "Update: magnitude 6.2. 18 seconds." */
     private fun updateSpeech(q: LocalQuake, mag: Boolean, dist: Boolean, sp: Spoken): String {
-        val sb = StringBuilder(sp.s(R.string.tts_update_prefix)).append(' ')
-        if (mag) q.magnitude?.let { sb.append(sp.s(R.string.tts_magnitude, sp.fmt1(it))).append(' ') }
-        if (dist) q.distanceKm?.let { sb.append(sp.s(R.string.tts_distance, sp.km(it))).append(' ') }
+        val parts = ArrayList<String>()
+        if (mag) q.magnitude?.let { parts += sp.s(R.string.tts_magnitude, sp.fmt1(it)) }
+        if (dist) q.distanceKm?.let { parts += sp.s(R.string.tts_distance_short, sp.km(it)) }
         q.sArrivalLocalMs?.let {
             val secs = ((it - System.currentTimeMillis()) / 1000).toInt()
-            if (secs > 3) sb.append(sp.seconds(secs))
+            if (secs > 3) parts += sp.secondsShort(secs)
         }
-        return sb.toString().trim()
+        return sp.s(R.string.tts_update_prefix) + " " + parts.joinToString(" ")
     }
 
     private fun shouldBeLoud(q: LocalQuake): Boolean {
@@ -299,21 +346,39 @@ object AlertCenter {
         return mmi >= min
     }
 
+    private val SIREN_TOKEN = Any()
+
     private fun startLoud(q: LocalQuake) {
         q.loud = true
         app.getSystemService(PowerManager::class.java)
             .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "alertroid:alert").acquire(3 * 60_000L)
         if (!speaker.available) speaker.warmUp()
         player.start(q.sound, prefs.alarmTone, prefs.overrideSilence)
-        postLocalNotification(q)
-        showAlertScreen()
+        if (showAlertScreen()) {
+            // The screen is on its way: only fall back to the loud notification if it didn't show.
+            postLocalNotification(q, screenExpected = true)
+            main.postDelayed({ if (!alertScreenVisible && active === q && !q.dismissed) postLocalNotification(q) }, 1500)
+        } else {
+            postLocalNotification(q)
+        }
         if (prefs.ttsEnabled) {
             val sp = spoken()
             speaker.start(announcement(q, sp), { q.sArrivalLocalMs?.takeIf { it > System.currentTimeMillis() - 1000 } }, sp.s(R.string.tts_now))
         }
-        // Stop the siren a while after the shaking should have started (or after a minute).
-        val stopAt = (q.sArrivalLocalMs?.let { it + 30_000 } ?: (System.currentTimeMillis() + 60_000)).coerceAtLeast(System.currentTimeMillis() + 20_000)
-        main.postDelayed({ if (active === q) player.stop() }, stopAt - System.currentTimeMillis())
+        scheduleSirenStop(q)
+    }
+
+    /** The siren stops a few seconds after the shaking should have arrived (or after 30 s). */
+    private fun scheduleSirenStop(q: LocalQuake) {
+        main.removeCallbacksAndMessages(SIREN_TOKEN)
+        val now = System.currentTimeMillis()
+        val stopAt = (q.sArrivalLocalMs?.let { it + 5_000 } ?: (now + 30_000)).coerceAtLeast(now + 8_000)
+        main.postAtTime({
+            // A revision may have pushed the arrival later: check again.
+            val s = q.sArrivalLocalMs
+            if (s != null && s + 5_000 > System.currentTimeMillis() + 1_000) scheduleSirenStop(q)
+            else if (active === q) player.stop()
+        }, SIREN_TOKEN, SystemClock.uptimeMillis() + (stopAt - now))
     }
 
     private fun announcement(q: LocalQuake, sp: Spoken): String {
@@ -326,13 +391,12 @@ object AlertCenter {
         if (s != null) {
             val secs = ((s - System.currentTimeMillis()) / 1000).toInt()
             if (secs > 0) sb.append(sp.seconds(secs)) else sb.append(sp.s(R.string.tts_now))
-        } else {
-            sb.append(sp.s(R.string.tts_take_cover))
         }
-        return sb.toString()
+        return sb.toString().trim()
     }
 
-    private fun showAlertScreen() {
+    /** Wakes the screen and opens the warning directly when allowed. Returns whether it tried. */
+    private fun showAlertScreen(): Boolean {
         // Turn the screen on right away (deprecated flag, but still honoured), so the alert
         // screen -- which is allowed over the lock screen -- is visible even if the display was off.
         try {
@@ -347,8 +411,16 @@ object AlertCenter {
         // Direct start works with "display over other apps" or while our UI is visible; the
         // full-screen intent on the notification is the other path (and covers the lock screen).
         if (AppVisibility.visible || Settings.canDrawOverlays(app)) {
-            try { app.startActivity(i) } catch (e: Exception) { EventLog.log("Cannot open alert screen: $e") }
+            try {
+                app.startActivity(i)
+                return true
+            } catch (e: Exception) {
+                EventLog.log("Cannot open alert screen: $e")
+            }
+        } else {
+            EventLog.log("Alert screen via full-screen notification (no overlay permission)")
         }
+        return false
     }
 
     /** Title for the notification or screen; [ctx] decides the language (an activity may differ). */
@@ -367,12 +439,17 @@ object AlertCenter {
         return text
     }
 
-    private fun postLocalNotification(q: LocalQuake) {
+    private fun postLocalNotification(q: LocalQuake, screenExpected: Boolean = false) {
         val nm = app.getSystemService(NotificationManager::class.java)
         val open = PendingIntent.getActivity(app, 10, Intent(app, AlertActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
         val stop = PendingIntent.getBroadcast(app, 11, Intent(app, StopReceiver::class.java), PendingIntent.FLAG_IMMUTABLE)
-        val channel = if (q.loud) Notifications.quakeChannel(app) else Notifications.infoChannel(app)
+        val channel = when {
+            !q.loud -> Notifications.CH_NOTICE
+            // The warning is on screen: a silent notification, so no heads-up covers it.
+            alertScreenVisible || screenExpected -> Notifications.CH_ALERT_SHOWN
+            else -> Notifications.quakeChannel(app)
+        }
         val b = Notification.Builder(app, channel)
             .setSmallIcon(io.github.luccoj.alertroid.R.drawable.ic_stat_quake)
             .setContentTitle(localTitle(q))
@@ -387,12 +464,14 @@ object AlertCenter {
         if (s != null && s > System.currentTimeMillis()) {
             b.setWhen(s).setShowWhen(true).setUsesChronometer(true).setChronometerCountDown(true)
         }
+        if (q.loud && channel != Notifications.CH_ALERT_SHOWN) b.setFullScreenIntent(open, true)
         if (q.loud) {
-            b.setFullScreenIntent(open, true)
             b.addAction(Notification.Action.Builder(null, str(R.string.stop_alarm), stop).build())
             b.setOngoing(true)
         }
         nm.notify(Notifications.ID_LOCAL_QUAKE, b.build())
+        if (channel != lastChannel) EventLog.log("Notification: ${if (q.loud) "loud" else "notice"} on $channel")
+        lastChannel = channel
     }
 
     /** User pressed "stop" (in the alert screen or the notification). */
@@ -435,7 +514,7 @@ object AlertCenter {
         if (!local && (Places.isAutoDecoy(sub.place) || !prefs.watchedNotifications)) return
         val title = (a.title ?: str(R.string.crisis_generic)) + if (!local) " · ${sub.place.name}" else ""
         val text = listOfNotNull(a.areaText, a.sender ?: a.sourceName).joinToString(" · ")
-        notifyOther(a.id, if (local) Notifications.crisisChannel(app) else Notifications.CH_WATCHED, title, text, silent = previous != null)
+        notifyOther(a.id, if (local) Notifications.CH_CRISIS else Notifications.CH_WATCHED, title, text, silent = previous != null)
     }
 
     private fun notifyOther(id: String, channel: String, title: String, text: String, silent: Boolean = false) {

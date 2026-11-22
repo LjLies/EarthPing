@@ -17,6 +17,7 @@ import io.github.luccoj.alertroid.alert.AlertCenter
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action ?: return
+        if (action != ConnectionController.ACTION_HEARTBEAT) EventLog.log("Alarm: ${action.substringAfterLast('.')}")
         // Hold the CPU long enough for a heartbeat round-trip or a reconnect.
         context.getSystemService(PowerManager::class.java)
             .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "alertroid:alarm").acquire(30_000)

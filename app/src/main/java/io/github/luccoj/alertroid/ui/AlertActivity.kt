@@ -69,12 +69,14 @@ class AlertActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         map.onResume()
+        AlertCenter.onAlertScreen(true)
         frame.run()
     }
 
     override fun onPause() {
         super.onPause()
         map.onPause()
+        AlertCenter.onAlertScreen(false)
         main.removeCallbacks(frame)
     }
 
@@ -168,7 +170,7 @@ class AlertActivity : AppCompatActivity() {
         val s = q.sArrivalMs
         countdownLabel.setText(if (s == null) R.string.no_countdown else R.string.strong_shaking_in)
         countdown.text = when {
-            s == null -> getString(R.string.take_cover)
+            s == null -> "—"
             s > now -> getString(R.string.seconds_left, Math.ceil((s - now) / 1000.0).toInt())
             else -> getString(R.string.seconds_left, 0)
         }

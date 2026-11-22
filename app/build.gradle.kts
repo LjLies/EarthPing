@@ -11,8 +11,8 @@ android {
         applicationId = "io.github.luccoj.alertroid"
         minSdk = 26
         targetSdk = 35
-        versionCode = 2
-        versionName = "0.2.0"
+        versionCode = 3
+        versionName = "0.3.0"
         // Only the app's own languages, so library texts match the rest of the app
         resourceConfigurations += listOf("en", "it")
     }

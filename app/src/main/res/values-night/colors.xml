@@ -17,4 +17,6 @@
     <color name="chip_error_fg">#FFDAD6</color>
     <color name="chip_neutral_bg">#3B302F</color>
     <color name="chip_neutral_fg">#D8C2BF</color>
+    <color name="off_bg">#B3261E</color>
+    <color name="off_fg">#FFFFFF</color>
 </resources>

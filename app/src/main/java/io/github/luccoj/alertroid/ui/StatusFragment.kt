@@ -15,8 +15,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.materialswitch.MaterialSwitch
-import com.google.android.material.slider.Slider
 import io.github.luccoj.alertroid.Places
 import io.github.luccoj.alertroid.Prefs
 import io.github.luccoj.alertroid.R
@@ -47,42 +47,37 @@ class StatusFragment : Fragment() {
         root = view
         prefs = Prefs(requireContext())
 
-        view.findViewById<MaterialSwitch>(R.id.service_switch).setOnCheckedChangeListener { _, on ->
+        view.findViewById<MaterialSwitch>(R.id.service_switch).setOnCheckedChangeListener { sw, on ->
             if (binding) return@setOnCheckedChangeListener
-            prefs.serviceEnabled = on
-            if (on) ListenerService.start(requireContext(), "user")
-            else requireContext().stopService(Intent(requireContext(), ListenerService::class.java))
-            refresh()
+            if (on) {
+                setAlerts(true)
+            } else {
+                // Turning warnings off by accident would be dangerous: ask first.
+                binding = true
+                sw.isChecked = true
+                binding = false
+                MaterialAlertDialogBuilder(requireContext())
+                    .setIcon(R.drawable.ic_pref_warning)
+                    .setTitle(R.string.turn_off_title)
+                    .setMessage(R.string.turn_off_message)
+                    .setPositiveButton(R.string.turn_off_confirm) { _, _ -> setAlerts(false) }
+                    .setNegativeButton(R.string.keep_on, null)
+                    .show()
+            }
         }
         view.findViewById<View>(R.id.warning_button).setOnClickListener {
             startActivity(Intent(requireContext(), OnboardingActivity::class.java).putExtra(OnboardingActivity.EXTRA_REVIEW, true))
         }
         view.findViewById<View>(R.id.edit_places).setOnClickListener { (activity as? MainActivity)?.selectTab(R.id.tab_places) }
 
-        // Test alert
-        val delay = view.findViewById<Slider>(R.id.delay)
-        val lead = view.findViewById<Slider>(R.id.lead)
-        val mag = view.findViewById<Slider>(R.id.magnitude)
-        delay.value = (prefs.testDelayS.coerceIn(0, 120) / 5 * 5).toFloat()
-        lead.value = (prefs.testLeadS.coerceIn(5, 90) / 5 * 5).toFloat()
-        mag.value = (Math.round(prefs.testMagnitude.coerceIn(3f, 8.5f) * 10) / 10f)
-        val update = {
-            view.findViewById<TextView>(R.id.delay_value).text = getString(R.string.seconds_short, delay.value.toInt())
-            view.findViewById<TextView>(R.id.lead_value).text = getString(R.string.seconds_short, lead.value.toInt())
-            view.findViewById<TextView>(R.id.magnitude_value).text = String.format(Locale.getDefault(), "M%.1f", mag.value)
-        }
-        update()
-        delay.addOnChangeListener { _, v, _ -> prefs.testDelayS = v.toInt(); update() }
-        lead.addOnChangeListener { _, v, _ -> prefs.testLeadS = v.toInt(); update() }
-        mag.addOnChangeListener { _, v, _ -> prefs.testMagnitude = v; update() }
-        view.findViewById<MaterialSwitch>(R.id.quiet).apply {
-            isChecked = prefs.testQuiet
-            setOnCheckedChangeListener { _, c -> prefs.testQuiet = c }
-        }
-        view.findViewById<View>(R.id.test_start).setOnClickListener {
-            ListenerService.start(requireContext(), "test", ListenerService.ACTION_TEST_SCHEDULE)
-            Toast.makeText(requireContext(), getString(R.string.test_scheduled, prefs.testDelayS), Toast.LENGTH_LONG).show()
-        }
+    }
+
+    private fun setAlerts(on: Boolean) {
+        prefs.serviceEnabled = on
+        io.github.luccoj.alertroid.EventLog.log("Alerts turned ${if (on) "on" else "off"} by the user")
+        if (on) ListenerService.start(requireContext(), "user")
+        else requireContext().stopService(Intent(requireContext(), ListenerService::class.java))
+        refresh()
     }
 
     override fun onResume() {
@@ -178,15 +173,29 @@ class StatusFragment : Fragment() {
         binding = true
         root.findViewById<MaterialSwitch>(R.id.service_switch).isChecked = enabled
         binding = false
+        // Off: the card turns bright red so it cannot be missed.
+        val off = !enabled
+        root.findViewById<MaterialCardView>(R.id.status_card).setCardBackgroundColor(ctx.getColor(if (off) R.color.off_bg else R.color.card))
+        val fg = ctx.getColor(if (off) R.color.off_fg else R.color.on_surface)
+        val fgSoft = ctx.getColor(if (off) R.color.off_fg else R.color.on_surface_soft)
+        root.findViewById<TextView>(R.id.status).apply {
+            setTextColor(fg)
+            setCompoundDrawablesRelativeWithIntrinsicBounds(if (off) R.drawable.ic_alert_off else 0, 0, 0, 0)
+            androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(fg))
+        }
+        root.findViewById<TextView>(R.id.status_details).setTextColor(fgSoft)
+        root.findViewById<TextView>(R.id.switch_label).setTextColor(fg)
 
         // Warnings
         val missing = Perms.missing(ctx)
         val noLocation = prefs.effectiveLocation() == null
         val warnCard = root.findViewById<MaterialCardView>(R.id.warning_card)
-        warnCard.visibility = if (noLocation || missing.isNotEmpty()) View.VISIBLE else View.GONE
-        val serious = noLocation || missing.any { it.required }
+        root.findViewById<View>(R.id.warning_button).visibility = if (missing.isEmpty()) View.GONE else View.VISIBLE
+        warnCard.visibility = if (noLocation || missing.isNotEmpty() || !enabled) View.VISIBLE else View.GONE
+        val serious = noLocation || missing.any { it.required } || !enabled
         warnCard.setCardBackgroundColor(ctx.getColor(if (serious) R.color.chip_error_bg else R.color.chip_warn_bg))
         root.findViewById<TextView>(R.id.warning_text).text = buildList {
+            if (!enabled) add("• " + getString(R.string.alerts_off_item))
             if (noLocation) add(getString(R.string.no_location_yet))
             missing.forEach { add("• " + getString(it.title) + if (it.required) " " + getString(R.string.required_tag) else "") }
         }.joinToString("\n")
@@ -200,15 +209,13 @@ class StatusFragment : Fragment() {
         if (me != null) {
             val source = if (prefs.manualLocationEnabled) getString(R.string.manual) else listOfNotNull(loc?.first?.name?.ifEmpty { null }, loc?.second?.let { ago(it) }).joinToString(", ")
             row(areas, R.drawable.ic_pref_location, getString(R.string.my_location),
-                String.format(Locale.US, "%.3f, %.3f", me.lat, me.lon) + " · " + source,
-                subs.firstOrNull { it.primary }?.token)
+                String.format(Locale.US, "%.3f, %.3f", me.lat, me.lon) + " · " + source)
         } else {
             row(areas, R.drawable.ic_pref_location, getString(R.string.my_location), getString(R.string.location_unknown))
         }
-        subs.filter { !it.primary }.forEach {
-            val auto = Places.isAutoDecoy(it.place)
-            row(areas, R.drawable.ic_pref_places, it.place.name,
-                if (auto) getString(R.string.auto_decoy_detail) else getString(R.string.watched_detail), it.token)
+        // Automatic decoys are only there for privacy: not shown (they are listed in Diagnostics).
+        subs.filter { !it.primary && !Places.isAutoDecoy(it.place) }.forEach {
+            row(areas, R.drawable.ic_pref_places, it.place.name, getString(R.string.watched_detail))
         }
 
         // History

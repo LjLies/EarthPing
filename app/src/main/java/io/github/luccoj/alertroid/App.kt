@@ -8,6 +8,7 @@ import java.io.File
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+        EventLog.init(this)
         AppVisibility.register(this)
         Prefs(this).migrate()
         // osmdroid: identify ourselves to the OSM tile servers and cache tiles in private storage.
