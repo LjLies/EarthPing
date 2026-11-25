@@ -204,8 +204,17 @@ class ListenerService : Service() {
         val nm = getSystemService(NotificationManager::class.java)
         EventLog.log("Permissions: $states; ringer=${am.ringerMode}, alarm volume=${am.getStreamVolume(android.media.AudioManager.STREAM_ALARM)}/" +
             "${am.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM)}, DND filter=${nm.currentInterruptionFilter}, " +
-            "quake channel bypasses DND=${Notifications.quakeChannelBypassesDnd(this)}")
+            "quake channel bypasses DND=${Notifications.quakeChannelBypassesDnd(this)}, turn screen on=${turnScreenOnState()}")
     }
+
+    /** Android 14+ "Turn screen on" special access, which waking the screen for a warning needs. */
+    private fun turnScreenOnState(): String = try {
+        if (Build.VERSION.SDK_INT < 34) "n/a" else when (getSystemService(android.app.AppOpsManager::class.java)
+            .unsafeCheckOpNoThrow("android:turn_screen_on", android.os.Process.myUid(), packageName)) {
+            android.app.AppOpsManager.MODE_ALLOWED, android.app.AppOpsManager.MODE_DEFAULT -> "yes"
+            else -> "NO"
+        }
+    } catch (e: Exception) { "?" }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         goForeground()
