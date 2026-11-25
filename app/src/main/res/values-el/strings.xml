@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_alerts">Ειδοποιήσεις</string>
+    <string name="tab_places">Τοποθεσίες</string>
+    <string name="tab_settings">Ρυθμίσεις</string>
+
+    <string name="ch_service">Σύνδεση στο παρασκήνιο</string>
+    <string name="ch_service_desc">Διατηρεί ενεργή τη σύνδεση ειδοποιήσεων. Μπορεί να αποκρυφτεί.</string>
+    <string name="ch_status">Προβλήματα σύνδεσης</string>
+    <string name="ch_status_desc">Σας ενημερώνει όταν δεν μπορούν να ληφθούν ειδοποιήσεις.</string>
+    <string name="ch_watched">Παρακολουθούμενες τοποθεσίες</string>
+    <string name="ch_watched_desc">Σεισμοί και άλλες ειδοποιήσεις στις τοποθεσίες που παρακολουθείτε.</string>
+    <string name="ch_quake">Προειδοποίηση σεισμού (η θέση μου)</string>
+    <string name="ch_quake_desc">Ηχητική προειδοποίηση σε πλήρη οθόνη όταν αναμένεται δόνηση εκεί που βρίσκεστε.</string>
+    <string name="ch_info">Σεισμός κοντά (η θέση μου)</string>
+    <string name="ch_info_desc">Σεισμοί στην περιοχή σας κάτω από το όριο του συναγερμού.</string>
+    <string name="ch_crisis">Άλλες ειδοποιήσεις (η θέση μου)</string>
+    <string name="ch_crisis_desc">Ειδοποιήσεις δημόσιας ασφάλειας για την περιοχή σας: πλημμύρες, καταιγίδες, πυρκαγιές…</string>
+    <string name="ch_alert_shown">Προειδοποίηση σεισμού στην οθόνη</string>
+    <string name="ch_alert_shown_desc">Αθόρυβη ειδοποίηση όσο εμφανίζεται η προειδοποίηση σε πλήρη οθόνη.</string>
+    <string name="ch_updates">Ενημερώσεις σεισμού</string>
+    <string name="ch_updates_desc">Αναθεωρήσεις που φτάνουν αφού κλείσει η προειδοποίηση.</string>
+
+    <string name="fg_connected">Αναμονή για ειδοποιήσεις (%d περιοχές)</string>
+    <string name="fg_connecting">Σύνδεση…</string>
+    <string name="fg_no_network">Αναμονή για δίκτυο</string>
+    <string name="fg_waiting">Χωρίς σύνδεση, νέα προσπάθεια σύντομα</string>
+    <string name="fg_starting">Εκκίνηση…</string>
+    <string name="status_disconnected_title">Δεν λαμβάνονται ειδοποιήσεις</string>
+
+    <string name="notif_quake_title">Σεισμός%1$s</string>
+    <string name="notif_watched_quake">Σεισμός κοντά σε: %1$s %2$s</string>
+    <string name="test_prefix">ΔΟΚΙΜΗ</string>
+    <string name="km_away">σε απόσταση %s km</string>
+    <string name="km_from">%1$s km από: %2$s</string>
+    <string name="est_intensity">εκτιμ. ένταση %s</string>
+    <string name="notif_update_title">Ενημέρωση · %s</string>
+    <string name="stop_alarm">Σίγαση</string>
+    <string name="close">Κλείσιμο</string>
+    <string name="crisis_generic">Δημόσια ειδοποίηση</string>
+    <string name="epicenter">Επίκεντρο</string>
+    <string name="you">Εσείς</string>
+    <string name="strong_shaking_in">Ισχυρή δόνηση σε</string>
+    <string name="no_countdown">Άγνωστος χρόνος άφιξης</string>
+    <string name="seconds_left">%d δευτ.</string>
+    <string name="no_active_alert">Καμία ενεργή ειδοποίηση</string>
+
+    <string name="tts_test">Αυτό είναι δοκιμή.</string>
+    <string name="tts_earthquake">Σεισμός!</string>
+    <string name="tts_magnitude">Μέγεθος %s.</string>
+    <string name="tts_distance">Σε απόσταση %s χιλιομέτρων.</string>
+    <plurals name="tts_seconds">
+        <item quantity="one">Δόνηση σε περίπου %d δευτερόλεπτο.</item>
+        <item quantity="other">Δόνηση σε περίπου %d δευτερόλεπτα.</item>
+    </plurals>
+    <plurals name="tts_seconds_marker">
+        <item quantity="one">%d δευτερόλεπτο.</item>
+        <item quantity="other">%d δευτερόλεπτα.</item>
+    </plurals>
+
+    <string name="chip_listening">Σε αναμονή</string>
+    <string name="chip_connecting">Σύνδεση</string>
+    <string name="chip_offline">Εκτός σύνδεσης</string>
+    <string name="chip_off">Ανενεργές</string>
+    <string name="state_connected_title">Αναμονή για ειδοποιήσεις</string>
+    <string name="state_connected_detail">Συνδέθηκε %1$s · τελευταία κίνηση %2$s</string>
+    <string name="state_connecting">Σύνδεση…</string>
+    <string name="state_no_network">Χωρίς δίκτυο</string>
+    <string name="state_waiting_title">Χωρίς σύνδεση</string>
+    <string name="state_waiting">Επόμενη προσπάθεια %s</string>
+    <string name="state_disabled">Οι ειδοποιήσεις είναι ΑΝΕΝΕΡΓΕΣ</string>
+    <string name="state_disabled_detail">Δεν θα λάβετε καμία προειδοποίηση.</string>
+    <string name="alerts_on">Λήψη ειδοποιήσεων</string>
+    <string name="alerts_off_item">Οι ειδοποιήσεις είναι ανενεργές: δεν θα προειδοποιηθείτε</string>
+    <string name="turn_off_title">Απενεργοποίηση ειδοποιήσεων;</string>
+    <string name="turn_off_message">Δεν θα προειδοποιείστε για σεισμούς ή άλλες ειδοποιήσεις μέχρι να τις ενεργοποιήσετε ξανά.</string>
+    <string name="turn_off_confirm">Απενεργοποίηση</string>
+    <string name="keep_on">Να παραμείνουν</string>
+    <string name="last_traffic">Τελευταία κίνηση από τον διακομιστή: %s</string>
+    <string name="last_error">Τελευταίο πρόβλημα: %s</string>
+    <string name="messages_count">Ληφθέντα μηνύματα: %1$d · επανασυνδέσεις: %2$d</string>
+    <string name="identity">Ανώνυμη ταυτότητα push: %s</string>
+    <string name="needs_attention">Χρειάζεται την προσοχή σας</string>
+    <string name="required_tag">(απαιτείται)</string>
+    <string name="fix_permissions">Έλεγχος αδειών</string>
+    <string name="no_location_yet">Η θέση σας δεν είναι ακόμη γνωστή, οπότε δεν μπορούν να ληφθούν ειδοποιήσεις για την περιοχή σας. Επιτρέψτε την πρόσβαση στην τοποθεσία ή ορίστε τη θέση σας χειροκίνητα στις Ρυθμίσεις.</string>
+    <string name="subscriptions">Περιοχές</string>
+    <string name="my_location">Η θέση μου</string>
+    <string name="location_unknown">Άγνωστη ακόμη</string>
+    <string name="manual">ορίστηκε χειροκίνητα</string>
+    <string name="watched_detail">Παρακολουθούμενη τοποθεσία</string>
+    <string name="edit_places">Παρακολουθούμενες τοποθεσίες</string>
+    <string name="test_mode">Δοκιμαστική ειδοποίηση</string>
+    <string name="test_mode_desc">Προσομοιώνει έναν σεισμό κοντά σας, με τον συναγερμό, τον χάρτη και την αντίστροφη μέτρηση, καθώς και μία ενημέρωση λίγα δευτερόλεπτα αργότερα. Κλειδώστε την οθόνη για να δείτε πώς εμφανίζεται εκεί. Λειτουργεί ακόμη και με τις ειδοποιήσεις ανενεργές.</string>
+    <string name="tests_title">Δοκιμές</string>
+    <string name="test_tone_title">Ήχος συναγερμού</string>
+    <string name="test_tone_desc">%1$s · %2$s. Η προεπισκόπηση παίζει για λίγα δευτερόλεπτα στην τρέχουσα ένταση συναγερμού.</string>
+    <string name="test_tone_play">Αναπαραγωγή συναγερμού</string>
+    <string name="test_tone_stop">Διακοπή</string>
+    <string name="test_update_play">Αναπαραγωγή ήχου ενημέρωσης</string>
+    <string name="tts_try_button">Εκφώνηση δείγματος προειδοποίησης</string>
+    <string name="tts_try_desc">Γλώσσα ομιλίας: %s.</string>
+    <string name="tts_off_note">Η ομιλία είναι απενεργοποιημένη στις Ρυθμίσεις· το δείγμα παίζει εδώ ούτως ή άλλως.</string>
+    <string name="test_delay">Έναρξη μετά από</string>
+    <string name="test_lead">Δευτερόλεπτα έως τη δόνηση</string>
+    <string name="test_magnitude">Μέγεθος</string>
+    <string name="test_quiet">Αθόρυβη δοκιμή (χωρίς ήχο συναγερμού)</string>
+    <string name="test_start">Προγραμματισμός δοκιμαστικής ειδοποίησης</string>
+    <string name="test_scheduled">Δοκιμαστική ειδοποίηση σε %d δ</string>
+    <string name="seconds_short">%d δ</string>
+    <string name="recent_alerts">Πρόσφατες ειδοποιήσεις</string>
+    <string name="no_alerts_yet">Δεν έχουν ληφθεί ακόμη ειδοποιήσεις.</string>
+    <string name="note_test">δοκιμή</string>
+    <string name="note_revision">ενημέρωση</string>
+    <string name="note_updated">ενημερώθηκε</string>
+    <string name="note_google_test">δοκιμαστική ειδοποίηση Google, δεν εμφανίστηκε</string>
+    <string name="kind_earthquake">Σεισμός</string>
+    <string name="kind_public_alert">Δημόσια ειδοποίηση</string>
+    <string name="kind_sos_alert">Ειδοποίηση SOS</string>
+    <string name="disclaimer">Το EarthPing είναι ανεξάρτητη, ανεπίσημη εφαρμογή. Ακούει το ίδιο κανάλι push που χρησιμοποιεί η Google για τις ειδοποιήσεις σεισμού του Android, το οποίο η Google μπορεί να αλλάξει ή να διακόψει ανά πάσα στιγμή. Δεν είναι πιστοποιημένο σύστημα προειδοποίησης: κρατήστε ενεργές τις επίσημες ειδοποιήσεις έκτακτης ανάγκης του τηλεφώνου σας.</string>
+
+    <string name="places_desc">Έως τρεις ακόμη τοποθεσίες που σας ενδιαφέρουν (οικογένεια, γενέτειρα…). Ειδοποιείστε για σεισμούς και ειδοποιήσεις εκεί, χωρίς αντίστροφη μέτρηση. Επίσης κρύβουν την πραγματική σας περιοχή από την Google ανάμεσα σε άλλες· μια κενή θέση παίρνει ένα τυχαίο αυτόματο δόλωμα.</string>
+    <string name="place_n">Τοποθεσία %d</string>
+    <string name="place_name">Όνομα</string>
+    <string name="latitude">Γεωγρ. πλάτος</string>
+    <string name="longitude">Γεωγρ. μήκος</string>
+    <string name="clear">Εκκαθάριση</string>
+    <string name="save">Αποθήκευση</string>
+    <string name="saved">Αποθηκεύτηκε</string>
+    <string name="search">Αναζήτηση</string>
+    <string name="search_place">Αναζήτηση τοποθεσίας</string>
+    <string name="slot_empty_hint">Κενό: χρησιμοποιείται αυτόματο δόλωμα. Κάντε αναζήτηση, πληκτρολογήστε συντεταγμένες ή πατήστε παρατεταμένα τον χάρτη.</string>
+    <string name="slot_set_hint">Πατήστε παρατεταμένα τον χάρτη για να τη μετακινήσετε.</string>
+    <string name="long_press_hint">Πατήστε παρατεταμένα τον χάρτη για να τοποθετήσετε την επιλεγμένη τοποθεσία.</string>
+    <string name="no_geocoder">Δεν υπάρχει υπηρεσία αναζήτησης τοποθεσιών σε αυτή τη συσκευή. Εισαγάγετε συντεταγμένες ή πατήστε παρατεταμένα τον χάρτη.</string>
+    <string name="place_not_found">Η τοποθεσία δεν βρέθηκε</string>
+    <string name="invalid_place">Η τοποθεσία %d έχει μη έγκυρες συντεταγμένες</string>
+    <string name="osm_attribution">Δεδομένα χάρτη © συντελεστές του OpenStreetMap</string>
+
+    <string name="cat_alarm">Συναγερμός</string>
+    <string name="cat_speech">Ομιλία</string>
+    <string name="cat_notifications">Ειδοποιήσεις</string>
+    <string name="cat_general">Γενικά</string>
+    <string name="cat_connection">Σύνδεση</string>
+    <string name="cat_about">Πληροφορίες</string>
+    <string name="loud_threshold">Πότε να ηχεί ο συναγερμός</string>
+    <string name="loud_threshold_note">Οι ασθενέστεροι σεισμοί στην περιοχή σας δίνουν ούτως ή άλλως μια απλή ειδοποίηση.</string>
+    <string name="alarm_tone">Ήχος συναγερμού</string>
+    <string name="alarm_sound">Ένταση συναγερμού</string>
+    <string name="override_silence">Παράκαμψη αθόρυβης λειτουργίας</string>
+    <string name="override_silence_summary">Ηχεί στο κανάλι συναγερμού και αίρει τη λειτουργία Μην ενοχλείτε κατά τον συναγερμό</string>
+    <string name="tts_enabled">Εκφώνηση της προειδοποίησης</string>
+    <string name="tts_enabled_summary">Λέει το μέγεθος και την απόσταση και μετά μετρά αντίστροφα έως τη δόνηση</string>
+    <string name="tts_language">Γλώσσα ομιλίας</string>
+    <string name="tts_try">Δοκιμή ομιλίας</string>
+    <string name="tts_settings">Μηχανή μετατροπής κειμένου σε ομιλία</string>
+    <string name="tts_settings_summary">Επιλέξτε μηχανή και εγκαταστήστε φωνές</string>
+    <string name="tts_unavailable">Η μετατροπή κειμένου σε ομιλία ξεκινά ή δεν είναι διαθέσιμη· δοκιμάστε ξανά σε λίγο.</string>
+    <string name="tts_voice_missing">Δεν υπάρχει εγκατεστημένη φωνή για %s στη μηχανή ομιλίας.</string>
+    <string name="watched_notifs">Παρακολουθούμενες τοποθεσίες</string>
+    <string name="watched_notifs_summary">Ειδοποίησέ με για σεισμούς και ειδοποιήσεις στις παρακολουθούμενες τοποθεσίες μου</string>
+    <string name="crisis_alerts">Άλλες δημόσιες ειδοποιήσεις</string>
+    <string name="crisis_alerts_summary">Πλημμύρες, καταιγίδες, πυρκαγιές και άλλες ειδοποιήσεις που στέλνει η Google από το ίδιο κανάλι</string>
+    <string name="location">Τοποθεσία</string>
+    <string name="location_auto_summary">Εντοπίζεται αυτόματα</string>
+    <string name="location_manual_summary">Ορίστηκε χειροκίνητα: %s</string>
+    <string name="manual_location_desc">Κανονικά η θέση σας εντοπίζεται αυτόματα. Μπορείτε να την ορίσετε εδώ· με την αποθήκευση χρησιμοποιείται αυτή.</string>
+    <string name="invalid_coords">Μη έγκυρες συντεταγμένες</string>
+    <string name="app_language">Γλώσσα εφαρμογής</string>
+    <string name="language_system">Γλώσσα συστήματος</string>
+    <string name="permissions">Άδειες</string>
+    <string name="permissions_all_granted">Δόθηκαν όλες</string>
+    <string name="permissions_missing_count">%d δεν δόθηκαν</string>
+    <string name="heartbeat_minutes">Έλεγχος σύνδεσης (λεπτά)</string>
+    <string name="heartbeat_desc">Μικρότερη τιμή εντοπίζει νωρίτερα μια χαμένη σύνδεση, με λίγη περισσότερη κατανάλωση μπαταρίας. Η βαθιά αναστολή μπορεί να την επεκτείνει έως περίπου 10 λεπτά.</string>
+    <string name="diagnostics">Διαγνωστικά</string>
+    <string name="diagnostics_summary">Λεπτομέρειες σύνδεσης και αρχείο καταγραφής</string>
+    <string name="about_summary">Έκδοση %s · GPL-3.0-or-later</string>
+    <string name="source_code">Πηγαίος κώδικας</string>
+    <string name="source_code_summary">github.com/LjLies/EarthPing</string>
+    <string name="cannot_open">Δεν είναι δυνατό το άνοιγμα αυτής της οθόνης σε αυτή τη συσκευή</string>
+
+    <string-array name="loud_entries">
+        <item>Οποιαδήποτε ειδοποίηση για την περιοχή μου</item>
+        <item>Ελαφριά δόνηση ή περισσότερο (IV+)</item>
+        <item>Μέτρια δόνηση ή περισσότερο (V+)</item>
+        <item>Ισχυρή δόνηση ή περισσότερο (VI+)</item>
+    </string-array>
+    <string-array name="tone_entries">
+        <item>Ανερχόμενες καμπάνες</item>
+        <item>Σειρήνα (δυνατή!)</item>
+    </string-array>
+    <string-array name="sound_entries">
+        <item>Πλήρης ένταση</item>
+        <item>Τρέχουσα ένταση συναγερμού</item>
+        <item>Απαλά μπιπ</item>
+        <item>Χωρίς ήχο (μόνο δόνηση και ομιλία)</item>
+    </string-array>
+    <string-array name="tts_lang_entries">
+        <item>Ίδια με την εφαρμογή</item>
+        <item>English</item>
+        <item>Italiano</item>
+        <item>Español</item>
+        <item>Türkçe</item>
+        <item>Ελληνικά</item>
+        <item>Bahasa Indonesia</item>
+        <item>繁體中文</item>
+    </string-array>
+
+    <string name="log_title">Αρχείο καταγραφής</string>
+    <string name="copy_log">Αντιγραφή</string>
+    <string name="copied">Αντιγράφηκε</string>
+    <string name="diag_state">Κατάσταση: %s</string>
+    <string name="diag_since">Συνδέθηκε: %s</string>
+    <string name="diag_topics">Θέματα: %s</string>
+    <string name="diag_location">Τοποθεσία: %s</string>
+    <string name="clear_log">Εκκαθάριση</string>
+
+    <string name="welcome_short">Καλώς ήρθατε</string>
+    <string name="welcome_title">Προειδοποιήσεις σεισμού, δευτερόλεπτα νωρίτερα</string>
+    <string name="welcome_body">Το EarthPing λαμβάνει τις ειδοποιήσεις σεισμού που μεταδίδει η Google για τα τηλέφωνα Android, απευθείας και χωρίς Google Play Services ή λογαριασμό Google, και σας προειδοποιεί πριν φτάσει η ισχυρή δόνηση. Μεταδίδει επίσης άλλες δημόσιες ειδοποιήσεις για την περιοχή σας.\n\nΓια να είναι γρήγορο και αξιόπιστο, πρέπει να μένει συνδεδεμένο στο παρασκήνιο, να ξέρει κατά προσέγγιση πού βρίσκεστε και να μπορεί να ηχήσει συναγερμό ακόμη και στην αθόρυβη λειτουργία.</string>
+    <string name="privacy_title">Απόρρητο</string>
+    <string name="privacy_body">Μόνο η κατά προσέγγιση περιοχή σας (ένα κελί περίπου 40 km, ανάμεικτο με τρεις άλλες τοποθεσίες) αποστέλλεται στον διακομιστή push της Google, με ανώνυμη ταυτότητα συσκευής. Τίποτα δεν αποστέλλεται αλλού και δεν υπάρχουν αναλύσεις χρήσης.</string>
+    <string name="permissions_intro">Επιτρέψτε ό,τι απαιτείται για να συνεχίσετε. Τα προτεινόμενα κάνουν τις προειδοποιήσεις ταχύτερες και πιο δύσκολο να χαθούν.</string>
+    <string name="perm_ok">Επιτρέπεται</string>
+    <string name="perm_required">Απαιτείται</string>
+    <string name="perm_recommended">Προτείνεται</string>
+    <string name="grant">Να επιτρέπεται</string>
+    <string name="continue_btn">Συνέχεια</string>
+    <string name="done">Τέλος</string>
+    <string name="grant_required_first">Επιτρέψτε τα απαιτούμενα για να συνεχίσετε</string>
+    <string name="vendor_title">Τηλέφωνα που σταματούν εφαρμογές στο παρασκήνιο</string>
+    <string name="vendor_body">Ορισμένοι κατασκευαστές (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) σταματούν τις εφαρμογές στο παρασκήνιο παρά αυτές τις ρυθμίσεις. Αν σταματήσουν να έρχονται ειδοποιήσεις, επιτρέψτε επίσης την «αυτόματη εκκίνηση» και απενεργοποιήστε κάθε εξοικονόμηση μπαταρίας για το EarthPing. Το dontkillmyapp.com εξηγεί πώς για κάθε τηλέφωνο.</string>
+    <string name="perm_notif">Ειδοποιήσεις</string>
+    <string name="perm_notif_why">Για να εμφανίζονται οι προειδοποιήσεις και να μένει ενεργή η σύνδεση στο παρασκήνιο.</string>
+    <string name="perm_loc">Τοποθεσία</string>
+    <string name="perm_loc_why">Για να ξέρει ποια περιοχή να ακούει και να μετρά αντίστροφα έως τη δόνηση. Χρησιμοποιείται η τοποθεσία δικτύου· το GPS μόνο σύντομα και σπάνια, όταν δεν λειτουργεί τίποτε άλλο.</string>
+    <string name="perm_bgloc">Τοποθεσία συνεχώς</string>
+    <string name="perm_bgloc_why">Διατηρεί ενημερωμένη την περιοχή σας όταν ταξιδεύετε, και μετά από επανεκκίνηση. Επιλέξτε «Να επιτρέπεται πάντα».</string>
+    <string name="perm_battery">Χρήση μπαταρίας χωρίς περιορισμούς</string>
+    <string name="perm_battery_why">Κρατά τη σύνδεση ανοιχτή κατά τη βαθιά αναστολή και επιτρέπει στο EarthPing να επανεκκινείται. Χωρίς αυτό, οι προειδοποιήσεις μπορεί να έρθουν αργά ή καθόλου.</string>
+    <string name="perm_data">Δεδομένα παρασκηνίου</string>
+    <string name="perm_data_why">Η Εξοικονόμηση δεδομένων εμποδίζει τα δεδομένα παρασκηνίου αυτής της εφαρμογής. Επιτρέψτε απεριόριστα δεδομένα για να φτάνουν οι ειδοποιήσεις.</string>
+    <string name="perm_dnd">Πρόσβαση στο Μην ενοχλείτε</string>
+    <string name="perm_dnd_why">Επιτρέπει στον συναγερμό να ηχεί και με ενεργό το Μην ενοχλείτε.</string>
+    <string name="perm_fullscreen">Ειδοποιήσεις πλήρους οθόνης</string>
+    <string name="perm_fullscreen_why">Επιτρέπει στην προειδοποίηση με χάρτη και αντίστροφη μέτρηση να εμφανίζεται πάνω από την οθόνη κλειδώματος.</string>
+    <string name="perm_overlay">Εμφάνιση πάνω από άλλες εφαρμογές</string>
+    <string name="perm_overlay_why">Επιτρέπει στην προειδοποίηση να εμφανίζεται αμέσως, ό,τι κι αν κάνετε.</string>
+    <string name="perm_alarms">Ξυπνητήρια και υπενθυμίσεις</string>
+    <string name="perm_alarms_why">Ακριβείς χρονοδιακόπτες ελέγχουν τη σύνδεση κατά τη βαθιά αναστολή και ξεκινούν εγκαίρως τις δοκιμαστικές ειδοποιήσεις.</string>
+    <string name="ch_notice_always">Σεισμός κοντά, και σε αθόρυβη λειτουργία</string>
+    <string name="ch_notice_always_desc">Όπως το «Σεισμός κοντά», αλλά ο σύντομος ήχος ακούγεται και όταν το τηλέφωνο είναι σε αθόρυβη λειτουργία ή δόνηση (όχι στο Μην ενοχλείτε).</string>
+    <string name="legend_v">V+ μέτρια</string>
+    <string name="legend_iv">IV ελαφριά</string>
+    <string name="legend_iii">III ασθενής</string>
+    <string name="legend_p">Κύμα P (πρώτο τράνταγμα)</string>
+    <string name="legend_s">Κύμα S (ισχυρή δόνηση)</string>
+    <string name="test_notice_play">Αναπαραγωγή ήχου ειδοποίησης</string>
+    <string name="test_alarm_link">Δοκιμή ήχων συναγερμού  →</string>
+    <string name="test_speech_link">Δοκιμή ομιλίας  →</string>
+    <string name="siren_threshold">Πλήρης σειρήνα για ισχυρή δόνηση</string>
+    <string name="siren_threshold_note">Ηχεί πάντα στη μέγιστη ένταση.</string>
+    <string name="notice_sound">Ασθενέστεροι σεισμοί κοντά</string>
+    <string name="clear_history">Εκκαθάριση</string>
+    <string name="clear_history_title">Εκκαθάριση πρόσφατων ειδοποιήσεων;</string>
+    <string name="clear_history_message">Η λίστα πρόσφατων ειδοποιήσεων, μαζί με τις δοκιμές, θα αδειάσει.</string>
+    <string name="tts_expecting">τώρα αναμένεται %s</string>
+    <string name="tts_magnitude_short">μέγεθος %s</string>
+    <string-array name="shaking_terms">
+        <item>ασθενής δόνηση</item>
+        <item>ελαφριά δόνηση</item>
+        <item>μέτρια δόνηση</item>
+        <item>ισχυρή δόνηση</item>
+        <item>πολύ ισχυρή δόνηση</item>
+        <item>σφοδρή δόνηση</item>
+        <item>βίαιη δόνηση</item>
+        <item>ακραία δόνηση</item>
+    </string-array>
+    <string-array name="intensity_terms">
+        <item>ασθενής</item>
+        <item>ελαφριά</item>
+        <item>μέτρια</item>
+        <item>ισχυρή</item>
+        <item>πολύ ισχυρή</item>
+        <item>σφοδρή</item>
+        <item>βίαιη</item>
+        <item>ακραία</item>
+    </string-array>
+    <string-array name="siren_entries">
+        <item>Ποτέ</item>
+        <item>Ισχυρή δόνηση ή περισσότερο (VI+)</item>
+        <item>Πολύ ισχυρή δόνηση ή περισσότερο (VII+)</item>
+        <item>Σφοδρή δόνηση ή περισσότερο (VIII+)</item>
+    </string-array>
+    <string-array name="notice_sound_entries">
+        <item>Σύντομος ήχος</item>
+        <item>Σύντομος ήχος, και σε αθόρυβη λειτουργία</item>
+    </string-array>
+    <string name="fsi_revoked_title">Οι ειδοποιήσεις πλήρους οθόνης απενεργοποιήθηκαν</string>
+    <string name="fsi_revoked_text">Το Android αφαίρεσε αυτή την άδεια (μπορεί να το κάνει όταν ενημερώνεται η εφαρμογή). Πατήστε για να την επιτρέψετε ξανά.</string>
+    <string name="location_hint">Αναζητήστε τοποθεσία, πληκτρολογήστε συντεταγμένες ή πατήστε παρατεταμένα τον χάρτη.</string>
+    <string name="location_state_manual">Χρησιμοποιείται η τοποθεσία που ορίστηκε εδώ</string>
+    <string name="location_state_auto">Χρησιμοποιείται η τοποθεσία που εντοπίστηκε</string>
+    <string name="use_detected_location">Χρήση εντοπισμένης</string>
+    <string name="tts_mag_higher">τώρα μεγαλύτερο μέγεθος, %s</string>
+    <string name="tts_mag_lower">τώρα μικρότερο μέγεθος, %s</string>
+    <string name="back_alarm_settings">←  Ρυθμίσεις συναγερμού</string>
+    <string name="back_speech_settings">←  Ρυθμίσεις ομιλίας</string>
+    <string name="history_map">Χάρτης</string>
+    <string name="history_map_title">Χάρτης ειδοποιήσεων</string>
+    <string name="history_map_empty">Δεν υπάρχουν πρόσφατες ειδοποιήσεις με τοποθεσία.</string>
+    <string name="history_quake_title">Σεισμός μεγέθους %s</string>
+    <string name="history_occurred">Σημειώθηκε: %s</string>
+    <string name="history_received">Λήφθηκε: %s</string>
+    <string name="history_epicentre">Επίκεντρο: %s</string>
+    <string name="history_epicentre_depth">Επίκεντρο: %1$s, βάθος %2$s km</string>
+    <string name="history_area_centre">Κέντρο περιοχής: %s</string>
+    <string name="history_older">Προηγούμενη ειδοποίηση</string>
+    <string name="history_newer">Επόμενη ειδοποίηση</string>
+    <plurals name="history_updated">
+        <item quantity="one">Ενημερώθηκε μία φορά από την Google, στις %2$s</item>
+        <item quantity="other">Ενημερώθηκε %1$d φορές από την Google, τελευταία στις %2$s</item>
+    </plurals>
+    <plurals name="history_revisions">
+        <item quantity="one">ενημερώθηκε μία φορά</item>
+        <item quantity="other">ενημερώθηκε %d φορές</item>
+    </plurals>
+    <string name="history_km_from_you">%s km από εσάς</string>
+
+    <string name="disclaimer_title">Πριν ενεργοποιήσετε τις ειδοποιήσεις</string>
+    <string name="disclaimer_full">Το EarthPing είναι πειραματικό και μέχρι στιγμής το έχουν δοκιμάσει ελάχιστοι άνθρωποι.\n\n• Μπορεί να μην εντοπίσει σεισμούς, να προειδοποιήσει αργά ή να δώσει ψευδείς συναγερμούς, για παράδειγμα όταν δεν υπάρχει σύνδεση δικτύου ή όταν το σύστημα σταματά την εφαρμογή. Μη βασίζεστε σε αυτό ως κύρια πηγή πληροφοριών για την ασφάλειά σας: κρατήστε ενεργές τις επίσημες ειδοποιήσεις έκτακτης ανάγκης του τηλεφώνου σας και ακολουθείτε τις οδηγίες των τοπικών αρχών.\n\n• Η αντίστροφη μέτρηση και η αναμενόμενη δόνηση είναι εκτιμήσεις. Η δόνηση μπορεί να φτάσει νωρίτερα ή να είναι ισχυρότερη από ό,τι εμφανίζεται.\n\n• Το EarthPing λαμβάνει τις ειδοποιήσεις συνδεόμενο στους διακομιστές της Google με ανώνυμη ταυτότητα. Δεν έχει δημιουργηθεί, εγκριθεί ή υποστηριχθεί από την Google, και η Google δεν φέρει καμία ευθύνη γι’ αυτό. Η Google μπορεί να αλλάξει ή να διακόψει αυτή την υπηρεσία ανά πάσα στιγμή.\n\n• Είναι δική σας ευθύνη να βεβαιωθείτε ότι η χρήση του επιτρέπεται από τους όρους ή τους νόμους που ισχύουν για εσάς.\n\n• Το EarthPing είναι ελεύθερο λογισμικό και παρέχεται χωρίς καμία εγγύηση.</string>
+    <string name="disclaimer_understood">Κατάλαβα</string>
+</resources>

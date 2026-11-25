@@ -113,9 +113,11 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
             open(Intent(Settings.ACTION_APP_LOCALE_SETTINGS, Uri.parse("package:${requireContext().packageName}")))
             return
         }
-        val tags = arrayOf("", "en", "it")
-        val labels = arrayOf(getString(R.string.language_system), "English", "Italiano")
-        val current = AppCompatDelegate.getApplicationLocales().toLanguageTags().substringBefore('-')
+        val tags = arrayOf("", "en", "it", "es", "tr", "el", "id", "zh-TW")
+        val labels = arrayOf(getString(R.string.language_system), "English", "Italiano", "Español", "Türkçe", "Ελληνικά", "Bahasa Indonesia", "繁體中文")
+        val current = AppCompatDelegate.getApplicationLocales().toLanguageTags().let { t ->
+            tags.firstOrNull { it.isNotEmpty() && it.equals(t, ignoreCase = true) } ?: t.substringBefore('-')
+        }
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.app_language)
             .setSingleChoiceItems(labels, tags.indexOf(current).coerceAtLeast(0)) { d, which ->

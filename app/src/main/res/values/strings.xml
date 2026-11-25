@@ -58,8 +58,8 @@
     <string name="tts_magnitude">Magnitude %s.</string>
     <string name="tts_distance">%s kilometers away.</string>
     <plurals name="tts_seconds">
-        <item quantity="one">Shaking in %d second.</item>
-        <item quantity="other">Shaking in %d seconds.</item>
+        <item quantity="one">Shaking in about %d second.</item>
+        <item quantity="other">Shaking in about %d seconds.</item>
     </plurals>
     <plurals name="tts_seconds_marker">
         <item quantity="one">%d second.</item>
@@ -227,11 +227,21 @@
         <item>Same as the app</item>
         <item>English</item>
         <item>Italiano</item>
+        <item>Español</item>
+        <item>Türkçe</item>
+        <item>Ελληνικά</item>
+        <item>Bahasa Indonesia</item>
+        <item>繁體中文</item>
     </string-array>
     <string-array name="tts_lang_values" translatable="false">
         <item></item>
         <item>en</item>
         <item>it</item>
+        <item>es</item>
+        <item>tr</item>
+        <item>el</item>
+        <item>id</item>
+        <item>zh-TW</item>
     </string-array>
 
     <!-- Diagnostics -->
@@ -279,7 +289,7 @@
     <string name="perm_alarms">Alarms and reminders</string>
     <string name="perm_alarms_why">Precise timers check the connection during deep sleep and start test alerts on time.</string>
     <string name="ch_notice_always">Earthquake nearby, also in silent mode</string>
-    <string name="ch_notice_always_desc">Like "Earthquake nearby", but the chime also sounds when the phone is on silent or vibrate (not in Do Not Disturb).</string>
+    <string name="ch_notice_always_desc">Like “Earthquake nearby”, but the chime also sounds when the phone is on silent or vibrate (not in Do Not Disturb).</string>
     <string name="legend_v">V+ moderate</string>
     <string name="legend_iv">IV light</string>
     <string name="legend_iii">III weak</string>

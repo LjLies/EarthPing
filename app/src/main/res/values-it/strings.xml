@@ -55,9 +55,9 @@
     <string name="tts_magnitude">Magnitudo %s.</string>
     <string name="tts_distance">A %s chilometri.</string>
     <plurals name="tts_seconds">
-        <item quantity="one">Scosse tra %d secondo.</item>
-        <item quantity="many">Scosse tra %d secondi.</item>
-        <item quantity="other">Scosse tra %d secondi.</item>
+        <item quantity="one">Scosse tra circa %d secondo.</item>
+        <item quantity="many">Scosse tra circa %d secondi.</item>
+        <item quantity="other">Scosse tra circa %d secondi.</item>
     </plurals>
     <plurals name="tts_seconds_marker">
         <item quantity="one">%d secondo.</item>
@@ -210,6 +210,11 @@
         <item>Come l\'app</item>
         <item>English</item>
         <item>Italiano</item>
+        <item>Español</item>
+        <item>Türkçe</item>
+        <item>Ελληνικά</item>
+        <item>Bahasa Indonesia</item>
+        <item>繁體中文</item>
     </string-array>
 
     <!-- Diagnostica -->
@@ -257,7 +262,7 @@
     <string name="perm_alarms">Sveglie e promemoria</string>
     <string name="perm_alarms_why">Timer precisi controllano la connessione durante il sonno profondo e avviano in orario le allerte di prova.</string>
     <string name="ch_notice_always">Terremoto nella zona, anche in silenzioso</string>
-    <string name="ch_notice_always_desc">Come "Terremoto nella zona", ma il suono si sente anche con il telefono in silenzioso o vibrazione (non con Non disturbare).</string>
+    <string name="ch_notice_always_desc">Come «Terremoto nella zona», ma il suono si sente anche con il telefono in silenzioso o vibrazione (non con Non disturbare).</string>
     <string name="legend_v">V+ moderate</string>
     <string name="legend_iv">IV leggere</string>
     <string name="legend_iii">III deboli</string>

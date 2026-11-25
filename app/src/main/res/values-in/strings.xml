@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_alerts">Peringatan</string>
+    <string name="tab_places">Tempat</string>
+    <string name="tab_settings">Setelan</string>
+
+    <string name="ch_service">Koneksi latar belakang</string>
+    <string name="ch_service_desc">Menjaga koneksi peringatan tetap berjalan. Aman untuk disembunyikan.</string>
+    <string name="ch_status">Masalah koneksi</string>
+    <string name="ch_status_desc">Memberi tahu Anda saat peringatan tidak dapat diterima.</string>
+    <string name="ch_watched">Tempat yang dipantau</string>
+    <string name="ch_watched_desc">Gempa bumi dan peringatan lain di tempat yang Anda pantau.</string>
+    <string name="ch_quake">Peringatan gempa (lokasi saya)</string>
+    <string name="ch_quake_desc">Peringatan layar penuh yang berbunyi keras saat guncangan diperkirakan terjadi di tempat Anda.</string>
+    <string name="ch_info">Gempa di dekat Anda (lokasi saya)</string>
+    <string name="ch_info_desc">Gempa di daerah Anda di bawah ambang alarm.</string>
+    <string name="ch_crisis">Peringatan lain (lokasi saya)</string>
+    <string name="ch_crisis_desc">Peringatan keselamatan publik untuk daerah Anda: banjir, badai, kebakaran…</string>
+    <string name="ch_alert_shown">Peringatan gempa di layar</string>
+    <string name="ch_alert_shown_desc">Notifikasi senyap selama peringatan layar penuh ditampilkan.</string>
+    <string name="ch_updates">Pembaruan gempa</string>
+    <string name="ch_updates_desc">Revisi yang datang setelah peringatan ditutup.</string>
+
+    <string name="fg_connected">Mendengarkan peringatan (%d area)</string>
+    <string name="fg_connecting">Menghubungkan…</string>
+    <string name="fg_no_network">Menunggu jaringan</string>
+    <string name="fg_waiting">Tidak terhubung, segera mencoba lagi</string>
+    <string name="fg_starting">Memulai…</string>
+    <string name="status_disconnected_title">Peringatan tidak diterima</string>
+
+    <string name="notif_quake_title">Gempa%1$s</string>
+    <string name="notif_watched_quake">Gempa di dekat %1$s %2$s</string>
+    <string name="test_prefix">UJI</string>
+    <string name="km_away">%s km jauhnya</string>
+    <string name="km_from">%1$s km dari %2$s</string>
+    <string name="est_intensity">perkiraan intensitas %s</string>
+    <string name="notif_update_title">Pembaruan · %s</string>
+    <string name="stop_alarm">Hentikan alarm</string>
+    <string name="close">Tutup</string>
+    <string name="crisis_generic">Peringatan publik</string>
+    <string name="epicenter">Episentrum</string>
+    <string name="you">Anda</string>
+    <string name="strong_shaking_in">Guncangan kuat dalam</string>
+    <string name="no_countdown">Waktu kedatangan tidak diketahui</string>
+    <string name="seconds_left">%d dtk</string>
+    <string name="no_active_alert">Tidak ada peringatan aktif</string>
+
+    <string name="tts_test">Ini adalah uji coba.</string>
+    <string name="tts_earthquake">Gempa bumi!</string>
+    <string name="tts_magnitude">Magnitudo %s.</string>
+    <string name="tts_distance">Berjarak %s kilometer.</string>
+    <plurals name="tts_seconds">
+        <item quantity="other">Guncangan dalam sekitar %d detik.</item>
+    </plurals>
+    <plurals name="tts_seconds_marker">
+        <item quantity="other">%d detik.</item>
+    </plurals>
+
+    <string name="chip_listening">Mendengarkan</string>
+    <string name="chip_connecting">Menghubungkan</string>
+    <string name="chip_offline">Offline</string>
+    <string name="chip_off">Mati</string>
+    <string name="state_connected_title">Mendengarkan peringatan</string>
+    <string name="state_connected_detail">Terhubung %1$s · lalu lintas terakhir %2$s</string>
+    <string name="state_connecting">Menghubungkan…</string>
+    <string name="state_no_network">Tidak ada jaringan</string>
+    <string name="state_waiting_title">Tidak terhubung</string>
+    <string name="state_waiting">Percobaan berikutnya %s</string>
+    <string name="state_disabled">Peringatan MATI</string>
+    <string name="state_disabled_detail">Anda tidak akan menerima peringatan apa pun.</string>
+    <string name="alerts_on">Terima peringatan</string>
+    <string name="alerts_off_item">Peringatan dimatikan: Anda tidak akan diperingatkan</string>
+    <string name="turn_off_title">Matikan peringatan?</string>
+    <string name="turn_off_message">Anda tidak akan diperingatkan tentang gempa atau peringatan lain sampai Anda menyalakannya kembali.</string>
+    <string name="turn_off_confirm">Matikan</string>
+    <string name="keep_on">Biarkan menyala</string>
+    <string name="last_traffic">Lalu lintas terakhir dari server: %s</string>
+    <string name="last_error">Masalah terakhir: %s</string>
+    <string name="messages_count">Pesan diterima: %1$d · koneksi ulang: %2$d</string>
+    <string name="identity">Identitas push anonim: %s</string>
+    <string name="needs_attention">Perlu perhatian Anda</string>
+    <string name="required_tag">(wajib)</string>
+    <string name="fix_permissions">Tinjau izin</string>
+    <string name="no_location_yet">Lokasi Anda belum diketahui, jadi peringatan untuk daerah Anda tidak dapat diterima. Izinkan akses lokasi, atau atur lokasi Anda secara manual di Setelan.</string>
+    <string name="subscriptions">Area</string>
+    <string name="my_location">Lokasi saya</string>
+    <string name="location_unknown">Belum diketahui</string>
+    <string name="manual">diatur manual</string>
+    <string name="watched_detail">Tempat yang dipantau</string>
+    <string name="edit_places">Tempat yang dipantau</string>
+    <string name="test_mode">Peringatan uji</string>
+    <string name="test_mode_desc">Menyimulasikan gempa di dekat Anda, dengan alarm, peta, dan hitung mundur, ditambah satu pembaruan beberapa detik kemudian. Kunci layar untuk melihat tampilannya di sana. Tetap berfungsi meskipun peringatan dimatikan.</string>
+    <string name="tests_title">Uji coba</string>
+    <string name="test_tone_title">Nada alarm</string>
+    <string name="test_tone_desc">%1$s · %2$s. Pratinjau diputar beberapa detik dengan volume alarm saat ini.</string>
+    <string name="test_tone_play">Putar alarm</string>
+    <string name="test_tone_stop">Hentikan</string>
+    <string name="test_update_play">Putar suara pembaruan</string>
+    <string name="tts_try_button">Ucapkan contoh peringatan</string>
+    <string name="tts_try_desc">Bahasa ucapan: %s.</string>
+    <string name="tts_off_note">Ucapan dimatikan di Setelan; contoh tetap diputar di sini.</string>
+    <string name="test_delay">Mulai setelah</string>
+    <string name="test_lead">Detik sampai guncangan</string>
+    <string name="test_magnitude">Magnitudo</string>
+    <string name="test_quiet">Uji senyap (tanpa suara alarm)</string>
+    <string name="test_start">Jadwalkan peringatan uji</string>
+    <string name="test_scheduled">Peringatan uji dalam %d dtk</string>
+    <string name="seconds_short">%d dtk</string>
+    <string name="recent_alerts">Peringatan terbaru</string>
+    <string name="no_alerts_yet">Belum ada peringatan yang diterima.</string>
+    <string name="note_test">uji</string>
+    <string name="note_revision">pembaruan</string>
+    <string name="note_updated">diperbarui</string>
+    <string name="note_google_test">peringatan uji Google, tidak ditampilkan</string>
+    <string name="kind_earthquake">Gempa bumi</string>
+    <string name="kind_public_alert">Peringatan publik</string>
+    <string name="kind_sos_alert">Peringatan SOS</string>
+    <string name="disclaimer">EarthPing adalah aplikasi independen dan tidak resmi. Aplikasi ini mendengarkan saluran push yang sama dengan yang digunakan Google untuk peringatan gempa Android, yang dapat diubah atau dihentikan Google kapan saja. Ini bukan sistem peringatan bersertifikat: tetap aktifkan peringatan darurat resmi di ponsel Anda.</string>
+
+    <string name="places_desc">Hingga tiga tempat lain yang penting bagi Anda (keluarga, kampung halaman…). Anda diberi tahu tentang gempa dan peringatan di sana, tanpa hitung mundur. Tempat-tempat ini juga menyembunyikan area Anda yang sebenarnya dari Google di antara tempat lain; slot kosong diisi umpan otomatis acak.</string>
+    <string name="place_n">Tempat %d</string>
+    <string name="place_name">Nama</string>
+    <string name="latitude">Lintang</string>
+    <string name="longitude">Bujur</string>
+    <string name="clear">Hapus</string>
+    <string name="save">Simpan</string>
+    <string name="saved">Disimpan</string>
+    <string name="search">Cari</string>
+    <string name="search_place">Cari tempat</string>
+    <string name="slot_empty_hint">Kosong: umpan otomatis digunakan. Cari, ketik koordinat, atau tekan lama pada peta.</string>
+    <string name="slot_set_hint">Tekan lama pada peta untuk memindahkannya.</string>
+    <string name="long_press_hint">Tekan lama pada peta untuk menempatkan tempat yang dipilih.</string>
+    <string name="no_geocoder">Tidak ada layanan pencarian tempat di perangkat ini. Masukkan koordinat atau tekan lama pada peta.</string>
+    <string name="place_not_found">Tempat tidak ditemukan</string>
+    <string name="invalid_place">Tempat %d memiliki koordinat yang tidak valid</string>
+    <string name="osm_attribution">Data peta © kontributor OpenStreetMap</string>
+
+    <string name="cat_alarm">Alarm</string>
+    <string name="cat_speech">Ucapan</string>
+    <string name="cat_notifications">Notifikasi</string>
+    <string name="cat_general">Umum</string>
+    <string name="cat_connection">Koneksi</string>
+    <string name="cat_about">Tentang</string>
+    <string name="loud_threshold">Kapan alarm dibunyikan</string>
+    <string name="loud_threshold_note">Gempa yang lebih lemah di daerah Anda tetap memberi notifikasi biasa.</string>
+    <string name="alarm_tone">Nada alarm</string>
+    <string name="alarm_sound">Volume alarm</string>
+    <string name="override_silence">Abaikan mode senyap</string>
+    <string name="override_silence_summary">Berbunyi di saluran alarm dan menonaktifkan Jangan Ganggu selama alarm</string>
+    <string name="tts_enabled">Ucapkan peringatan</string>
+    <string name="tts_enabled_summary">Menyebutkan magnitudo dan jarak, lalu menghitung mundur sampai guncangan</string>
+    <string name="tts_language">Bahasa ucapan</string>
+    <string name="tts_try">Uji ucapan</string>
+    <string name="tts_settings">Mesin teks ke ucapan</string>
+    <string name="tts_settings_summary">Pilih mesin dan pasang suara</string>
+    <string name="tts_unavailable">Teks ke ucapan sedang dimulai atau tidak tersedia; coba lagi sebentar lagi.</string>
+    <string name="tts_voice_missing">Tidak ada suara %s yang terpasang di mesin teks ke ucapan.</string>
+    <string name="watched_notifs">Tempat yang dipantau</string>
+    <string name="watched_notifs_summary">Beri tahu saya tentang gempa dan peringatan di tempat yang saya pantau</string>
+    <string name="crisis_alerts">Peringatan publik lain</string>
+    <string name="crisis_alerts_summary">Banjir, badai, kebakaran, dan peringatan lain yang dikirim Google melalui saluran yang sama</string>
+    <string name="location">Lokasi</string>
+    <string name="location_auto_summary">Terdeteksi otomatis</string>
+    <string name="location_manual_summary">Diatur manual: %s</string>
+    <string name="manual_location_desc">Biasanya lokasi Anda terdeteksi otomatis. Anda dapat mengaturnya di sini; setelah disimpan, lokasi ini yang digunakan.</string>
+    <string name="invalid_coords">Koordinat tidak valid</string>
+    <string name="app_language">Bahasa aplikasi</string>
+    <string name="language_system">Bahasa sistem</string>
+    <string name="permissions">Izin</string>
+    <string name="permissions_all_granted">Semua diberikan</string>
+    <string name="permissions_missing_count">%d belum diberikan</string>
+    <string name="heartbeat_minutes">Pemeriksaan koneksi (menit)</string>
+    <string name="heartbeat_desc">Nilai lebih pendek lebih cepat mendeteksi koneksi yang putus, dengan sedikit tambahan pemakaian baterai. Mode tidur dalam dapat memperpanjangnya hingga sekitar 10 menit.</string>
+    <string name="diagnostics">Diagnostik</string>
+    <string name="diagnostics_summary">Detail koneksi dan log</string>
+    <string name="about_summary">Versi %s · GPL-3.0-or-later</string>
+    <string name="source_code">Kode sumber</string>
+    <string name="source_code_summary">github.com/LjLies/EarthPing</string>
+    <string name="cannot_open">Layar ini tidak dapat dibuka di perangkat ini</string>
+
+    <string-array name="loud_entries">
+        <item>Setiap peringatan untuk daerah saya</item>
+        <item>Guncangan ringan atau lebih (IV+)</item>
+        <item>Guncangan sedang atau lebih (V+)</item>
+        <item>Guncangan kuat atau lebih (VI+)</item>
+    </string-array>
+    <string-array name="tone_entries">
+        <item>Lonceng naik</item>
+        <item>Sirene (keras!)</item>
+    </string-array>
+    <string-array name="sound_entries">
+        <item>Volume penuh</item>
+        <item>Volume alarm saat ini</item>
+        <item>Bunyi bip lembut</item>
+        <item>Tanpa suara (hanya getar dan ucapan)</item>
+    </string-array>
+    <string-array name="tts_lang_entries">
+        <item>Sama dengan aplikasi</item>
+        <item>English</item>
+        <item>Italiano</item>
+        <item>Español</item>
+        <item>Türkçe</item>
+        <item>Ελληνικά</item>
+        <item>Bahasa Indonesia</item>
+        <item>繁體中文</item>
+    </string-array>
+
+    <string name="log_title">Log</string>
+    <string name="copy_log">Salin</string>
+    <string name="copied">Disalin</string>
+    <string name="diag_state">Status: %s</string>
+    <string name="diag_since">Terhubung: %s</string>
+    <string name="diag_topics">Topik: %s</string>
+    <string name="diag_location">Lokasi: %s</string>
+    <string name="clear_log">Hapus</string>
+
+    <string name="welcome_short">Selamat datang</string>
+    <string name="welcome_title">Peringatan gempa, beberapa detik lebih awal</string>
+    <string name="welcome_body">EarthPing menerima peringatan gempa yang disiarkan Google untuk ponsel Android, secara langsung dan tanpa Layanan Google Play atau akun Google, lalu memperingatkan Anda sebelum guncangan kuat tiba. Aplikasi ini juga meneruskan peringatan publik lain untuk daerah Anda.\n\nAgar cepat dan andal, aplikasi ini harus tetap terhubung di latar belakang, mengetahui kira-kira di mana Anda berada, dan diizinkan membunyikan alarm bahkan dalam mode senyap.</string>
+    <string name="privacy_title">Privasi</string>
+    <string name="privacy_body">Hanya area kasar Anda (sel selebar sekitar 40 km, dicampur dengan tiga tempat lain) yang dikirim ke server push Google, dengan identitas perangkat anonim. Tidak ada yang dikirim ke tempat lain, dan tidak ada analitik.</string>
+    <string name="permissions_intro">Izinkan yang wajib untuk melanjutkan. Item yang disarankan membuat peringatan lebih cepat dan sulit terlewat.</string>
+    <string name="perm_ok">Diizinkan</string>
+    <string name="perm_required">Wajib</string>
+    <string name="perm_recommended">Disarankan</string>
+    <string name="grant">Izinkan</string>
+    <string name="continue_btn">Lanjutkan</string>
+    <string name="done">Selesai</string>
+    <string name="grant_required_first">Izinkan item wajib untuk melanjutkan</string>
+    <string name="vendor_title">Ponsel yang menghentikan aplikasi latar belakang</string>
+    <string name="vendor_body">Beberapa produsen (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) menghentikan aplikasi latar belakang meskipun setelan ini sudah diatur. Jika peringatan berhenti datang, izinkan juga “mulai otomatis” dan matikan penghemat baterai khusus aplikasi untuk EarthPing. dontkillmyapp.com menjelaskan caranya untuk setiap ponsel.</string>
+    <string name="perm_notif">Notifikasi</string>
+    <string name="perm_notif_why">Untuk menampilkan peringatan dan menjaga koneksi latar belakang tetap berjalan.</string>
+    <string name="perm_loc">Lokasi</string>
+    <string name="perm_loc_why">Untuk mengetahui area mana yang didengarkan dan menghitung mundur sampai guncangan. Lokasi jaringan digunakan; GPS hanya sebentar dan jarang, ketika tidak ada cara lain yang berhasil.</string>
+    <string name="perm_bgloc">Lokasi sepanjang waktu</string>
+    <string name="perm_bgloc_why">Menjaga area Anda tetap terbaru saat bepergian, termasuk setelah mulai ulang. Pilih “Izinkan sepanjang waktu”.</string>
+    <string name="perm_battery">Penggunaan baterai tanpa batasan</string>
+    <string name="perm_battery_why">Menjaga koneksi tetap terbuka selama tidur dalam dan memungkinkan EarthPing memulai ulang sendiri. Tanpa ini, peringatan bisa terlambat atau tidak datang sama sekali.</string>
+    <string name="perm_data">Data latar belakang</string>
+    <string name="perm_data_why">Penghemat Data memblokir data latar belakang untuk aplikasi ini. Izinkan data tanpa batasan agar peringatan sampai.</string>
+    <string name="perm_dnd">Akses Jangan Ganggu</string>
+    <string name="perm_dnd_why">Memungkinkan alarm berbunyi meskipun Jangan Ganggu aktif.</string>
+    <string name="perm_fullscreen">Peringatan layar penuh</string>
+    <string name="perm_fullscreen_why">Memungkinkan peringatan dengan peta dan hitung mundur muncul di atas layar kunci.</string>
+    <string name="perm_overlay">Tampilkan di atas aplikasi lain</string>
+    <string name="perm_overlay_why">Memungkinkan peringatan langsung muncul, apa pun yang sedang Anda lakukan.</string>
+    <string name="perm_alarms">Alarm dan pengingat</string>
+    <string name="perm_alarms_why">Pengatur waktu yang presisi memeriksa koneksi selama tidur dalam dan memulai peringatan uji tepat waktu.</string>
+    <string name="ch_notice_always">Gempa di dekat Anda, juga dalam mode senyap</string>
+    <string name="ch_notice_always_desc">Seperti “Gempa di dekat Anda”, tetapi bunyi singkatnya juga terdengar saat ponsel dalam mode senyap atau getar (tidak dalam Jangan Ganggu).</string>
+    <string name="legend_v">V+ sedang</string>
+    <string name="legend_iv">IV ringan</string>
+    <string name="legend_iii">III lemah</string>
+    <string name="legend_p">Gelombang P (sentakan pertama)</string>
+    <string name="legend_s">Gelombang S (guncangan kuat)</string>
+    <string name="test_notice_play">Putar bunyi notifikasi</string>
+    <string name="test_alarm_link">Uji suara alarm  →</string>
+    <string name="test_speech_link">Uji ucapan  →</string>
+    <string name="siren_threshold">Sirene penuh untuk guncangan kuat</string>
+    <string name="siren_threshold_note">Selalu berbunyi dengan volume maksimum.</string>
+    <string name="notice_sound">Gempa lebih lemah di dekat Anda</string>
+    <string name="clear_history">Hapus</string>
+    <string name="clear_history_title">Hapus peringatan terbaru?</string>
+    <string name="clear_history_message">Daftar peringatan terbaru, termasuk uji coba, akan dikosongkan.</string>
+    <string name="tts_expecting">sekarang diperkirakan %s</string>
+    <string name="tts_magnitude_short">magnitudo %s</string>
+    <string-array name="shaking_terms">
+        <item>guncangan lemah</item>
+        <item>guncangan ringan</item>
+        <item>guncangan sedang</item>
+        <item>guncangan kuat</item>
+        <item>guncangan sangat kuat</item>
+        <item>guncangan hebat</item>
+        <item>guncangan sangat hebat</item>
+        <item>guncangan ekstrem</item>
+    </string-array>
+    <string-array name="intensity_terms">
+        <item>lemah</item>
+        <item>ringan</item>
+        <item>sedang</item>
+        <item>kuat</item>
+        <item>sangat kuat</item>
+        <item>hebat</item>
+        <item>sangat hebat</item>
+        <item>ekstrem</item>
+    </string-array>
+    <string-array name="siren_entries">
+        <item>Tidak pernah</item>
+        <item>Guncangan kuat atau lebih (VI+)</item>
+        <item>Guncangan sangat kuat atau lebih (VII+)</item>
+        <item>Guncangan hebat atau lebih (VIII+)</item>
+    </string-array>
+    <string-array name="notice_sound_entries">
+        <item>Bunyi singkat</item>
+        <item>Bunyi singkat, juga dalam mode senyap</item>
+    </string-array>
+    <string name="fsi_revoked_title">Peringatan layar penuh dinonaktifkan</string>
+    <string name="fsi_revoked_text">Android mencabut izin ini (dapat terjadi saat aplikasi diperbarui). Ketuk untuk mengizinkannya lagi.</string>
+    <string name="location_hint">Cari tempat, ketik koordinat, atau tekan lama pada peta.</string>
+    <string name="location_state_manual">Menggunakan lokasi yang diatur di sini</string>
+    <string name="location_state_auto">Menggunakan lokasi yang terdeteksi</string>
+    <string name="use_detected_location">Gunakan yang terdeteksi</string>
+    <string name="tts_mag_higher">sekarang magnitudo lebih tinggi, %s</string>
+    <string name="tts_mag_lower">sekarang magnitudo lebih rendah, %s</string>
+    <string name="back_alarm_settings">←  Setelan alarm</string>
+    <string name="back_speech_settings">←  Setelan ucapan</string>
+    <string name="history_map">Peta</string>
+    <string name="history_map_title">Peta peringatan</string>
+    <string name="history_map_empty">Tidak ada peringatan terbaru dengan lokasi.</string>
+    <string name="history_quake_title">Gempa magnitudo %s</string>
+    <string name="history_occurred">Terjadi: %s</string>
+    <string name="history_received">Diterima: %s</string>
+    <string name="history_epicentre">Episentrum: %s</string>
+    <string name="history_epicentre_depth">Episentrum: %1$s, kedalaman %2$s km</string>
+    <string name="history_area_centre">Pusat area: %s</string>
+    <string name="history_older">Peringatan sebelumnya</string>
+    <string name="history_newer">Peringatan berikutnya</string>
+    <plurals name="history_updated">
+        <item quantity="other">Diperbarui %1$d kali oleh Google, terakhir pukul %2$s</item>
+    </plurals>
+    <plurals name="history_revisions">
+        <item quantity="other">diperbarui %d kali</item>
+    </plurals>
+    <string name="history_km_from_you">%s km dari Anda</string>
+
+    <string name="disclaimer_title">Sebelum menyalakan peringatan</string>
+    <string name="disclaimer_full">EarthPing masih eksperimental, dan sejauh ini baru diuji oleh sangat sedikit orang.\n\n• Aplikasi ini bisa melewatkan gempa, memperingatkan terlambat, atau memberi alarm palsu, misalnya saat tidak ada koneksi jaringan atau sistem menghentikan aplikasi. Jangan mengandalkannya sebagai sumber utama informasi keselamatan Anda: tetap aktifkan peringatan darurat resmi di ponsel Anda dan ikuti arahan pihak berwenang setempat.\n\n• Hitung mundur dan perkiraan guncangan hanyalah perkiraan. Guncangan bisa tiba lebih cepat, atau lebih kuat, daripada yang ditampilkan.\n\n• EarthPing menerima peringatan dengan terhubung ke server Google menggunakan identitas anonim. Aplikasi ini tidak dibuat, didukung, atau dikelola oleh Google, dan Google tidak bertanggung jawab atasnya. Google dapat mengubah atau menghentikan layanan ini kapan saja.\n\n• Anda bertanggung jawab memastikan bahwa penggunaannya diizinkan oleh ketentuan atau hukum yang berlaku bagi Anda.\n\n• EarthPing adalah perangkat lunak bebas dan disediakan tanpa jaminan apa pun.</string>
+    <string name="disclaimer_understood">Saya mengerti</string>
+</resources>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_alerts">警報</string>
+    <string name="tab_places">地點</string>
+    <string name="tab_settings">設定</string>
+
+    <string name="ch_service">背景連線</string>
+    <string name="ch_service_desc">維持警報連線運作。可以隱藏。</string>
+    <string name="ch_status">連線問題</string>
+    <string name="ch_status_desc">無法接收警報時通知你。</string>
+    <string name="ch_watched">關注地點</string>
+    <string name="ch_watched_desc">你關注的地點發生的地震和其他警報。</string>
+    <string name="ch_quake">地震警報（我的位置）</string>
+    <string name="ch_quake_desc">預計你所在位置將有搖晃時，發出響亮的全螢幕警報。</string>
+    <string name="ch_info">附近地震（我的位置）</string>
+    <string name="ch_info_desc">你所在地區低於響鈴門檻的地震。</string>
+    <string name="ch_crisis">其他警報（我的位置）</string>
+    <string name="ch_crisis_desc">你所在地區的公共安全警報：淹水、暴風、火災等。</string>
+    <string name="ch_alert_shown">螢幕上的地震警報</string>
+    <string name="ch_alert_shown_desc">全螢幕警報顯示期間的靜音通知。</string>
+    <string name="ch_updates">地震更新</string>
+    <string name="ch_updates_desc">警報關閉後才收到的修正資訊。</string>
+
+    <string name="fg_connected">正在接收警報（%d 個區域）</string>
+    <string name="fg_connecting">連線中…</string>
+    <string name="fg_no_network">等待網路</string>
+    <string name="fg_waiting">未連線，稍後重試</string>
+    <string name="fg_starting">啟動中…</string>
+    <string name="status_disconnected_title">目前無法接收警報</string>
+
+    <string name="notif_quake_title">地震%1$s</string>
+    <string name="notif_watched_quake">%1$s 附近發生地震 %2$s</string>
+    <string name="test_prefix">測試</string>
+    <string name="km_away">距離 %s 公里</string>
+    <string name="km_from">距離%2$s %1$s 公里</string>
+    <string name="est_intensity">估計強度 %s</string>
+    <string name="notif_update_title">更新 · %s</string>
+    <string name="stop_alarm">停止警報音</string>
+    <string name="close">關閉</string>
+    <string name="crisis_generic">公共警報</string>
+    <string name="epicenter">震央</string>
+    <string name="you">你</string>
+    <string name="strong_shaking_in">強烈搖晃抵達還有</string>
+    <string name="no_countdown">抵達時間不明</string>
+    <string name="seconds_left">%d 秒</string>
+    <string name="no_active_alert">目前沒有警報</string>
+
+    <string name="tts_test">這是測試。</string>
+    <string name="tts_earthquake">地震！</string>
+    <string name="tts_magnitude">規模 %s。</string>
+    <string name="tts_distance">距離 %s 公里。</string>
+    <plurals name="tts_seconds">
+        <item quantity="other">大約 %d 秒後開始搖晃。</item>
+    </plurals>
+    <plurals name="tts_seconds_marker">
+        <item quantity="other">%d 秒。</item>
+    </plurals>
+
+    <string name="chip_listening">接收中</string>
+    <string name="chip_connecting">連線中</string>
+    <string name="chip_offline">離線</string>
+    <string name="chip_off">已關閉</string>
+    <string name="state_connected_title">正在接收警報</string>
+    <string name="state_connected_detail">已連線 %1$s · 最後通訊 %2$s</string>
+    <string name="state_connecting">連線中…</string>
+    <string name="state_no_network">沒有網路</string>
+    <string name="state_waiting_title">未連線</string>
+    <string name="state_waiting">下次嘗試 %s</string>
+    <string name="state_disabled">警報已關閉</string>
+    <string name="state_disabled_detail">你不會收到任何警告。</string>
+    <string name="alerts_on">接收警報</string>
+    <string name="alerts_off_item">警報已關閉：你不會收到警告</string>
+    <string name="turn_off_title">要關閉警報嗎？</string>
+    <string name="turn_off_message">重新開啟前，你不會收到地震或其他警報的警告。</string>
+    <string name="turn_off_confirm">關閉</string>
+    <string name="keep_on">保持開啟</string>
+    <string name="last_traffic">伺服器最後通訊：%s</string>
+    <string name="last_error">最近的問題：%s</string>
+    <string name="messages_count">已收到訊息：%1$d · 重新連線：%2$d</string>
+    <string name="identity">匿名推播身分：%s</string>
+    <string name="needs_attention">需要你處理</string>
+    <string name="required_tag">（必要）</string>
+    <string name="fix_permissions">檢查權限</string>
+    <string name="no_location_yet">尚未得知你的位置，因此無法接收你所在地區的警報。請允許位置存取權，或在設定中手動設定位置。</string>
+    <string name="subscriptions">區域</string>
+    <string name="my_location">我的位置</string>
+    <string name="location_unknown">尚未得知</string>
+    <string name="manual">手動設定</string>
+    <string name="watched_detail">關注地點</string>
+    <string name="edit_places">關注地點</string>
+    <string name="test_mode">測試警報</string>
+    <string name="test_mode_desc">模擬你附近發生地震，包括警報音、地圖和倒數，並在幾秒後送出一次更新。鎖定螢幕即可看到鎖定畫面上的樣子。即使警報已關閉也能使用。</string>
+    <string name="tests_title">測試</string>
+    <string name="test_tone_title">警報音</string>
+    <string name="test_tone_desc">%1$s · %2$s。試聽會以目前的鬧鐘音量播放幾秒。</string>
+    <string name="test_tone_play">播放警報音</string>
+    <string name="test_tone_stop">停止</string>
+    <string name="test_update_play">播放更新提示音</string>
+    <string name="tts_try_button">朗讀警報範例</string>
+    <string name="tts_try_desc">語音語言：%s。</string>
+    <string name="tts_off_note">語音已在設定中關閉；範例仍會在這裡播放。</string>
+    <string name="test_delay">開始前等待</string>
+    <string name="test_lead">距離搖晃的秒數</string>
+    <string name="test_magnitude">規模</string>
+    <string name="test_quiet">安靜測試（無警報音）</string>
+    <string name="test_start">排定測試警報</string>
+    <string name="test_scheduled">%d 秒後發出測試警報</string>
+    <string name="seconds_short">%d 秒</string>
+    <string name="recent_alerts">最近的警報</string>
+    <string name="no_alerts_yet">尚未收到任何警報。</string>
+    <string name="note_test">測試</string>
+    <string name="note_revision">更新</string>
+    <string name="note_updated">已更新</string>
+    <string name="note_google_test">Google 測試警報，未顯示</string>
+    <string name="kind_earthquake">地震</string>
+    <string name="kind_public_alert">公共警報</string>
+    <string name="kind_sos_alert">SOS 警報</string>
+    <string name="disclaimer">EarthPing 是獨立的非官方應用程式。它接收 Google 用於 Android 地震警報的同一個推播頻道，而 Google 隨時可能變更或停止該頻道。這不是經過認證的警報系統：請保持手機的官方緊急警報為開啟狀態。</string>
+
+    <string name="places_desc">最多三個你在意的其他地點（家人、家鄉等）。這些地點發生地震或警報時你會收到通知，但沒有倒數。它們也會讓你的真實區域混在其他地點之中，不讓 Google 得知；空白欄位會隨機使用自動誘餌地點。</string>
+    <string name="place_n">地點 %d</string>
+    <string name="place_name">名稱</string>
+    <string name="latitude">緯度</string>
+    <string name="longitude">經度</string>
+    <string name="clear">清除</string>
+    <string name="save">儲存</string>
+    <string name="saved">已儲存</string>
+    <string name="search">搜尋</string>
+    <string name="search_place">搜尋地點</string>
+    <string name="slot_empty_hint">空白：使用自動誘餌地點。可搜尋、輸入座標或長按地圖。</string>
+    <string name="slot_set_hint">長按地圖即可移動。</string>
+    <string name="long_press_hint">長按地圖即可放置所選地點。</string>
+    <string name="no_geocoder">這部裝置沒有地點搜尋服務。請輸入座標或長按地圖。</string>
+    <string name="place_not_found">找不到地點</string>
+    <string name="invalid_place">地點 %d 的座標無效</string>
+    <string name="osm_attribution">地圖資料 © OpenStreetMap 貢獻者</string>
+
+    <string name="cat_alarm">警報音</string>
+    <string name="cat_speech">語音</string>
+    <string name="cat_notifications">通知</string>
+    <string name="cat_general">一般</string>
+    <string name="cat_connection">連線</string>
+    <string name="cat_about">關於</string>
+    <string name="loud_threshold">何時響起警報音</string>
+    <string name="loud_threshold_note">你所在地區較弱的地震仍會發出一般通知。</string>
+    <string name="alarm_tone">警報音</string>
+    <string name="alarm_sound">警報音量</string>
+    <string name="override_silence">忽略靜音模式</string>
+    <string name="override_silence_summary">透過鬧鐘音訊播放，並在警報期間解除「零打擾」</string>
+    <string name="tts_enabled">朗讀警報</string>
+    <string name="tts_enabled_summary">說出規模和距離，然後倒數到搖晃抵達</string>
+    <string name="tts_language">語音語言</string>
+    <string name="tts_try">測試語音</string>
+    <string name="tts_settings">文字轉語音引擎</string>
+    <string name="tts_settings_summary">選擇引擎並安裝語音</string>
+    <string name="tts_unavailable">文字轉語音正在啟動或無法使用，請稍後再試。</string>
+    <string name="tts_voice_missing">文字轉語音引擎中沒有安裝%s語音。</string>
+    <string name="watched_notifs">關注地點</string>
+    <string name="watched_notifs_summary">關注地點發生地震或警報時通知我</string>
+    <string name="crisis_alerts">其他公共警報</string>
+    <string name="crisis_alerts_summary">Google 透過同一頻道傳送的淹水、暴風、火災和其他警報</string>
+    <string name="location">位置</string>
+    <string name="location_auto_summary">自動偵測</string>
+    <string name="location_manual_summary">手動設定：%s</string>
+    <string name="manual_location_desc">你的位置通常會自動偵測。你也可以在這裡設定；儲存後就會改用此位置。</string>
+    <string name="invalid_coords">座標無效</string>
+    <string name="app_language">應用程式語言</string>
+    <string name="language_system">系統語言</string>
+    <string name="permissions">權限</string>
+    <string name="permissions_all_granted">已全部授予</string>
+    <string name="permissions_missing_count">%d 項未授予</string>
+    <string name="heartbeat_minutes">連線檢查（分鐘）</string>
+    <string name="heartbeat_desc">間隔越短，越快發現連線中斷，但會稍微多耗電。深度睡眠可能使間隔延長到約 10 分鐘。</string>
+    <string name="diagnostics">診斷</string>
+    <string name="diagnostics_summary">連線詳細資料和記錄</string>
+    <string name="about_summary">版本 %s · GPL-3.0-or-later</string>
+    <string name="source_code">原始碼</string>
+    <string name="source_code_summary">github.com/LjLies/EarthPing</string>
+    <string name="cannot_open">無法在這部裝置上開啟此畫面</string>
+
+    <string-array name="loud_entries">
+        <item>我所在地區的任何警報</item>
+        <item>輕微搖晃以上（IV+）</item>
+        <item>中度搖晃以上（V+）</item>
+        <item>強烈搖晃以上（VI+）</item>
+    </string-array>
+    <string-array name="tone_entries">
+        <item>上升鐘聲</item>
+        <item>警笛（很大聲！）</item>
+    </string-array>
+    <string-array name="sound_entries">
+        <item>最大音量</item>
+        <item>目前的鬧鐘音量</item>
+        <item>輕柔嗶聲</item>
+        <item>無聲（僅震動和語音）</item>
+    </string-array>
+    <string-array name="tts_lang_entries">
+        <item>與應用程式相同</item>
+        <item>English</item>
+        <item>Italiano</item>
+        <item>Español</item>
+        <item>Türkçe</item>
+        <item>Ελληνικά</item>
+        <item>Bahasa Indonesia</item>
+        <item>繁體中文</item>
+    </string-array>
+
+    <string name="log_title">記錄</string>
+    <string name="copy_log">複製</string>
+    <string name="copied">已複製</string>
+    <string name="diag_state">狀態：%s</string>
+    <string name="diag_since">已連線：%s</string>
+    <string name="diag_topics">主題：%s</string>
+    <string name="diag_location">位置：%s</string>
+    <string name="clear_log">清除</string>
+
+    <string name="welcome_short">歡迎</string>
+    <string name="welcome_title">地震警報，提前數秒</string>
+    <string name="welcome_body">EarthPing 直接接收 Google 為 Android 手機廣播的地震警報，不需要 Google Play 服務或 Google 帳戶，並在強烈搖晃抵達前警告你。它也會轉送你所在地區的其他公共警報。\n\n為了快速可靠，它必須在背景保持連線、大致知道你的位置，並且即使在靜音模式下也能響起警報音。</string>
+    <string name="privacy_title">隱私權</string>
+    <string name="privacy_body">只有你的大略區域（約 40 公里寬的區塊，並與另外三個地點混在一起）會以匿名裝置身分傳送到 Google 的推播伺服器。不會傳送到其他任何地方，也沒有任何分析追蹤。</string>
+    <string name="permissions_intro">允許必要項目即可繼續。建議項目能讓警報更快、更不容易錯過。</string>
+    <string name="perm_ok">已允許</string>
+    <string name="perm_required">必要</string>
+    <string name="perm_recommended">建議</string>
+    <string name="grant">允許</string>
+    <string name="continue_btn">繼續</string>
+    <string name="done">完成</string>
+    <string name="grant_required_first">請允許必要項目以繼續</string>
+    <string name="vendor_title">會停止背景應用程式的手機</string>
+    <string name="vendor_body">部分製造商（小米、華為、三星、OnePlus、OPPO 等）即使有這些設定，仍會停止背景應用程式。如果收不到警報，請也為 EarthPing 允許「自動啟動」，並關閉針對應用程式的省電功能。dontkillmyapp.com 說明了各款手機的設定方法。</string>
+    <string name="perm_notif">通知</string>
+    <string name="perm_notif_why">用於顯示警報並維持背景連線。</string>
+    <string name="perm_loc">位置</string>
+    <string name="perm_loc_why">用來決定要接收哪個區域，並倒數到搖晃抵達。使用網路定位；只有在其他方式都無效時，才會短暫且偶爾使用 GPS。</string>
+    <string name="perm_bgloc">一律允許位置存取</string>
+    <string name="perm_bgloc_why">在你移動時（包括重新開機後）保持區域為最新。請選擇「一律允許」。</string>
+    <string name="perm_battery">不限制電池用量</string>
+    <string name="perm_battery_why">在深度睡眠時保持連線，並讓 EarthPing 能自行重新啟動。否則警報可能延遲或完全收不到。</string>
+    <string name="perm_data">背景數據</string>
+    <string name="perm_data_why">數據節省模式封鎖了此應用程式的背景數據。請允許不受限制的數據用量，警報才能送達。</string>
+    <string name="perm_dnd">「零打擾」存取權</string>
+    <string name="perm_dnd_why">讓警報音在「零打擾」模式下也能響起。</string>
+    <string name="perm_fullscreen">全螢幕警報</string>
+    <string name="perm_fullscreen_why">讓附有地圖和倒數的警報顯示在鎖定畫面上。</string>
+    <string name="perm_overlay">顯示在其他應用程式上層</string>
+    <string name="perm_overlay_why">無論你正在做什麼，都能讓警報立即跳出。</string>
+    <string name="perm_alarms">鬧鐘與提醒</string>
+    <string name="perm_alarms_why">精確計時器會在深度睡眠時檢查連線，並準時啟動測試警報。</string>
+    <string name="ch_notice_always">附近地震，靜音模式下也響</string>
+    <string name="ch_notice_always_desc">與「附近地震」相同，但手機處於靜音或震動模式時也會發出提示音（「零打擾」模式除外）。</string>
+    <string name="legend_v">V+ 中度</string>
+    <string name="legend_iv">IV 輕微</string>
+    <string name="legend_iii">III 微弱</string>
+    <string name="legend_p">P 波（第一次震動）</string>
+    <string name="legend_s">S 波（強烈搖晃）</string>
+    <string name="test_notice_play">播放通知提示音</string>
+    <string name="test_alarm_link">測試警報音  →</string>
+    <string name="test_speech_link">測試語音  →</string>
+    <string name="siren_threshold">強烈搖晃時使用完整警笛</string>
+    <string name="siren_threshold_note">一律以最大音量響起。</string>
+    <string name="notice_sound">附近較弱的地震</string>
+    <string name="clear_history">清除</string>
+    <string name="clear_history_title">要清除最近的警報嗎？</string>
+    <string name="clear_history_message">最近的警報清單（包括測試）將會清空。</string>
+    <string name="tts_expecting">現在預計%s</string>
+    <string name="tts_magnitude_short">規模 %s</string>
+    <string-array name="shaking_terms">
+        <item>微弱搖晃</item>
+        <item>輕微搖晃</item>
+        <item>中度搖晃</item>
+        <item>強烈搖晃</item>
+        <item>非常強烈搖晃</item>
+        <item>劇烈搖晃</item>
+        <item>猛烈搖晃</item>
+        <item>極度搖晃</item>
+    </string-array>
+    <string-array name="intensity_terms">
+        <item>微弱</item>
+        <item>輕微</item>
+        <item>中度</item>
+        <item>強烈</item>
+        <item>非常強烈</item>
+        <item>劇烈</item>
+        <item>猛烈</item>
+        <item>極度</item>
+    </string-array>
+    <string-array name="siren_entries">
+        <item>永不</item>
+        <item>強烈搖晃以上（VI+）</item>
+        <item>非常強烈搖晃以上（VII+）</item>
+        <item>劇烈搖晃以上（VIII+）</item>
+    </string-array>
+    <string-array name="notice_sound_entries">
+        <item>短提示音</item>
+        <item>短提示音，靜音模式下也響</item>
+    </string-array>
+    <string name="fsi_revoked_title">全螢幕警報已關閉</string>
+    <string name="fsi_revoked_text">Android 移除了這項權限（應用程式更新時可能會發生）。輕觸即可重新允許。</string>
+    <string name="location_hint">搜尋地點、輸入座標或長按地圖。</string>
+    <string name="location_state_manual">正在使用此處設定的位置</string>
+    <string name="location_state_auto">正在使用偵測到的位置</string>
+    <string name="use_detected_location">使用偵測位置</string>
+    <string name="tts_mag_higher">現在規模提高為 %s</string>
+    <string name="tts_mag_lower">現在規模降低為 %s</string>
+    <string name="back_alarm_settings">←  警報音設定</string>
+    <string name="back_speech_settings">←  語音設定</string>
+    <string name="history_map">地圖</string>
+    <string name="history_map_title">警報地圖</string>
+    <string name="history_map_empty">沒有附位置的最近警報。</string>
+    <string name="history_quake_title">規模 %s 地震</string>
+    <string name="history_occurred">發生時間：%s</string>
+    <string name="history_received">接收時間：%s</string>
+    <string name="history_epicentre">震央：%s</string>
+    <string name="history_epicentre_depth">震央：%1$s，深度 %2$s 公里</string>
+    <string name="history_area_centre">區域中心：%s</string>
+    <string name="history_older">較早的警報</string>
+    <string name="history_newer">較新的警報</string>
+    <plurals name="history_updated">
+        <item quantity="other">Google 已更新 %1$d 次，最後一次於 %2$s</item>
+    </plurals>
+    <plurals name="history_revisions">
+        <item quantity="other">已更新 %d 次</item>
+    </plurals>
+    <string name="history_km_from_you">距離你 %s 公里</string>
+
+    <string name="disclaimer_title">開啟警報之前</string>
+    <string name="disclaimer_full">EarthPing 仍屬實驗性質，目前只有極少數人測試過。\n\n• 它可能漏報地震、延遲警告或發出誤報，例如在沒有網路連線或系統停止應用程式時。請勿將它當作主要的安全資訊來源：請保持手機的官方緊急警報為開啟狀態，並遵循當地政府的指示。\n\n• 倒數和預期的搖晃程度都只是估計。搖晃可能比顯示的更早抵達或更強烈。\n\n• EarthPing 以匿名身分連線到 Google 的伺服器來接收警報。它並非由 Google 製作、認可或支援，Google 對它不負任何責任。Google 隨時可能變更或停止此服務。\n\n• 你需要自行確認使用它符合適用於你的任何條款或法律。\n\n• EarthPing 是自由軟體，不提供任何擔保。</string>
+    <string name="disclaimer_understood">我了解</string>
+</resources>

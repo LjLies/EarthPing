@@ -37,10 +37,12 @@ are AndroidX AppCompat and Preference, Material Components and
 
 ## Languages
 
-English and Italian. On Android 13 and later, choose the app's language in the system
-settings (Settings → Apps → EarthPing → Language). On older versions, choose it in
-EarthPing's own settings. The spoken warnings have their own language setting, so the
-app can be in one language and speak in another.
+English, Italian, Spanish, Turkish, Greek, Indonesian and Traditional Chinese. The Spanish,
+Turkish, Greek, Indonesian and Chinese texts are first drafts that native speakers have not
+reviewed yet. On Android 13 and later, choose the app's language in the system settings
+(Settings → Apps → EarthPing → Language). On older versions, choose it in EarthPing's own
+settings. The spoken warnings have their own language setting, so the app can be in one
+language and speak in another.
 
 ## How the protocol works
 

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_alerts">Uyarılar</string>
+    <string name="tab_places">Yerler</string>
+    <string name="tab_settings">Ayarlar</string>
+
+    <string name="ch_service">Arka plan bağlantısı</string>
+    <string name="ch_service_desc">Uyarı bağlantısını açık tutar. Gizlenebilir.</string>
+    <string name="ch_status">Bağlantı sorunları</string>
+    <string name="ch_status_desc">Uyarılar alınamadığında sizi bilgilendirir.</string>
+    <string name="ch_watched">İzlenen yerler</string>
+    <string name="ch_watched_desc">İzlediğiniz yerlerdeki depremler ve diğer uyarılar.</string>
+    <string name="ch_quake">Deprem uyarısı (konumum)</string>
+    <string name="ch_quake_desc">Bulunduğunuz yerde sarsıntı beklendiğinde sesli, tam ekran uyarı.</string>
+    <string name="ch_info">Yakında deprem (konumum)</string>
+    <string name="ch_info_desc">Bölgenizde alarm eşiğinin altında kalan depremler.</string>
+    <string name="ch_crisis">Diğer uyarılar (konumum)</string>
+    <string name="ch_crisis_desc">Bölgeniz için kamu güvenliği uyarıları: sel, fırtına, yangın…</string>
+    <string name="ch_alert_shown">Ekrandaki deprem uyarısı</string>
+    <string name="ch_alert_shown_desc">Tam ekran uyarı görüntülenirken sessiz bildirim.</string>
+    <string name="ch_updates">Deprem güncellemeleri</string>
+    <string name="ch_updates_desc">Uyarı kapatıldıktan sonra gelen düzeltmeler.</string>
+
+    <string name="fg_connected">Uyarılar dinleniyor (%d bölge)</string>
+    <string name="fg_connecting">Bağlanıyor…</string>
+    <string name="fg_no_network">Ağ bekleniyor</string>
+    <string name="fg_waiting">Bağlı değil, birazdan yeniden denenecek</string>
+    <string name="fg_starting">Başlatılıyor…</string>
+    <string name="status_disconnected_title">Uyarılar alınmıyor</string>
+
+    <string name="notif_quake_title">Deprem%1$s</string>
+    <string name="notif_watched_quake">%1$s yakınında deprem %2$s</string>
+    <string name="test_prefix">TEST</string>
+    <string name="km_away">%s km uzakta</string>
+    <string name="km_from">%2$s konumuna %1$s km</string>
+    <string name="est_intensity">tahmini şiddet %s</string>
+    <string name="notif_update_title">Güncelleme · %s</string>
+    <string name="stop_alarm">Alarmı durdur</string>
+    <string name="close">Kapat</string>
+    <string name="crisis_generic">Kamu uyarısı</string>
+    <string name="epicenter">Merkez üssü</string>
+    <string name="you">Siz</string>
+    <string name="strong_shaking_in">Kuvvetli sarsıntıya kalan</string>
+    <string name="no_countdown">Varış zamanı bilinmiyor</string>
+    <string name="seconds_left">%d sn</string>
+    <string name="no_active_alert">Etkin uyarı yok</string>
+
+    <string name="tts_test">Bu bir testtir.</string>
+    <string name="tts_earthquake">Deprem!</string>
+    <string name="tts_magnitude">Büyüklük %s.</string>
+    <string name="tts_distance">%s kilometre uzakta.</string>
+    <plurals name="tts_seconds">
+        <item quantity="one">Yaklaşık %d saniye içinde sarsıntı.</item>
+        <item quantity="other">Yaklaşık %d saniye içinde sarsıntı.</item>
+    </plurals>
+    <plurals name="tts_seconds_marker">
+        <item quantity="one">%d saniye.</item>
+        <item quantity="other">%d saniye.</item>
+    </plurals>
+
+    <string name="chip_listening">Dinleniyor</string>
+    <string name="chip_connecting">Bağlanıyor</string>
+    <string name="chip_offline">Çevrimdışı</string>
+    <string name="chip_off">Kapalı</string>
+    <string name="state_connected_title">Uyarılar dinleniyor</string>
+    <string name="state_connected_detail">Bağlandı: %1$s · son trafik: %2$s</string>
+    <string name="state_connecting">Bağlanıyor…</string>
+    <string name="state_no_network">Ağ yok</string>
+    <string name="state_waiting_title">Bağlı değil</string>
+    <string name="state_waiting">Sonraki deneme: %s</string>
+    <string name="state_disabled">Uyarılar KAPALI</string>
+    <string name="state_disabled_detail">Hiçbir uyarı almayacaksınız.</string>
+    <string name="alerts_on">Uyarıları al</string>
+    <string name="alerts_off_item">Uyarılar kapalı: uyarılmayacaksınız</string>
+    <string name="turn_off_title">Uyarılar kapatılsın mı?</string>
+    <string name="turn_off_message">Yeniden açana kadar depremler veya diğer uyarılar hakkında uyarılmayacaksınız.</string>
+    <string name="turn_off_confirm">Kapat</string>
+    <string name="keep_on">Açık bırak</string>
+    <string name="last_traffic">Sunucudan son trafik: %s</string>
+    <string name="last_error">Son sorun: %s</string>
+    <string name="messages_count">Alınan mesajlar: %1$d · yeniden bağlanma: %2$d</string>
+    <string name="identity">Anonim push kimliği: %s</string>
+    <string name="needs_attention">İlgilenmeniz gerekiyor</string>
+    <string name="required_tag">(zorunlu)</string>
+    <string name="fix_permissions">İzinleri gözden geçir</string>
+    <string name="no_location_yet">Konumunuz henüz bilinmiyor, bu yüzden bölgenize ait uyarılar alınamıyor. Konum erişimine izin verin veya konumunuzu Ayarlar\'dan elle girin.</string>
+    <string name="subscriptions">Bölgeler</string>
+    <string name="my_location">Konumum</string>
+    <string name="location_unknown">Henüz bilinmiyor</string>
+    <string name="manual">elle girildi</string>
+    <string name="watched_detail">İzlenen yer</string>
+    <string name="edit_places">İzlenen yerler</string>
+    <string name="test_mode">Test uyarısı</string>
+    <string name="test_mode_desc">Yakınınızda bir depremi alarm, harita ve geri sayımla birlikte taklit eder; birkaç saniye sonra da bir güncelleme gelir. Kilit ekranında nasıl göründüğünü görmek için ekranı kilitleyin. Uyarılar kapalıyken de çalışır.</string>
+    <string name="tests_title">Testler</string>
+    <string name="test_tone_title">Alarm sesi</string>
+    <string name="test_tone_desc">%1$s · %2$s. Önizleme, mevcut alarm ses düzeyinde birkaç saniye çalar.</string>
+    <string name="test_tone_play">Alarmı çal</string>
+    <string name="test_tone_stop">Durdur</string>
+    <string name="test_update_play">Güncelleme sesini çal</string>
+    <string name="tts_try_button">Örnek bir uyarıyı seslendir</string>
+    <string name="tts_try_desc">Konuşma dili: %s.</string>
+    <string name="tts_off_note">Konuşma Ayarlar\'da kapalı; örnek burada yine de çalınır.</string>
+    <string name="test_delay">Başlama gecikmesi</string>
+    <string name="test_lead">Sarsıntıya kalan saniye</string>
+    <string name="test_magnitude">Büyüklük</string>
+    <string name="test_quiet">Sessiz test (alarm sesi yok)</string>
+    <string name="test_start">Test uyarısı planla</string>
+    <string name="test_scheduled">Test uyarısı %d sn sonra</string>
+    <string name="seconds_short">%d sn</string>
+    <string name="recent_alerts">Son uyarılar</string>
+    <string name="no_alerts_yet">Henüz uyarı alınmadı.</string>
+    <string name="note_test">test</string>
+    <string name="note_revision">güncelleme</string>
+    <string name="note_updated">güncellendi</string>
+    <string name="note_google_test">Google test uyarısı, gösterilmedi</string>
+    <string name="kind_earthquake">Deprem</string>
+    <string name="kind_public_alert">Kamu uyarısı</string>
+    <string name="kind_sos_alert">SOS uyarısı</string>
+    <string name="disclaimer">EarthPing bağımsız ve resmî olmayan bir uygulamadır. Google\'ın Android deprem uyarıları için kullandığı push kanalını dinler; Google bu kanalı her an değiştirebilir veya kapatabilir. Onaylı bir uyarı sistemi değildir: telefonunuzun resmî acil durum uyarılarını açık tutun.</string>
+
+    <string name="places_desc">Önem verdiğiniz en fazla üç yer (aileniz, memleketiniz…). Oradaki depremler ve uyarılar için geri sayım olmadan bildirim alırsınız. Ayrıca gerçek bölgenizi Google\'a karşı başka yerler arasında gizlerler; boş bir yuvaya rastgele otomatik bir yem atanır.</string>
+    <string name="place_n">Yer %d</string>
+    <string name="place_name">Ad</string>
+    <string name="latitude">Enlem</string>
+    <string name="longitude">Boylam</string>
+    <string name="clear">Temizle</string>
+    <string name="save">Kaydet</string>
+    <string name="saved">Kaydedildi</string>
+    <string name="search">Ara</string>
+    <string name="search_place">Yer ara</string>
+    <string name="slot_empty_hint">Boş: otomatik bir yem kullanılır. Arayın, koordinat yazın veya haritaya uzun basın.</string>
+    <string name="slot_set_hint">Taşımak için haritaya uzun basın.</string>
+    <string name="long_press_hint">Seçili yeri koymak için haritaya uzun basın.</string>
+    <string name="no_geocoder">Bu cihazda yer arama hizmeti yok. Koordinat girin veya haritaya uzun basın.</string>
+    <string name="place_not_found">Yer bulunamadı</string>
+    <string name="invalid_place">%d. yerin koordinatları geçersiz</string>
+    <string name="osm_attribution">Harita verileri © OpenStreetMap katkıda bulunanları</string>
+
+    <string name="cat_alarm">Alarm</string>
+    <string name="cat_speech">Konuşma</string>
+    <string name="cat_notifications">Bildirimler</string>
+    <string name="cat_general">Genel</string>
+    <string name="cat_connection">Bağlantı</string>
+    <string name="cat_about">Hakkında</string>
+    <string name="loud_threshold">Alarm ne zaman çalsın</string>
+    <string name="loud_threshold_note">Bölgenizdeki daha zayıf depremler yine de normal bir bildirim verir.</string>
+    <string name="alarm_tone">Alarm sesi</string>
+    <string name="alarm_sound">Alarm ses düzeyi</string>
+    <string name="override_silence">Sessiz modu geçersiz kıl</string>
+    <string name="override_silence_summary">Alarm kanalında çalar ve alarm süresince Rahatsız Etmeyin\'i kaldırır</string>
+    <string name="tts_enabled">Uyarıyı seslendir</string>
+    <string name="tts_enabled_summary">Büyüklüğü ve uzaklığı söyler, ardından sarsıntıya kadar geri sayar</string>
+    <string name="tts_language">Konuşma dili</string>
+    <string name="tts_try">Konuşmayı test et</string>
+    <string name="tts_settings">Metin okuma motoru</string>
+    <string name="tts_settings_summary">Motoru seçin ve ses yükleyin</string>
+    <string name="tts_unavailable">Metin okuma başlatılıyor veya kullanılamıyor; birazdan tekrar deneyin.</string>
+    <string name="tts_voice_missing">Metin okuma motorunda %s sesi yüklü değil.</string>
+    <string name="watched_notifs">İzlenen yerler</string>
+    <string name="watched_notifs_summary">İzlenen yerlerimdeki depremler ve uyarılar için bildirim gönder</string>
+    <string name="crisis_alerts">Diğer kamu uyarıları</string>
+    <string name="crisis_alerts_summary">Google\'ın aynı kanaldan gönderdiği sel, fırtına, yangın ve diğer uyarılar</string>
+    <string name="location">Konum</string>
+    <string name="location_auto_summary">Otomatik algılanıyor</string>
+    <string name="location_manual_summary">Elle girildi: %s</string>
+    <string name="manual_location_desc">Konumunuz normalde otomatik algılanır. Bunun yerine burada girebilirsiniz; kaydettiğinizde bu konum kullanılır.</string>
+    <string name="invalid_coords">Geçersiz koordinatlar</string>
+    <string name="app_language">Uygulama dili</string>
+    <string name="language_system">Sistem dili</string>
+    <string name="permissions">İzinler</string>
+    <string name="permissions_all_granted">Tümü verildi</string>
+    <string name="permissions_missing_count">%d izin verilmedi</string>
+    <string name="heartbeat_minutes">Bağlantı kontrolü (dakika)</string>
+    <string name="heartbeat_desc">Daha kısa bir süre, kopan bağlantıyı daha erken fark eder ve biraz daha fazla pil kullanır. Derin uyku bunu yaklaşık 10 dakikaya kadar uzatabilir.</string>
+    <string name="diagnostics">Tanılama</string>
+    <string name="diagnostics_summary">Bağlantı ayrıntıları ve günlük</string>
+    <string name="about_summary">Sürüm %s · GPL-3.0-or-later</string>
+    <string name="source_code">Kaynak kodu</string>
+    <string name="source_code_summary">github.com/LjLies/EarthPing</string>
+    <string name="cannot_open">Bu ekran bu cihazda açılamıyor</string>
+
+    <string-array name="loud_entries">
+        <item>Bölgem için her uyarı</item>
+        <item>Hafif veya daha güçlü sarsıntı (IV+)</item>
+        <item>Orta veya daha güçlü sarsıntı (V+)</item>
+        <item>Kuvvetli veya daha güçlü sarsıntı (VI+)</item>
+    </string-array>
+    <string-array name="tone_entries">
+        <item>Yükselen çanlar</item>
+        <item>Siren (yüksek sesli!)</item>
+    </string-array>
+    <string-array name="sound_entries">
+        <item>Tam ses</item>
+        <item>Mevcut alarm ses düzeyi</item>
+        <item>Hafif bip sesleri</item>
+        <item>Ses yok (yalnızca titreşim ve konuşma)</item>
+    </string-array>
+    <string-array name="tts_lang_entries">
+        <item>Uygulamayla aynı</item>
+        <item>English</item>
+        <item>Italiano</item>
+        <item>Español</item>
+        <item>Türkçe</item>
+        <item>Ελληνικά</item>
+        <item>Bahasa Indonesia</item>
+        <item>繁體中文</item>
+    </string-array>
+
+    <string name="log_title">Günlük</string>
+    <string name="copy_log">Kopyala</string>
+    <string name="copied">Kopyalandı</string>
+    <string name="diag_state">Durum: %s</string>
+    <string name="diag_since">Bağlandı: %s</string>
+    <string name="diag_topics">Konular: %s</string>
+    <string name="diag_location">Konum: %s</string>
+    <string name="clear_log">Temizle</string>
+
+    <string name="welcome_short">Hoş geldiniz</string>
+    <string name="welcome_title">Deprem uyarıları, saniyeler önceden</string>
+    <string name="welcome_body">EarthPing, Google\'ın Android telefonlar için yayınladığı deprem uyarılarını Google Play Hizmetleri veya Google hesabı olmadan doğrudan alır ve kuvvetli sarsıntı gelmeden önce sizi uyarır. Bölgenizdeki diğer kamu uyarılarını da iletir.\n\nHızlı ve güvenilir olması için arka planda bağlı kalması, yaklaşık nerede olduğunuzu bilmesi ve sessiz modda bile alarm çalabilmesi gerekir.</string>
+    <string name="privacy_title">Gizlilik</string>
+    <string name="privacy_body">Google\'ın push sunucusuna yalnızca yaklaşık bölgeniz (başka üç yerle karıştırılmış, yaklaşık 40 km genişliğinde bir hücre) anonim bir cihaz kimliğiyle gönderilir. Başka hiçbir yere bir şey gönderilmez ve analiz yoktur.</string>
+    <string name="permissions_intro">Devam etmek için zorunlu olanlara izin verin. Önerilen öğeler uyarıları daha hızlı ve kaçırılması daha zor hale getirir.</string>
+    <string name="perm_ok">İzin verildi</string>
+    <string name="perm_required">Zorunlu</string>
+    <string name="perm_recommended">Önerilen</string>
+    <string name="grant">İzin ver</string>
+    <string name="continue_btn">Devam</string>
+    <string name="done">Bitti</string>
+    <string name="grant_required_first">Devam etmek için zorunlu öğelere izin verin</string>
+    <string name="vendor_title">Arka plan uygulamalarını durduran telefonlar</string>
+    <string name="vendor_body">Bazı üreticiler (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) bu ayarlara rağmen arka plan uygulamalarını durdurur. Uyarılar gelmemeye başlarsa EarthPing için “otomatik başlatma”ya da izin verin ve uygulamaya özel pil tasarrufunu kapatın. dontkillmyapp.com her telefon için nasıl yapılacağını anlatır.</string>
+    <string name="perm_notif">Bildirimler</string>
+    <string name="perm_notif_why">Uyarıları göstermek ve arka plan bağlantısını çalışır tutmak için.</string>
+    <string name="perm_loc">Konum</string>
+    <string name="perm_loc_why">Hangi bölgenin dinleneceğini bilmek ve sarsıntıya kadar geri saymak için. Ağ konumu kullanılır; GPS yalnızca başka hiçbir şey çalışmadığında, kısa süreliğine ve nadiren.</string>
+    <string name="perm_bgloc">Her zaman konum</string>
+    <string name="perm_bgloc_why">Seyahat ederken, yeniden başlatmadan sonra da bölgenizi güncel tutar. “Her zaman izin ver”i seçin.</string>
+    <string name="perm_battery">Kısıtlamasız pil kullanımı</string>
+    <string name="perm_battery_why">Derin uyku sırasında bağlantıyı açık tutar ve EarthPing\'in kendini yeniden başlatmasını sağlar. Bu olmadan uyarılar geç gelebilir veya hiç gelmeyebilir.</string>
+    <string name="perm_data">Arka plan verisi</string>
+    <string name="perm_data_why">Veri Tasarrufu bu uygulamanın arka plan verisini engelliyor. Uyarıların gelmesi için kısıtlamasız veriye izin verin.</string>
+    <string name="perm_dnd">Rahatsız Etmeyin erişimi</string>
+    <string name="perm_dnd_why">Alarmın Rahatsız Etmeyin modunda da çalmasını sağlar.</string>
+    <string name="perm_fullscreen">Tam ekran uyarılar</string>
+    <string name="perm_fullscreen_why">Haritalı ve geri sayımlı uyarının kilit ekranının üzerinde görünmesini sağlar.</string>
+    <string name="perm_overlay">Diğer uygulamaların üzerinde göster</string>
+    <string name="perm_overlay_why">Ne yapıyor olursanız olun uyarının hemen açılmasını sağlar.</string>
+    <string name="perm_alarms">Alarmlar ve hatırlatıcılar</string>
+    <string name="perm_alarms_why">Hassas zamanlayıcılar derin uykuda bağlantıyı kontrol eder ve test uyarılarını zamanında başlatır.</string>
+    <string name="ch_notice_always">Yakında deprem, sessiz modda da</string>
+    <string name="ch_notice_always_desc">“Yakında deprem” gibi, ancak telefon sessiz veya titreşim modundayken de kısa ses çalar (Rahatsız Etmeyin modunda değil).</string>
+    <string name="legend_v">V+ orta</string>
+    <string name="legend_iv">IV hafif</string>
+    <string name="legend_iii">III zayıf</string>
+    <string name="legend_p">P dalgası (ilk sarsıntı)</string>
+    <string name="legend_s">S dalgası (kuvvetli sarsıntı)</string>
+    <string name="test_notice_play">Bildirim sesini çal</string>
+    <string name="test_alarm_link">Alarm seslerini test et  →</string>
+    <string name="test_speech_link">Konuşmayı test et  →</string>
+    <string name="siren_threshold">Kuvvetli sarsıntı için tam siren</string>
+    <string name="siren_threshold_note">Her zaman en yüksek seste çalar.</string>
+    <string name="notice_sound">Yakındaki daha zayıf depremler</string>
+    <string name="clear_history">Temizle</string>
+    <string name="clear_history_title">Son uyarılar temizlensin mi?</string>
+    <string name="clear_history_message">Testler dahil son uyarılar listesi boşaltılacak.</string>
+    <string name="tts_expecting">şimdi %s bekleniyor</string>
+    <string name="tts_magnitude_short">büyüklük %s</string>
+    <string-array name="shaking_terms">
+        <item>zayıf sarsıntı</item>
+        <item>hafif sarsıntı</item>
+        <item>orta sarsıntı</item>
+        <item>kuvvetli sarsıntı</item>
+        <item>çok kuvvetli sarsıntı</item>
+        <item>şiddetli sarsıntı</item>
+        <item>çok şiddetli sarsıntı</item>
+        <item>aşırı sarsıntı</item>
+    </string-array>
+    <string-array name="intensity_terms">
+        <item>zayıf</item>
+        <item>hafif</item>
+        <item>orta</item>
+        <item>kuvvetli</item>
+        <item>çok kuvvetli</item>
+        <item>şiddetli</item>
+        <item>çok şiddetli</item>
+        <item>aşırı</item>
+    </string-array>
+    <string-array name="siren_entries">
+        <item>Asla</item>
+        <item>Kuvvetli veya daha güçlü sarsıntı (VI+)</item>
+        <item>Çok kuvvetli veya daha güçlü sarsıntı (VII+)</item>
+        <item>Şiddetli veya daha güçlü sarsıntı (VIII+)</item>
+    </string-array>
+    <string-array name="notice_sound_entries">
+        <item>Kısa ses</item>
+        <item>Kısa ses, sessiz modda da</item>
+    </string-array>
+    <string name="fsi_revoked_title">Tam ekran uyarılar kapatıldı</string>
+    <string name="fsi_revoked_text">Android bu izni kaldırdı (uygulama güncellendiğinde bunu yapabilir). Yeniden izin vermek için dokunun.</string>
+    <string name="location_hint">Bir yer arayın, koordinat yazın veya haritaya uzun basın.</string>
+    <string name="location_state_manual">Burada girilen konum kullanılıyor</string>
+    <string name="location_state_auto">Algılanan konum kullanılıyor</string>
+    <string name="use_detected_location">Algılananı kullan</string>
+    <string name="tts_mag_higher">şimdi daha yüksek büyüklük, %s</string>
+    <string name="tts_mag_lower">şimdi daha düşük büyüklük, %s</string>
+    <string name="back_alarm_settings">←  Alarm ayarları</string>
+    <string name="back_speech_settings">←  Konuşma ayarları</string>
+    <string name="history_map">Harita</string>
+    <string name="history_map_title">Uyarı haritası</string>
+    <string name="history_map_empty">Konumu olan son uyarı yok.</string>
+    <string name="history_quake_title">%s büyüklüğünde deprem</string>
+    <string name="history_occurred">Oluş zamanı: %s</string>
+    <string name="history_received">Alındı: %s</string>
+    <string name="history_epicentre">Merkez üssü: %s</string>
+    <string name="history_epicentre_depth">Merkez üssü: %1$s, derinlik %2$s km</string>
+    <string name="history_area_centre">Bölge merkezi: %s</string>
+    <string name="history_older">Önceki uyarı</string>
+    <string name="history_newer">Sonraki uyarı</string>
+    <plurals name="history_updated">
+        <item quantity="one">Google tarafından bir kez güncellendi, saat %2$s</item>
+        <item quantity="other">Google tarafından %1$d kez güncellendi, son olarak saat %2$s</item>
+    </plurals>
+    <plurals name="history_revisions">
+        <item quantity="one">bir kez güncellendi</item>
+        <item quantity="other">%d kez güncellendi</item>
+    </plurals>
+    <string name="history_km_from_you">size %s km</string>
+
+    <string name="disclaimer_title">Uyarıları açmadan önce</string>
+    <string name="disclaimer_full">EarthPing deneysel bir uygulamadır ve şimdiye kadar çok az kişi tarafından test edilmiştir.\n\n• Depremleri kaçırabilir, geç uyarabilir veya yanlış alarm verebilir; örneğin ağ bağlantısı olmadığında ya da sistem uygulamayı durdurduğunda. Güvenliğiniz için ana bilgi kaynağınız olarak ona güvenmeyin: telefonunuzun resmî acil durum uyarılarını açık tutun ve yerel yetkililerin talimatlarına uyun.\n\n• Geri sayım ve beklenen sarsıntı tahminidir. Sarsıntı gösterilenden daha erken gelebilir veya daha kuvvetli olabilir.\n\n• EarthPing uyarıları anonim bir kimlikle Google\'ın sunucularına bağlanarak alır. Google tarafından yapılmamış, onaylanmamış veya desteklenmemiştir ve Google ondan sorumlu değildir. Google bu hizmeti her an değiştirebilir veya durdurabilir.\n\n• Kullanımının size uygulanan koşullar veya yasalarca izin verildiğinden emin olmak sizin sorumluluğunuzdadır.\n\n• EarthPing özgür yazılımdır ve hiçbir garanti olmadan sunulur.</string>
+    <string name="disclaimer_understood">Anladım</string>
+</resources>

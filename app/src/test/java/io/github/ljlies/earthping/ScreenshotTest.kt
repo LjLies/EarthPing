@@ -100,4 +100,18 @@ class ScreenshotTest {
         root.draw(Canvas(bitmap))
         File(dir, "disclaimer.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
+
+    @Test @Config(qualifiers = "zh-rTW-w411dp-h891dp-xhdpi")
+    fun settingsChinese() { prefs(); shoot("settings-zh-TW", MainActivity::class.java) { it.findViewById<View>(R.id.tab_settings).performClick() } }
+
+    @Test @Config(qualifiers = "el-w411dp-h891dp-xhdpi")
+    fun alertScreenGreek() {
+        val p = prefs()
+        p.testLeadS = 25
+        p.testQuiet = true
+        AlertCenter.init(RuntimeEnvironment.getApplication())
+        AlertCenter.fireTest()
+        ShadowLooper.idleMainLooper()
+        shoot("alert-el", AlertActivity::class.java)
+    }
 }

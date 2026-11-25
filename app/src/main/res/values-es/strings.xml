@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_alerts">Alertas</string>
+    <string name="tab_places">Lugares</string>
+    <string name="tab_settings">Ajustes</string>
+
+    <string name="ch_service">Conexión en segundo plano</string>
+    <string name="ch_service_desc">Mantiene activa la conexión de alertas. Se puede ocultar.</string>
+    <string name="ch_status">Problemas de conexión</string>
+    <string name="ch_status_desc">Te avisa cuando no se pueden recibir alertas.</string>
+    <string name="ch_watched">Lugares vigilados</string>
+    <string name="ch_watched_desc">Terremotos y otras alertas en los lugares que vigilas.</string>
+    <string name="ch_quake">Alerta de terremoto (mi ubicación)</string>
+    <string name="ch_quake_desc">Alerta sonora a pantalla completa cuando se esperan sacudidas donde estás.</string>
+    <string name="ch_info">Terremoto cercano (mi ubicación)</string>
+    <string name="ch_info_desc">Terremotos en tu zona por debajo del umbral de la alarma.</string>
+    <string name="ch_crisis">Otras alertas (mi ubicación)</string>
+    <string name="ch_crisis_desc">Alertas de seguridad pública para tu zona: inundaciones, tormentas, incendios…</string>
+    <string name="ch_alert_shown">Alerta de terremoto en pantalla</string>
+    <string name="ch_alert_shown_desc">Notificación silenciosa mientras se muestra la alerta a pantalla completa.</string>
+    <string name="ch_updates">Actualizaciones del terremoto</string>
+    <string name="ch_updates_desc">Revisiones que llegan después de cerrar la alerta.</string>
+
+    <string name="fg_connected">Escuchando alertas (%d zonas)</string>
+    <string name="fg_connecting">Conectando…</string>
+    <string name="fg_no_network">Esperando conexión de red</string>
+    <string name="fg_waiting">Sin conexión, se reintentará pronto</string>
+    <string name="fg_starting">Iniciando…</string>
+    <string name="status_disconnected_title">No se están recibiendo alertas</string>
+
+    <string name="notif_quake_title">Terremoto%1$s</string>
+    <string name="notif_watched_quake">Terremoto cerca de %1$s %2$s</string>
+    <string name="test_prefix">PRUEBA</string>
+    <string name="km_away">a %s km</string>
+    <string name="km_from">a %1$s km de %2$s</string>
+    <string name="est_intensity">intensidad estimada %s</string>
+    <string name="notif_update_title">Actualización · %s</string>
+    <string name="stop_alarm">Detener alarma</string>
+    <string name="close">Cerrar</string>
+    <string name="crisis_generic">Alerta pública</string>
+    <string name="epicenter">Epicentro</string>
+    <string name="you">Tú</string>
+    <string name="strong_shaking_in">Sacudidas fuertes en</string>
+    <string name="no_countdown">Hora de llegada desconocida</string>
+    <string name="seconds_left">%d s</string>
+    <string name="no_active_alert">No hay ninguna alerta activa</string>
+
+    <string name="tts_test">Esto es una prueba.</string>
+    <string name="tts_earthquake">¡Terremoto!</string>
+    <string name="tts_magnitude">Magnitud %s.</string>
+    <string name="tts_distance">A %s kilómetros.</string>
+    <plurals name="tts_seconds">
+        <item quantity="one">Sacudidas en aproximadamente %d segundo.</item>
+        <item quantity="many">Sacudidas en unos %d segundos.</item>
+        <item quantity="other">Sacudidas en unos %d segundos.</item>
+    </plurals>
+    <plurals name="tts_seconds_marker">
+        <item quantity="one">%d segundo.</item>
+        <item quantity="many">%d segundos.</item>
+        <item quantity="other">%d segundos.</item>
+    </plurals>
+
+    <string name="chip_listening">Escuchando</string>
+    <string name="chip_connecting">Conectando</string>
+    <string name="chip_offline">Sin conexión</string>
+    <string name="chip_off">Desactivadas</string>
+    <string name="state_connected_title">Escuchando alertas</string>
+    <string name="state_connected_detail">Conectado %1$s · último tráfico %2$s</string>
+    <string name="state_connecting">Conectando…</string>
+    <string name="state_no_network">Sin red</string>
+    <string name="state_waiting_title">Sin conexión</string>
+    <string name="state_waiting">Próximo intento %s</string>
+    <string name="state_disabled">Las alertas están DESACTIVADAS</string>
+    <string name="state_disabled_detail">No recibirás ningún aviso.</string>
+    <string name="alerts_on">Recibir alertas</string>
+    <string name="alerts_off_item">Las alertas están desactivadas: no recibirás avisos</string>
+    <string name="turn_off_title">¿Desactivar las alertas?</string>
+    <string name="turn_off_message">No recibirás avisos de terremotos ni de otras alertas hasta que las vuelvas a activar.</string>
+    <string name="turn_off_confirm">Desactivar</string>
+    <string name="keep_on">Mantener activadas</string>
+    <string name="last_traffic">Último tráfico del servidor: %s</string>
+    <string name="last_error">Último problema: %s</string>
+    <string name="messages_count">Mensajes recibidos: %1$d · reconexiones: %2$d</string>
+    <string name="identity">Identidad push anónima: %s</string>
+    <string name="needs_attention">Requiere tu atención</string>
+    <string name="required_tag">(obligatorio)</string>
+    <string name="fix_permissions">Revisar permisos</string>
+    <string name="no_location_yet">Aún no se conoce tu ubicación, así que no se pueden recibir alertas para tu zona. Permite el acceso a la ubicación o indícala manualmente en Ajustes.</string>
+    <string name="subscriptions">Zonas</string>
+    <string name="my_location">Mi ubicación</string>
+    <string name="location_unknown">Aún desconocida</string>
+    <string name="manual">indicada manualmente</string>
+    <string name="watched_detail">Lugar vigilado</string>
+    <string name="edit_places">Lugares vigilados</string>
+    <string name="test_mode">Alerta de prueba</string>
+    <string name="test_mode_desc">Simula un terremoto cerca de ti, con la alarma, el mapa y la cuenta atrás, y una actualización unos segundos después. Bloquea la pantalla para ver cómo se muestra allí. Funciona aunque las alertas estén desactivadas.</string>
+    <string name="tests_title">Pruebas</string>
+    <string name="test_tone_title">Tono de alarma</string>
+    <string name="test_tone_desc">%1$s · %2$s. La muestra suena unos segundos con el volumen de alarma actual.</string>
+    <string name="test_tone_play">Reproducir alarma</string>
+    <string name="test_tone_stop">Detener</string>
+    <string name="test_update_play">Reproducir sonido de actualización</string>
+    <string name="tts_try_button">Decir un aviso de ejemplo</string>
+    <string name="tts_try_desc">Idioma de la voz: %s.</string>
+    <string name="tts_off_note">La voz está desactivada en Ajustes; aquí el ejemplo se reproduce igualmente.</string>
+    <string name="test_delay">Empezar tras</string>
+    <string name="test_lead">Segundos hasta las sacudidas</string>
+    <string name="test_magnitude">Magnitud</string>
+    <string name="test_quiet">Prueba silenciosa (sin alarma)</string>
+    <string name="test_start">Programar alerta de prueba</string>
+    <string name="test_scheduled">Alerta de prueba en %d s</string>
+    <string name="seconds_short">%d s</string>
+    <string name="recent_alerts">Alertas recientes</string>
+    <string name="no_alerts_yet">Aún no se ha recibido ninguna alerta.</string>
+    <string name="note_test">prueba</string>
+    <string name="note_revision">actualización</string>
+    <string name="note_updated">actualizada</string>
+    <string name="note_google_test">alerta de prueba de Google, no mostrada</string>
+    <string name="kind_earthquake">Terremoto</string>
+    <string name="kind_public_alert">Alerta pública</string>
+    <string name="kind_sos_alert">Alerta SOS</string>
+    <string name="disclaimer">EarthPing es una aplicación independiente y no oficial. Escucha el mismo canal push que Google usa para las alertas de terremotos de Android, que Google puede cambiar o interrumpir en cualquier momento. No es un sistema de alerta certificado: mantén activadas las alertas de emergencia oficiales de tu teléfono.</string>
+
+    <string name="places_desc">Hasta tres lugares que te importan (familia, tu ciudad…). Recibirás avisos de terremotos y alertas allí, sin cuenta atrás. Además ocultan tu zona real ante Google entre otros lugares; un hueco vacío recibe un señuelo automático aleatorio.</string>
+    <string name="place_n">Lugar %d</string>
+    <string name="place_name">Nombre</string>
+    <string name="latitude">Latitud</string>
+    <string name="longitude">Longitud</string>
+    <string name="clear">Borrar</string>
+    <string name="save">Guardar</string>
+    <string name="saved">Guardado</string>
+    <string name="search">Buscar</string>
+    <string name="search_place">Buscar un lugar</string>
+    <string name="slot_empty_hint">Vacío: se usa un señuelo automático. Busca, escribe coordenadas o mantén pulsado el mapa.</string>
+    <string name="slot_set_hint">Mantén pulsado el mapa para moverlo.</string>
+    <string name="long_press_hint">Mantén pulsado el mapa para colocar el lugar seleccionado.</string>
+    <string name="no_geocoder">Este dispositivo no tiene un servicio de búsqueda de lugares. Escribe coordenadas o mantén pulsado el mapa.</string>
+    <string name="place_not_found">Lugar no encontrado</string>
+    <string name="invalid_place">El lugar %d tiene coordenadas no válidas</string>
+    <string name="osm_attribution">Datos del mapa © colaboradores de OpenStreetMap</string>
+
+    <string name="cat_alarm">Alarma</string>
+    <string name="cat_speech">Voz</string>
+    <string name="cat_notifications">Notificaciones</string>
+    <string name="cat_general">General</string>
+    <string name="cat_connection">Conexión</string>
+    <string name="cat_about">Información</string>
+    <string name="loud_threshold">Cuándo hacer sonar la alarma</string>
+    <string name="loud_threshold_note">Los terremotos más débiles en tu zona generan igualmente una notificación normal.</string>
+    <string name="alarm_tone">Tono de alarma</string>
+    <string name="alarm_sound">Volumen de la alarma</string>
+    <string name="override_silence">Ignorar el modo silencio</string>
+    <string name="override_silence_summary">Suena por el canal de alarma y desactiva No molestar durante la alarma</string>
+    <string name="tts_enabled">Decir el aviso en voz alta</string>
+    <string name="tts_enabled_summary">Dice la magnitud y la distancia y luego cuenta los segundos hasta las sacudidas</string>
+    <string name="tts_language">Idioma de la voz</string>
+    <string name="tts_try">Probar la voz</string>
+    <string name="tts_settings">Motor de texto a voz</string>
+    <string name="tts_settings_summary">Elige el motor e instala voces</string>
+    <string name="tts_unavailable">El texto a voz se está iniciando o no está disponible; inténtalo de nuevo en un momento.</string>
+    <string name="tts_voice_missing">No hay ninguna voz en %s instalada en el motor de texto a voz.</string>
+    <string name="watched_notifs">Lugares vigilados</string>
+    <string name="watched_notifs_summary">Avisarme de terremotos y alertas en mis lugares vigilados</string>
+    <string name="crisis_alerts">Otras alertas públicas</string>
+    <string name="crisis_alerts_summary">Inundaciones, tormentas, incendios y otras alertas que Google envía por el mismo canal</string>
+    <string name="location">Ubicación</string>
+    <string name="location_auto_summary">Detectada automáticamente</string>
+    <string name="location_manual_summary">Indicada manualmente: %s</string>
+    <string name="manual_location_desc">Normalmente tu ubicación se detecta automáticamente. Puedes indicarla aquí; al guardar se empieza a usar.</string>
+    <string name="invalid_coords">Coordenadas no válidas</string>
+    <string name="app_language">Idioma de la aplicación</string>
+    <string name="language_system">Idioma del sistema</string>
+    <string name="permissions">Permisos</string>
+    <string name="permissions_all_granted">Todos concedidos</string>
+    <string name="permissions_missing_count">%d sin conceder</string>
+    <string name="heartbeat_minutes">Comprobación de conexión (minutos)</string>
+    <string name="heartbeat_desc">Un valor más corto detecta antes una conexión caída, con un poco más de consumo de batería. El modo de reposo profundo puede alargarlo hasta unos 10 minutos.</string>
+    <string name="diagnostics">Diagnóstico</string>
+    <string name="diagnostics_summary">Detalles de la conexión y registro</string>
+    <string name="about_summary">Versión %s · GPL-3.0-or-later</string>
+    <string name="source_code">Código fuente</string>
+    <string name="source_code_summary">github.com/LjLies/EarthPing</string>
+    <string name="cannot_open">No se puede abrir esta pantalla en este dispositivo</string>
+
+    <string-array name="loud_entries">
+        <item>Cualquier alerta para mi zona</item>
+        <item>Sacudidas leves o más (IV+)</item>
+        <item>Sacudidas moderadas o más (V+)</item>
+        <item>Sacudidas fuertes o más (VI+)</item>
+    </string-array>
+    <string-array name="tone_entries">
+        <item>Campanas ascendentes</item>
+        <item>Sirena (¡fuerte!)</item>
+    </string-array>
+    <string-array name="sound_entries">
+        <item>Volumen máximo</item>
+        <item>Volumen de alarma actual</item>
+        <item>Pitidos suaves</item>
+        <item>Sin sonido (solo vibración y voz)</item>
+    </string-array>
+    <string-array name="tts_lang_entries">
+        <item>Igual que la aplicación</item>
+        <item>English</item>
+        <item>Italiano</item>
+        <item>Español</item>
+        <item>Türkçe</item>
+        <item>Ελληνικά</item>
+        <item>Bahasa Indonesia</item>
+        <item>繁體中文</item>
+    </string-array>
+
+    <string name="log_title">Registro</string>
+    <string name="copy_log">Copiar</string>
+    <string name="copied">Copiado</string>
+    <string name="diag_state">Estado: %s</string>
+    <string name="diag_since">Conectado: %s</string>
+    <string name="diag_topics">Temas: %s</string>
+    <string name="diag_location">Ubicación: %s</string>
+    <string name="clear_log">Borrar</string>
+
+    <string name="welcome_short">Bienvenida</string>
+    <string name="welcome_title">Alertas de terremoto, segundos antes</string>
+    <string name="welcome_body">EarthPing recibe las alertas de terremoto que Google difunde para los teléfonos Android, directamente y sin Google Play Services ni cuenta de Google, y te avisa antes de que lleguen las sacudidas fuertes. También transmite otras alertas públicas para tu zona.\n\nPara ser rápida y fiable tiene que permanecer conectada en segundo plano, saber aproximadamente dónde estás y poder hacer sonar una alarma incluso en modo silencio.</string>
+    <string name="privacy_title">Privacidad</string>
+    <string name="privacy_body">Solo tu zona aproximada (una celda de unos 40 km, mezclada con otros tres lugares) se envía al servidor push de Google, con una identidad de dispositivo anónima. No se envía nada a ningún otro sitio y no hay analíticas.</string>
+    <string name="permissions_intro">Permite lo obligatorio para continuar. Los elementos recomendados hacen que los avisos sean más rápidos y difíciles de perder.</string>
+    <string name="perm_ok">Permitido</string>
+    <string name="perm_required">Obligatorio</string>
+    <string name="perm_recommended">Recomendado</string>
+    <string name="grant">Permitir</string>
+    <string name="continue_btn">Continuar</string>
+    <string name="done">Hecho</string>
+    <string name="grant_required_first">Permite los elementos obligatorios para continuar</string>
+    <string name="vendor_title">Teléfonos que detienen las aplicaciones en segundo plano</string>
+    <string name="vendor_body">Algunos fabricantes (Xiaomi, Huawei, Samsung, OnePlus, Oppo…) detienen las aplicaciones en segundo plano a pesar de estos ajustes. Si las alertas dejan de llegar, permite también el «inicio automático» y desactiva cualquier ahorro de batería específico para EarthPing. dontkillmyapp.com explica cómo hacerlo en cada teléfono.</string>
+    <string name="perm_notif">Notificaciones</string>
+    <string name="perm_notif_why">Para mostrar avisos y mantener la conexión en segundo plano.</string>
+    <string name="perm_loc">Ubicación</string>
+    <string name="perm_loc_why">Para saber qué zona escuchar y calcular la cuenta atrás hasta las sacudidas. Se usa la ubicación por red; el GPS solo brevemente y rara vez, cuando no funciona nada más.</string>
+    <string name="perm_bgloc">Ubicación todo el tiempo</string>
+    <string name="perm_bgloc_why">Mantiene tu zona actualizada cuando viajas, también tras reiniciar. Elige «Permitir todo el tiempo».</string>
+    <string name="perm_battery">Uso de batería sin restricciones</string>
+    <string name="perm_battery_why">Mantiene la conexión abierta durante el reposo profundo y permite que EarthPing se reinicie sola. Sin esto, los avisos pueden llegar tarde o no llegar.</string>
+    <string name="perm_data">Datos en segundo plano</string>
+    <string name="perm_data_why">El ahorro de datos bloquea los datos en segundo plano de esta aplicación. Permite datos sin restricciones para que lleguen las alertas.</string>
+    <string name="perm_dnd">Acceso a No molestar</string>
+    <string name="perm_dnd_why">Permite que la alarma suene aunque esté activado No molestar.</string>
+    <string name="perm_fullscreen">Alertas a pantalla completa</string>
+    <string name="perm_fullscreen_why">Permite que el aviso con mapa y cuenta atrás aparezca sobre la pantalla de bloqueo.</string>
+    <string name="perm_overlay">Mostrar sobre otras aplicaciones</string>
+    <string name="perm_overlay_why">Permite que el aviso aparezca al instante, hagas lo que hagas.</string>
+    <string name="perm_alarms">Alarmas y recordatorios</string>
+    <string name="perm_alarms_why">Temporizadores precisos comprueban la conexión durante el reposo profundo e inician a tiempo las alertas de prueba.</string>
+    <string name="ch_notice_always">Terremoto cercano, también en modo silencio</string>
+    <string name="ch_notice_always_desc">Como «Terremoto cercano», pero el aviso sonoro suena también con el teléfono en silencio o vibración (no en No molestar).</string>
+    <string name="legend_v">V+ moderada</string>
+    <string name="legend_iv">IV leve</string>
+    <string name="legend_iii">III débil</string>
+    <string name="legend_p">Onda P (primera sacudida)</string>
+    <string name="legend_s">Onda S (sacudidas fuertes)</string>
+    <string name="test_notice_play">Reproducir aviso de notificación</string>
+    <string name="test_alarm_link">Probar los sonidos de alarma  →</string>
+    <string name="test_speech_link">Probar la voz  →</string>
+    <string name="siren_threshold">Sirena completa para sacudidas fuertes</string>
+    <string name="siren_threshold_note">Siempre suena al volumen máximo.</string>
+    <string name="notice_sound">Terremotos cercanos más débiles</string>
+    <string name="clear_history">Borrar</string>
+    <string name="clear_history_title">¿Borrar las alertas recientes?</string>
+    <string name="clear_history_message">Se vaciará la lista de alertas recientes, incluidas las pruebas.</string>
+    <string name="tts_expecting">ahora se esperan %s</string>
+    <string name="tts_magnitude_short">magnitud %s</string>
+    <string-array name="shaking_terms">
+        <item>sacudidas débiles</item>
+        <item>sacudidas leves</item>
+        <item>sacudidas moderadas</item>
+        <item>sacudidas fuertes</item>
+        <item>sacudidas muy fuertes</item>
+        <item>sacudidas severas</item>
+        <item>sacudidas violentas</item>
+        <item>sacudidas extremas</item>
+    </string-array>
+    <string-array name="intensity_terms">
+        <item>débil</item>
+        <item>leve</item>
+        <item>moderada</item>
+        <item>fuerte</item>
+        <item>muy fuerte</item>
+        <item>severa</item>
+        <item>violenta</item>
+        <item>extrema</item>
+    </string-array>
+    <string-array name="siren_entries">
+        <item>Nunca</item>
+        <item>Sacudidas fuertes o más (VI+)</item>
+        <item>Sacudidas muy fuertes o más (VII+)</item>
+        <item>Sacudidas severas o más (VIII+)</item>
+    </string-array>
+    <string-array name="notice_sound_entries">
+        <item>Aviso sonoro breve</item>
+        <item>Aviso sonoro breve, también en modo silencio</item>
+    </string-array>
+    <string name="fsi_revoked_title">Se han desactivado las alertas a pantalla completa</string>
+    <string name="fsi_revoked_text">Android ha retirado este permiso (puede hacerlo al actualizar la aplicación). Toca para volver a permitirlo.</string>
+    <string name="location_hint">Busca un lugar, escribe coordenadas o mantén pulsado el mapa.</string>
+    <string name="location_state_manual">Se usa la ubicación indicada aquí</string>
+    <string name="location_state_auto">Se usa la ubicación detectada</string>
+    <string name="use_detected_location">Usar la detectada</string>
+    <string name="tts_mag_higher">ahora magnitud mayor, %s</string>
+    <string name="tts_mag_lower">ahora magnitud menor, %s</string>
+    <string name="back_alarm_settings">←  Ajustes de alarma</string>
+    <string name="back_speech_settings">←  Ajustes de voz</string>
+    <string name="history_map">Mapa</string>
+    <string name="history_map_title">Mapa de alertas</string>
+    <string name="history_map_empty">No hay alertas recientes con ubicación.</string>
+    <string name="history_quake_title">Terremoto de magnitud %s</string>
+    <string name="history_occurred">Ocurrido: %s</string>
+    <string name="history_received">Recibido: %s</string>
+    <string name="history_epicentre">Epicentro: %s</string>
+    <string name="history_epicentre_depth">Epicentro: %1$s, profundidad %2$s km</string>
+    <string name="history_area_centre">Centro de la zona: %s</string>
+    <string name="history_older">Alerta anterior</string>
+    <string name="history_newer">Alerta siguiente</string>
+    <plurals name="history_updated">
+        <item quantity="one">Actualizado una vez por Google, a las %2$s</item>
+        <item quantity="many">Actualizado %1$d veces por Google, la última a las %2$s</item>
+        <item quantity="other">Actualizado %1$d veces por Google, la última a las %2$s</item>
+    </plurals>
+    <plurals name="history_revisions">
+        <item quantity="one">actualizado una vez</item>
+        <item quantity="many">actualizado %d veces</item>
+        <item quantity="other">actualizado %d veces</item>
+    </plurals>
+    <string name="history_km_from_you">a %s km de ti</string>
+
+    <string name="disclaimer_title">Antes de activar las alertas</string>
+    <string name="disclaimer_full">EarthPing es experimental y, hasta ahora, la han probado muy pocas personas.\n\n• Puede no detectar terremotos, avisar tarde o dar falsas alarmas, por ejemplo cuando no hay conexión de red o el sistema detiene la aplicación. No la uses como tu fuente principal de información de seguridad: mantén activadas las alertas de emergencia oficiales del teléfono y sigue las indicaciones de las autoridades locales.\n\n• La cuenta atrás y las sacudidas previstas son estimaciones. Las sacudidas pueden llegar antes, o ser más fuertes, de lo indicado.\n\n• EarthPing recibe las alertas conectándose a los servidores de Google con una identidad anónima. No está creada, respaldada ni mantenida por Google, y Google no es responsable de ella. Google puede cambiar o interrumpir este servicio en cualquier momento.\n\n• Es responsabilidad tuya asegurarte de que su uso está permitido por las condiciones o leyes que te correspondan.\n\n• EarthPing es software libre y se ofrece sin ninguna garantía.</string>
+    <string name="disclaimer_understood">Entendido</string>
+</resources>
