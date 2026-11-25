@@ -63,11 +63,23 @@ class PlaceEditor(
     }
 
     fun show(p: Place?, hint: String) {
+        // The search box belongs to the place being edited: start each one empty.
+        field(R.id.search).setText("")
         field(R.id.name).setText(p?.name ?: "")
         field(R.id.lat).setText(p?.let { String.format(Locale.US, "%.4f", it.lat) } ?: "")
         field(R.id.lon).setText(p?.let { String.format(Locale.US, "%.4f", it.lon) } ?: "")
         root.findViewById<TextView>(R.id.slot_hint).text = hint
         p?.let { map.controller.animateTo(GeoPoint(it.lat, it.lon)) }
+    }
+
+    /** Calls [onChange] whenever the name or coordinates are edited (also by [show]). */
+    fun watch(onChange: () -> Unit) {
+        val w = object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: android.text.Editable?) = onChange()
+        }
+        listOf(R.id.name, R.id.lat, R.id.lon).forEach { field(it).addTextChangedListener(w) }
     }
 
     sealed class Read {

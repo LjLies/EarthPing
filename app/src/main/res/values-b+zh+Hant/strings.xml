@@ -115,7 +115,7 @@
     <string name="kind_sos_alert">SOS 警報</string>
     <string name="disclaimer">EarthPing 是獨立的非官方應用程式。它接收 Google 用於 Android 地震警報的同一個推播頻道，而 Google 隨時可能變更或停止該頻道。這不是經過認證的警報系統：請保持手機的官方緊急警報為開啟狀態。</string>
 
-    <string name="places_desc">最多三個你在意的其他地點（家人、家鄉等）。這些地點發生地震或警報時你會收到通知，但沒有倒數。它們也會讓你的真實區域混在其他地點之中，不讓 Google 得知；空白欄位會隨機使用自動誘餌地點。</string>
+    <string name="places_desc">除了你目前的位置，最多再加三個你在意的地點（家人、家鄉等）。這些地點發生地震或警報時你會收到通知，但沒有倒數。它們也會讓你的真實區域混在其他地點之中，不讓 Google 得知；空白欄位會隨機使用自動誘餌地點。</string>
     <string name="place_n">地點 %d</string>
     <string name="place_name">名稱</string>
     <string name="latitude">緯度</string>
@@ -335,4 +335,5 @@
     </string-array>
     <string name="crisis_alerts">其他公共警報</string>
     <string name="crisis_alerts_summary">Google 透過同一頻道傳送的淹水、暴風、火災和其他警報</string>
+    <string name="place_not_saved">變更未儲存</string>
 </resources>
