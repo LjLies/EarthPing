@@ -72,6 +72,16 @@ class PlaceEditor(
         p?.let { map.controller.animateTo(GeoPoint(it.lat, it.lon)) }
     }
 
+    /** Calls [onChange] whenever the name or coordinates are edited (also by [show]). */
+    fun watch(onChange: () -> Unit) {
+        val w = object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: android.text.Editable?) = onChange()
+        }
+        listOf(R.id.name, R.id.lat, R.id.lon).forEach { field(it).addTextChangedListener(w) }
+    }
+
     sealed class Read {
         object Empty : Read()
         object Invalid : Read()
