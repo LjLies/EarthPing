@@ -127,7 +127,7 @@
     <string name="disclaimer">EarthPing is an independent, unofficial app. It listens to the same push channel Google uses for Android earthquake alerts, which Google may change or stop at any time. It is not a certified warning system: keep your phone\'s official emergency alerts enabled.</string>
 
     <!-- Places pane -->
-    <string name="places_desc">Up to three other places you care about (family, home town…). You are notified about earthquakes and alerts there, without the countdown. They also hide your real area from Google among other places; an empty slot gets a random automatic decoy.</string>
+    <string name="places_desc">Up to three places you care about in addition to your current location (family, home town…). You are notified about earthquakes and alerts there, without the countdown. They also hide your real area from Google among other places; an empty slot gets a random automatic decoy.</string>
     <string name="place_n">Place %d</string>
     <string name="place_name">Name</string>
     <string name="latitude">Latitude</string>

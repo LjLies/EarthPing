@@ -119,7 +119,7 @@
     <string name="kind_sos_alert">Alerta SOS</string>
     <string name="disclaimer">EarthPing es una aplicación independiente y no oficial. Escucha el mismo canal push que Google usa para las alertas de terremotos de Android, que Google puede cambiar o interrumpir en cualquier momento. No es un sistema de alerta certificado: mantén activadas las alertas de emergencia oficiales de tu teléfono.</string>
 
-    <string name="places_desc">Hasta tres lugares que te importan (familia, tu ciudad…). Recibirás avisos de terremotos y alertas allí, sin cuenta atrás. Además ocultan tu zona real ante Google entre otros lugares; un hueco vacío recibe un señuelo automático aleatorio.</string>
+    <string name="places_desc">Hasta tres lugares que te importan, además de tu ubicación actual (familia, tu ciudad…). Recibirás avisos de terremotos y alertas allí, sin cuenta atrás. Además ocultan tu zona real ante Google entre otros lugares; un hueco vacío recibe un señuelo automático aleatorio.</string>
     <string name="place_n">Lugar %d</string>
     <string name="place_name">Nombre</string>
     <string name="latitude">Latitud</string>
