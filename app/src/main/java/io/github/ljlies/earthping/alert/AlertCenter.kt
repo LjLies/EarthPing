@@ -43,6 +43,8 @@ class LocalQuake(
     /** Incremented on every revision received from Google (the UI redraws on change). */
     @Volatile var revision = 0
     @Volatile var updatedAtMs = 0L
+    /** The "earthquake nearby" chime was handled (it sounds once per quake). */
+    @Volatile var noticeChimed = false
     /** The first alert's id: revisions may come with other ids. */
     val eventId = alert.id
 
@@ -147,6 +149,22 @@ object AlertCenter {
         val l = speechLocale()
         speaker.setLocale(l)
         return Spoken(speechContext(), l)
+    }
+
+    /**
+     * "Also in silent mode": the notification's own chime is muted in silent and vibrate mode,
+     * so play it on the alarm stream instead. Not during Do Not Disturb, and not if the user
+     * silenced the channel.
+     */
+    private fun chimeIfSilenced() {
+        if (prefs.noticeSound != "chime_always") return
+        val am = app.getSystemService(android.media.AudioManager::class.java)
+        val nm = app.getSystemService(NotificationManager::class.java)
+        if (am.ringerMode == android.media.AudioManager.RINGER_MODE_NORMAL) return
+        if (nm.currentInterruptionFilter != NotificationManager.INTERRUPTION_FILTER_ALL) return
+        if (!Notifications.noticeChannelAudible(app)) return
+        EventLog.log("Silent mode: playing the notification chime on the alarm stream")
+        playNoticeChime()
     }
 
     /** Tests page: the chime of the discreet "earthquake nearby" notification, as configured. */
@@ -343,7 +361,7 @@ object AlertCenter {
         val nm = app.getSystemService(NotificationManager::class.java)
         val open = PendingIntent.getActivity(app, 13, Intent(app, AlertActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-        nm.notify(Notifications.ID_LOCAL_QUAKE + 1, Notification.Builder(app, Notifications.CH_UPDATES)
+        nm.notify(Notifications.ID_LOCAL_QUAKE + 1, Notification.Builder(app, Notifications.CH_NOTICE)
             .setSmallIcon(R.drawable.ic_stat_quake)
             .setContentTitle(str(R.string.notif_update_title, localTitle(q)))
             .setContentText(localText(q))
@@ -352,6 +370,7 @@ object AlertCenter {
             .setAutoCancel(true)
             .build())
         EventLog.log("Update notification posted")
+        chimeIfSilenced()
     }
 
     /** The full-screen warning reports whether it is on screen (no heads-up should cover it). */
@@ -509,7 +528,7 @@ object AlertCenter {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
         val stop = PendingIntent.getBroadcast(app, 11, Intent(app, StopReceiver::class.java), PendingIntent.FLAG_IMMUTABLE)
         val channel = when {
-            !q.loud -> Notifications.noticeChannel(app)
+            !q.loud -> Notifications.CH_NOTICE
             // The warning is on screen: a silent notification, so no heads-up covers it.
             alertScreenVisible || screenExpected -> Notifications.CH_ALERT_SHOWN
             else -> Notifications.quakeChannel(app)
@@ -534,6 +553,7 @@ object AlertCenter {
             b.setOngoing(true)
         }
         nm.notify(Notifications.ID_LOCAL_QUAKE, b.build())
+        if (!q.loud && !q.noticeChimed) { q.noticeChimed = true; chimeIfSilenced() }
         if (channel != lastChannel) EventLog.log("Notification: ${if (q.loud) "loud" else "notice"} on $channel")
         lastChannel = channel
     }

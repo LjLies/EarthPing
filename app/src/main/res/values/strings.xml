@@ -18,13 +18,11 @@
     <string name="ch_quake">Earthquake warning (my location)</string>
     <string name="ch_quake_desc">Loud, full-screen warning for shaking expected where you are.</string>
     <string name="ch_info">Earthquake nearby (my location)</string>
-    <string name="ch_info_desc">Earthquakes in your area below the loud-alarm threshold.</string>
+    <string name="ch_info_desc">Earthquakes in your area below the alarm threshold, and updates after a warning was closed.</string>
     <string name="ch_crisis">Other alerts (my location)</string>
     <string name="ch_crisis_desc">Public safety alerts for your area: floods, storms, fires…</string>
     <string name="ch_alert_shown">Earthquake warning on screen</string>
     <string name="ch_alert_shown_desc">Silent notification while the full-screen warning is showing.</string>
-    <string name="ch_updates">Earthquake updates</string>
-    <string name="ch_updates_desc">Revisions that arrive after the warning was closed.</string>
 
     <!-- Foreground notification -->
     <string name="fg_connected">Listening for alerts (%d areas)</string>
@@ -288,16 +286,12 @@
     <string name="perm_overlay_why">Lets the warning pop up at once, whatever you are doing.</string>
     <string name="perm_alarms">Alarms and reminders</string>
     <string name="perm_alarms_why">Precise timers check the connection during deep sleep and start test alerts on time.</string>
-    <string name="ch_notice_always">Earthquake nearby, also in silent mode</string>
-    <string name="ch_notice_always_desc">Like “Earthquake nearby”, but the chime also sounds when the phone is on silent or vibrate (not in Do Not Disturb).</string>
     <string name="legend_v">V+ moderate</string>
     <string name="legend_iv">IV light</string>
     <string name="legend_iii">III weak</string>
     <string name="legend_p">P wave (first jolt)</string>
     <string name="legend_s">S wave (strong shaking)</string>
     <string name="test_notice_play">Play notification chime</string>
-    <string name="test_alarm_link">Test the alarm sounds  →</string>
-    <string name="test_speech_link">Test speech  →</string>
     <string name="siren_threshold">Full siren for strong shaking</string>
     <string name="siren_threshold_note">Always rings at maximum volume.</string>
     <string name="notice_sound">Weaker earthquakes nearby</string>
@@ -383,4 +377,9 @@
     <string name="disclaimer_title">Before you turn on alerts</string>
     <string name="disclaimer_full">EarthPing is experimental, and so far it has been tested by very few people.\n\n• It can miss earthquakes, warn late or give false alarms, for example when there is no network connection or the system stops the app. Do not rely on it as your main source of safety information: keep your phone\'s official emergency alerts on and follow your local authorities.\n\n• The countdown and the expected shaking are estimates. Shaking can arrive sooner, or be stronger, than shown.\n\n• EarthPing receives the alerts by connecting to Google\'s servers with an anonymous identity. It is not made, endorsed or supported by Google, and Google is not responsible for it. Google can change or stop this service at any time.\n\n• It is up to you to make sure that using it is allowed by any terms or laws that apply to you.\n\n• EarthPing is free software and comes with no warranty.</string>
     <string name="disclaimer_understood">I understand</string>
+    <string name="test_link">Test  →</string>
+    <string name="perm_dnd_channel">Warnings during Do Not Disturb</string>
+    <string name="perm_dnd_channel_why">The warning can\'t show during Do Not Disturb yet. Android only lets you turn this on yourself, in the notification settings.</string>
+    <string name="perm_dnd_channel_steps">On the next screen, turn on “Override Do Not Disturb” (on some phones it\'s called “Ignore Do Not Disturb”), then come back.</string>
+    <string name="open_settings">Open settings</string>
 </resources>

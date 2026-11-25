@@ -74,7 +74,7 @@ class LogActivity : AppCompatActivity() {
         return listOf(
             "App ${io.github.ljlies.earthping.BuildConfig.VERSION_NAME} (${io.github.ljlies.earthping.BuildConfig.VERSION_CODE})",
             "Android ${android.os.Build.VERSION.RELEASE} (SDK ${android.os.Build.VERSION.SDK_INT}), ${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}, ${android.os.Build.DISPLAY}",
-            "Permissions: " + Perms.applicable().joinToString(", ") { "${it.key}=${if (it.granted(this)) "yes" else "NO"}" },
+            "Permissions: " + Perms.applicable(this).joinToString(", ") { "${it.key}=${if (it.granted(this)) "yes" else "NO"}" },
             "Settings: alerts=${p.serviceEnabled}, loud>=${p.loudMinMmi}, siren>=${p.sirenMinMmi}, notice=${p.noticeSound}, tone=${p.alarmTone}, volume=${p.alarmSound}, override=${p.overrideSilence}, " +
                 "tts=${p.ttsEnabled} (${p.ttsLanguage.ifEmpty { "app" }}, engine $engine), heartbeat=${p.heartbeatMinutes} min, manual location=${p.manualLocationEnabled}",
             "Audio: ringer=${am.ringerMode}, alarm volume=${am.getStreamVolume(android.media.AudioManager.STREAM_ALARM)}/${am.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM)}, DND filter=${nm.currentInterruptionFilter}",

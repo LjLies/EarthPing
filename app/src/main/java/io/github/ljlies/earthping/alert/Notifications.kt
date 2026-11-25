@@ -17,23 +17,20 @@ object Notifications {
     const val CH_SERVICE = "service"
     const val CH_STATUS = "status"
     private const val CH_QUAKE_BASE = "quake_local"
-    /** Earthquakes below the loud-alarm threshold: an ordinary notification (no DND bypass). */
+    /**
+     * Earthquakes below the loud-alarm threshold, and updates after a warning was closed: an
+     * ordinary notification (no DND bypass). "Also in silent mode" is done by the app playing the
+     * chime itself, so one channel serves both choices.
+     */
     const val CH_NOTICE = "quake_notice_chime"
-    /** Same, but its chime plays on the alarm stream, so also in silent/vibrate mode (not in DND). */
-    const val CH_NOTICE_ALWAYS = "quake_notice_chime_always"
     /** Public alerts for my location: an ordinary, prominent notification. */
     const val CH_CRISIS = "crisis"
     /** While the full-screen warning is on screen: silent, so no heads-up covers it. */
     const val CH_ALERT_SHOWN = "alert_on_screen"
-    /** Revisions arriving after the warning was closed. */
-    const val CH_UPDATES = "quake_updates_headsup"
     const val CH_WATCHED = "watched"
     /** Channels of older versions that are no longer used. */
     private val OBSOLETE_PREFIXES = listOf("quake_info_", "crisis_local_")
-    private val OBSOLETE_IDS = listOf("quake_notice", "quake_updates")
-
-    fun noticeChannel(ctx: Context) =
-        if (io.github.ljlies.earthping.Prefs(ctx).noticeSound == "chime_always") CH_NOTICE_ALWAYS else CH_NOTICE
+    private val OBSOLETE_IDS = listOf("quake_notice", "quake_updates", "quake_notice_chime_always", "quake_updates_headsup")
 
     const val ID_SERVICE = 1
     const val ID_STATUS = 2
@@ -64,13 +61,6 @@ object Notifications {
         nm.notificationChannels.filter { ch -> OBSOLETE_PREFIXES.any { ch.id.startsWith(it) } || ch.id in OBSOLETE_IDS }
             .forEach { nm.deleteNotificationChannel(it.id) }
         val chime = android.net.Uri.parse("android.resource://${ctx.packageName}/${R.raw.notice_chime}")
-        nm.createNotificationChannel(NotificationChannel(CH_NOTICE_ALWAYS, ctx.getString(R.string.ch_notice_always), NotificationManager.IMPORTANCE_HIGH).apply {
-            description = ctx.getString(R.string.ch_notice_always_desc)
-            setSound(chime, AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
-            enableVibration(true)
-            lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
-        })
         val notifAttrs = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
         nm.createNotificationChannel(NotificationChannel(CH_NOTICE, ctx.getString(R.string.ch_info), NotificationManager.IMPORTANCE_HIGH).apply {
@@ -91,12 +81,10 @@ object Notifications {
             enableVibration(false)
             lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
         })
-        nm.createNotificationChannel(NotificationChannel(CH_UPDATES, ctx.getString(R.string.ch_updates), NotificationManager.IMPORTANCE_HIGH).apply {
-            description = ctx.getString(R.string.ch_updates_desc)
-            setSound(chime, notifAttrs)
-            lockscreenVisibility = android.app.Notification.VISIBILITY_PUBLIC
-        })
         // The loud alert plays its own siren on the alarm stream; the channel itself only vibrates.
+        // It is created once DND access is granted (or onboarding ends without it), because
+        // only a new channel can be told to override Do Not Disturb.
+        if (!hasDnd && !io.github.ljlies.earthping.Prefs(ctx).onboardingDone) return
         ensureDndChannel(ctx, CH_QUAKE_BASE, hasDnd) {
             NotificationChannel(it, ctx.getString(R.string.ch_quake), NotificationManager.IMPORTANCE_HIGH).apply {
                 description = ctx.getString(R.string.ch_quake_desc)
@@ -110,20 +98,25 @@ object Notifications {
     }
 
     private fun ensureDndChannel(ctx: Context, base: String, hasDnd: Boolean, make: (String) -> NotificationChannel) {
+        // Never recreated: Android would list the old one as "deleted" in the app's settings.
+        // A channel made before DND access is fixed by the user instead (see Perms).
+        val id = current(ctx, base)
+        if (nm(ctx).getNotificationChannel(id) == null) nm(ctx).createNotificationChannel(make(id))
+    }
+
+    /** DND access is granted, but the warning channel was created without the DND override. */
+    fun quakeChannelMissesDndBypass(ctx: Context): Boolean {
         val nm = nm(ctx)
-        val sp = Storage.of(ctx).getSharedPreferences("channels", Context.MODE_PRIVATE)
-        var gen = sp.getInt(base, 1)
-        val existing = nm.getNotificationChannel("${base}_$gen")
-        if (existing != null && hasDnd && !existing.canBypassDnd() && !sp.getBoolean("${base}_dnd_$gen", false)) {
-            // Created before DND access was granted: replace it so the bypass takes effect.
-            nm.deleteNotificationChannel(existing.id)
-            gen++
-            sp.edit().putInt(base, gen).apply()
-        }
-        if (nm.getNotificationChannel("${base}_$gen") == null) {
-            nm.createNotificationChannel(make("${base}_$gen"))
-            if (hasDnd) sp.edit().putBoolean("${base}_dnd_$gen", true).apply()
-        }
+        if (!nm.isNotificationPolicyAccessGranted) return false
+        val ch = nm.getNotificationChannel(quakeChannel(ctx)) ?: return false
+        return !ch.canBypassDnd()
+    }
+
+    /** The user hasn't silenced or blocked the "Earthquake nearby" channel. */
+    fun noticeChannelAudible(ctx: Context): Boolean {
+        val nm = nm(ctx)
+        val ch = nm.getNotificationChannel(CH_NOTICE) ?: return false
+        return nm.areNotificationsEnabled() && ch.importance >= NotificationManager.IMPORTANCE_DEFAULT
     }
 
     fun quakeChannelBypassesDnd(ctx: Context): Boolean = nm(ctx).getNotificationChannel(quakeChannel(ctx))?.canBypassDnd() == true

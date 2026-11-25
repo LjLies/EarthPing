@@ -42,13 +42,15 @@ class OnboardingActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        // Creates the warning channel as soon as DND access is granted, so it can override DND.
+        Notifications.ensureChannels(this)
         render()
     }
 
     private fun render() {
         val rows = findViewById<LinearLayout>(R.id.permissions)
         rows.removeAllViews()
-        for (item in Perms.applicable()) {
+        for (item in Perms.applicable(this)) {
             val ok = item.granted(this)
             val v = layoutInflater.inflate(R.layout.permission_row, rows, false)
             v.findViewById<TextView>(R.id.permission_title).setText(item.title)
@@ -94,9 +96,9 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun completeOnboarding(alerts: Boolean) {
-        Notifications.ensureChannels(this)
         val first = !prefs.onboardingDone
         prefs.onboardingDone = true
+        Notifications.ensureChannels(this)
         if (first) prefs.serviceEnabled = alerts
         if (prefs.serviceEnabled) {
             ListenerService.start(this, "onboarding")

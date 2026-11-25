@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 import io.github.ljlies.earthping.R
+import io.github.ljlies.earthping.alert.Notifications
 
 /** Every permission or system setting the app depends on, with how to obtain it. */
 class PermItem(
@@ -21,7 +22,7 @@ class PermItem(
     val title: Int,
     val why: Int,
     val required: Boolean,
-    val applies: () -> Boolean = { true },
+    val applies: (Context) -> Boolean = { true },
     val granted: (Context) -> Boolean,
     val request: (Activity) -> Unit,
 )
@@ -46,14 +47,14 @@ object Perms {
     @SuppressLint("BatteryLife")
     val items: List<PermItem> = listOf(
         PermItem("notifications", R.string.perm_notif, R.string.perm_notif_why, required = true,
-            applies = { Build.VERSION.SDK_INT >= 33 },
+            applies = { _ -> Build.VERSION.SDK_INT >= 33 },
             granted = { c -> Build.VERSION.SDK_INT < 33 || has(c, Manifest.permission.POST_NOTIFICATIONS) },
             request = { a -> if (Build.VERSION.SDK_INT >= 33) a.requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), REQ_NOTIF) }),
         PermItem("location", R.string.perm_loc, R.string.perm_loc_why, required = true,
             granted = { c -> has(c, Manifest.permission.ACCESS_COARSE_LOCATION) && has(c, Manifest.permission.ACCESS_FINE_LOCATION) },
             request = { a -> a.requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), REQ_LOC) }),
         PermItem("bg_location", R.string.perm_bgloc, R.string.perm_bgloc_why, required = false,
-            applies = { Build.VERSION.SDK_INT >= 29 },
+            applies = { _ -> Build.VERSION.SDK_INT >= 29 },
             granted = { c -> Build.VERSION.SDK_INT < 29 || has(c, Manifest.permission.ACCESS_BACKGROUND_LOCATION) },
             request = { a ->
                 if (Build.VERSION.SDK_INT >= 29) {
@@ -73,20 +74,37 @@ object Perms {
         PermItem("dnd", R.string.perm_dnd, R.string.perm_dnd_why, required = false,
             granted = { c -> c.getSystemService(NotificationManager::class.java).isNotificationPolicyAccessGranted },
             request = { a -> open(a, Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)) }),
+        // The warning channel can only be told to override DND when it is created. If DND access
+        // came later, the user switches it on in the channel's settings (the app can't).
+        PermItem("dnd_channel", R.string.perm_dnd_channel, R.string.perm_dnd_channel_why, required = false,
+            applies = { c -> Notifications.quakeChannelMissesDndBypass(c) },
+            granted = { c -> !Notifications.quakeChannelMissesDndBypass(c) },
+            request = { a ->
+                com.google.android.material.dialog.MaterialAlertDialogBuilder(a)
+                    .setTitle(R.string.perm_dnd_channel)
+                    .setMessage(R.string.perm_dnd_channel_steps)
+                    .setPositiveButton(R.string.open_settings) { _, _ ->
+                        open(a, Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                            .putExtra(Settings.EXTRA_APP_PACKAGE, a.packageName)
+                            .putExtra(Settings.EXTRA_CHANNEL_ID, Notifications.quakeChannel(a)))
+                    }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+            }),
         PermItem("fullscreen", R.string.perm_fullscreen, R.string.perm_fullscreen_why, required = false,
-            applies = { Build.VERSION.SDK_INT >= 34 },
+            applies = { _ -> Build.VERSION.SDK_INT >= 34 },
             granted = { c -> Build.VERSION.SDK_INT < 34 || c.getSystemService(NotificationManager::class.java).canUseFullScreenIntent() },
             request = { a -> if (Build.VERSION.SDK_INT >= 34) open(a, Intent(Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT, Uri.parse("package:${a.packageName}"))) }),
         PermItem("overlay", R.string.perm_overlay, R.string.perm_overlay_why, required = false,
             granted = { c -> Settings.canDrawOverlays(c) },
             request = { a -> open(a, Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${a.packageName}"))) }),
         PermItem("exact_alarms", R.string.perm_alarms, R.string.perm_alarms_why, required = false,
-            applies = { Build.VERSION.SDK_INT >= 31 },
+            applies = { _ -> Build.VERSION.SDK_INT >= 31 },
             granted = { c -> Build.VERSION.SDK_INT < 31 || c.getSystemService(AlarmManager::class.java).canScheduleExactAlarms() },
             request = { a -> if (Build.VERSION.SDK_INT >= 31) open(a, Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, Uri.parse("package:${a.packageName}"))) }),
     )
 
-    fun applicable() = items.filter { it.applies() }
-    fun missing(c: Context) = applicable().filter { !it.granted(c) }
+    fun applicable(c: Context) = items.filter { it.applies(c) }
+    fun missing(c: Context) = applicable(c).filter { !it.granted(c) }
     fun missingRequired(c: Context) = missing(c).filter { it.required }
 }

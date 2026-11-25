@@ -13,13 +13,11 @@
     <string name="ch_quake">Deprem uyarısı (konumum)</string>
     <string name="ch_quake_desc">Bulunduğunuz yerde sarsıntı beklendiğinde sesli, tam ekran uyarı.</string>
     <string name="ch_info">Yakında deprem (konumum)</string>
-    <string name="ch_info_desc">Bölgenizde alarm eşiğinin altında kalan depremler.</string>
+    <string name="ch_info_desc">Bölgenizde alarm eşiğinin altında kalan depremler ve bir uyarı kapatıldıktan sonra gelen güncellemeler.</string>
     <string name="ch_crisis">Diğer uyarılar (konumum)</string>
     <string name="ch_crisis_desc">Bölgeniz için kamu güvenliği uyarıları: sel, fırtına, yangın…</string>
     <string name="ch_alert_shown">Ekrandaki deprem uyarısı</string>
     <string name="ch_alert_shown_desc">Tam ekran uyarı görüntülenirken sessiz bildirim.</string>
-    <string name="ch_updates">Deprem güncellemeleri</string>
-    <string name="ch_updates_desc">Uyarı kapatıldıktan sonra gelen düzeltmeler.</string>
 
     <string name="fg_connected">Uyarılar dinleniyor (%d bölge)</string>
     <string name="fg_connecting">Bağlanıyor…</string>
@@ -249,16 +247,12 @@
     <string name="perm_overlay_why">Ne yapıyor olursanız olun uyarının hemen açılmasını sağlar.</string>
     <string name="perm_alarms">Alarmlar ve hatırlatıcılar</string>
     <string name="perm_alarms_why">Hassas zamanlayıcılar derin uykuda bağlantıyı kontrol eder ve test uyarılarını zamanında başlatır.</string>
-    <string name="ch_notice_always">Yakında deprem, sessiz modda da</string>
-    <string name="ch_notice_always_desc">“Yakında deprem” gibi, ancak telefon sessiz veya titreşim modundayken de kısa ses çalar (Rahatsız Etmeyin modunda değil).</string>
     <string name="legend_v">V+ orta</string>
     <string name="legend_iv">IV hafif</string>
     <string name="legend_iii">III zayıf</string>
     <string name="legend_p">P dalgası (ilk sarsıntı)</string>
     <string name="legend_s">S dalgası (kuvvetli sarsıntı)</string>
     <string name="test_notice_play">Bildirim sesini çal</string>
-    <string name="test_alarm_link">Alarm seslerini test et  →</string>
-    <string name="test_speech_link">Konuşmayı test et  →</string>
     <string name="siren_threshold">Kuvvetli sarsıntı için tam siren</string>
     <string name="siren_threshold_note">Her zaman en yüksek seste çalar.</string>
     <string name="notice_sound">Yakındaki daha zayıf depremler</string>
@@ -331,4 +325,9 @@
     <string name="disclaimer_title">Uyarıları açmadan önce</string>
     <string name="disclaimer_full">EarthPing deneysel bir uygulamadır ve şimdiye kadar çok az kişi tarafından test edilmiştir.\n\n• Depremleri kaçırabilir, geç uyarabilir veya yanlış alarm verebilir; örneğin ağ bağlantısı olmadığında ya da sistem uygulamayı durdurduğunda. Güvenliğiniz için ana bilgi kaynağınız olarak ona güvenmeyin: telefonunuzun resmî acil durum uyarılarını açık tutun ve yerel yetkililerin talimatlarına uyun.\n\n• Geri sayım ve beklenen sarsıntı tahminidir. Sarsıntı gösterilenden daha erken gelebilir veya daha kuvvetli olabilir.\n\n• EarthPing uyarıları anonim bir kimlikle Google\'ın sunucularına bağlanarak alır. Google tarafından yapılmamış, onaylanmamış veya desteklenmemiştir ve Google ondan sorumlu değildir. Google bu hizmeti her an değiştirebilir veya durdurabilir.\n\n• Kullanımının size uygulanan koşullar veya yasalarca izin verildiğinden emin olmak sizin sorumluluğunuzdadır.\n\n• EarthPing özgür yazılımdır ve hiçbir garanti olmadan sunulur.</string>
     <string name="disclaimer_understood">Anladım</string>
+    <string name="test_link">Test et  →</string>
+    <string name="perm_dnd_channel">Rahatsız Etmeyin sırasında uyarılar</string>
+    <string name="perm_dnd_channel_why">Uyarı henüz Rahatsız Etmeyin modunda görünemiyor. Android bunu yalnızca sizin, bildirim ayarlarından açmanıza izin verir.</string>
+    <string name="perm_dnd_channel_steps">Sonraki ekranda “Rahatsız Etmeyin\'i geçersiz kıl” seçeneğini açın, sonra buraya dönün.</string>
+    <string name="open_settings">Ayarları aç</string>
 </resources>

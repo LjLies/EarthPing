@@ -13,13 +13,11 @@
     <string name="ch_quake">Alerta de terremoto (mi ubicación)</string>
     <string name="ch_quake_desc">Alerta sonora a pantalla completa cuando se esperan sacudidas donde estás.</string>
     <string name="ch_info">Terremoto cercano (mi ubicación)</string>
-    <string name="ch_info_desc">Terremotos en tu zona por debajo del umbral de la alarma.</string>
+    <string name="ch_info_desc">Terremotos en tu zona por debajo del umbral de la alarma, y actualizaciones después de cerrar una alerta.</string>
     <string name="ch_crisis">Otras alertas (mi ubicación)</string>
     <string name="ch_crisis_desc">Alertas de seguridad pública para tu zona: inundaciones, tormentas, incendios…</string>
     <string name="ch_alert_shown">Alerta de terremoto en pantalla</string>
     <string name="ch_alert_shown_desc">Notificación silenciosa mientras se muestra la alerta a pantalla completa.</string>
-    <string name="ch_updates">Actualizaciones del terremoto</string>
-    <string name="ch_updates_desc">Revisiones que llegan después de cerrar la alerta.</string>
 
     <string name="fg_connected">Escuchando alertas (%d zonas)</string>
     <string name="fg_connecting">Conectando…</string>
@@ -251,16 +249,12 @@
     <string name="perm_overlay_why">Permite que el aviso aparezca al instante, hagas lo que hagas.</string>
     <string name="perm_alarms">Alarmas y recordatorios</string>
     <string name="perm_alarms_why">Temporizadores precisos comprueban la conexión durante el reposo profundo e inician a tiempo las alertas de prueba.</string>
-    <string name="ch_notice_always">Terremoto cercano, también en modo silencio</string>
-    <string name="ch_notice_always_desc">Como «Terremoto cercano», pero el aviso sonoro suena también con el teléfono en silencio o vibración (no en No molestar).</string>
     <string name="legend_v">V+ moderada</string>
     <string name="legend_iv">IV leve</string>
     <string name="legend_iii">III débil</string>
     <string name="legend_p">Onda P (primera sacudida)</string>
     <string name="legend_s">Onda S (sacudidas fuertes)</string>
     <string name="test_notice_play">Reproducir aviso de notificación</string>
-    <string name="test_alarm_link">Probar los sonidos de alarma  →</string>
-    <string name="test_speech_link">Probar la voz  →</string>
     <string name="siren_threshold">Sirena completa para sacudidas fuertes</string>
     <string name="siren_threshold_note">Siempre suena al volumen máximo.</string>
     <string name="notice_sound">Terremotos cercanos más débiles</string>
@@ -335,4 +329,9 @@
     <string name="disclaimer_title">Antes de activar las alertas</string>
     <string name="disclaimer_full">EarthPing es experimental y, hasta ahora, la han probado muy pocas personas.\n\n• Puede no detectar terremotos, avisar tarde o dar falsas alarmas, por ejemplo cuando no hay conexión de red o el sistema detiene la aplicación. No la uses como tu fuente principal de información de seguridad: mantén activadas las alertas de emergencia oficiales del teléfono y sigue las indicaciones de las autoridades locales.\n\n• La cuenta atrás y las sacudidas previstas son estimaciones. Las sacudidas pueden llegar antes, o ser más fuertes, de lo indicado.\n\n• EarthPing recibe las alertas conectándose a los servidores de Google con una identidad anónima. No está creada, respaldada ni mantenida por Google, y Google no es responsable de ella. Google puede cambiar o interrumpir este servicio en cualquier momento.\n\n• Es responsabilidad tuya asegurarte de que su uso está permitido por las condiciones o leyes que te correspondan.\n\n• EarthPing es software libre y se ofrece sin ninguna garantía.</string>
     <string name="disclaimer_understood">Entendido</string>
+    <string name="test_link">Probar  →</string>
+    <string name="perm_dnd_channel">Alertas con No molestar</string>
+    <string name="perm_dnd_channel_why">La alerta aún no puede mostrarse con No molestar activado. Android solo te permite activarlo a ti, en los ajustes de notificaciones.</string>
+    <string name="perm_dnd_channel_steps">En la siguiente pantalla, activa «Ignorar No molestar» (en algunos teléfonos se llama «Anular No molestar») y vuelve aquí.</string>
+    <string name="open_settings">Abrir ajustes</string>
 </resources>

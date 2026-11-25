@@ -15,13 +15,11 @@
     <string name="ch_quake">Allerta terremoto (mia posizione)</string>
     <string name="ch_quake_desc">Allarme sonoro a schermo intero per lo scuotimento atteso dove ti trovi.</string>
     <string name="ch_info">Terremoto nella zona (mia posizione)</string>
-    <string name="ch_info_desc">Terremoti nella tua zona sotto la soglia dell\'allarme sonoro.</string>
+    <string name="ch_info_desc">Terremoti nella tua zona sotto la soglia dell\'allarme sonoro, e aggiornamenti dopo la chiusura di un\'allerta.</string>
     <string name="ch_crisis">Altre allerte (mia posizione)</string>
     <string name="ch_crisis_desc">Allerte di protezione civile per la tua zona: alluvioni, tempeste, incendi…</string>
     <string name="ch_alert_shown">Allerta terremoto sullo schermo</string>
     <string name="ch_alert_shown_desc">Notifica silenziosa mentre è visibile l\'avviso a schermo intero.</string>
-    <string name="ch_updates">Aggiornamenti sui terremoti</string>
-    <string name="ch_updates_desc">Revisioni arrivate dopo la chiusura dell\'avviso.</string>
 
     <!-- Notifica del servizio -->
     <string name="fg_connected">In ascolto delle allerte (%d zone)</string>
@@ -261,16 +259,12 @@
     <string name="perm_overlay_why">Permette all\'avviso di comparire subito, qualunque cosa tu stia facendo.</string>
     <string name="perm_alarms">Sveglie e promemoria</string>
     <string name="perm_alarms_why">Timer precisi controllano la connessione durante il sonno profondo e avviano in orario le allerte di prova.</string>
-    <string name="ch_notice_always">Terremoto nella zona, anche in silenzioso</string>
-    <string name="ch_notice_always_desc">Come «Terremoto nella zona», ma il suono si sente anche con il telefono in silenzioso o vibrazione (non con Non disturbare).</string>
     <string name="legend_v">V+ moderate</string>
     <string name="legend_iv">IV leggere</string>
     <string name="legend_iii">III deboli</string>
     <string name="legend_p">Onda P (primo sobbalzo)</string>
     <string name="legend_s">Onda S (scosse forti)</string>
     <string name="test_notice_play">Suono della notifica</string>
-    <string name="test_alarm_link">Prova i suoni dell\'allarme  →</string>
-    <string name="test_speech_link">Prova la voce  →</string>
     <string name="siren_threshold">Sirena piena per scosse forti</string>
     <string name="siren_threshold_note">Suona sempre al volume massimo.</string>
     <string name="notice_sound">Terremoti più deboli nella zona</string>
@@ -346,4 +340,9 @@
     <string name="disclaimer_title">Prima di attivare le allerte</string>
     <string name="disclaimer_full">EarthPing è sperimentale e finora è stata provata da pochissime persone.\n\n• Può non segnalare un terremoto, avvisare in ritardo o dare falsi allarmi, per esempio quando manca la connessione o il sistema chiude l\'app. Non usarla come fonte principale di informazioni per la tua sicurezza: tieni attive le allerte di emergenza ufficiali del telefono e segui le indicazioni delle autorità locali.\n\n• Il conto alla rovescia e le scosse previste sono stime. Le scosse possono arrivare prima, o essere più forti, di quanto indicato.\n\n• EarthPing riceve le allerte collegandosi ai server di Google con un\'identità anonima. Non è realizzata, approvata né supportata da Google, e Google non ne è responsabile. Google può modificare o interrompere questo servizio in qualsiasi momento.\n\n• Sta a te assicurarti che usarla sia consentito dai termini o dalle leggi che ti riguardano.\n\n• EarthPing è software libero e non è fornita alcuna garanzia.</string>
     <string name="disclaimer_understood">Ho capito</string>
+    <string name="test_link">Prova  →</string>
+    <string name="perm_dnd_channel">Allerte con Non disturbare</string>
+    <string name="perm_dnd_channel_why">L\'allerta non può ancora comparire con Non disturbare attivo. Android permette di consentirlo solo a te, nelle impostazioni delle notifiche.</string>
+    <string name="perm_dnd_channel_steps">Nella schermata successiva attiva «Ignora Non disturbare» (su alcuni telefoni si chiama «Sostituisci Non disturbare»), poi torna qui.</string>
+    <string name="open_settings">Apri impostazioni</string>
 </resources>

@@ -13,13 +13,11 @@
     <string name="ch_quake">地震警報（我的位置）</string>
     <string name="ch_quake_desc">預計你所在位置將有搖晃時，發出響亮的全螢幕警報。</string>
     <string name="ch_info">附近地震（我的位置）</string>
-    <string name="ch_info_desc">你所在地區低於響鈴門檻的地震。</string>
+    <string name="ch_info_desc">你所在地區低於響鈴門檻的地震，以及警報關閉後收到的更新。</string>
     <string name="ch_crisis">其他警報（我的位置）</string>
     <string name="ch_crisis_desc">你所在地區的公共安全警報：淹水、暴風、火災等。</string>
     <string name="ch_alert_shown">螢幕上的地震警報</string>
     <string name="ch_alert_shown_desc">全螢幕警報顯示期間的靜音通知。</string>
-    <string name="ch_updates">地震更新</string>
-    <string name="ch_updates_desc">警報關閉後才收到的修正資訊。</string>
 
     <string name="fg_connected">正在接收警報（%d 個區域）</string>
     <string name="fg_connecting">連線中…</string>
@@ -247,16 +245,12 @@
     <string name="perm_overlay_why">無論你正在做什麼，都能讓警報立即跳出。</string>
     <string name="perm_alarms">鬧鐘與提醒</string>
     <string name="perm_alarms_why">精確計時器會在深度睡眠時檢查連線，並準時啟動測試警報。</string>
-    <string name="ch_notice_always">附近地震，靜音模式下也響</string>
-    <string name="ch_notice_always_desc">與「附近地震」相同，但手機處於靜音或震動模式時也會發出提示音（「零打擾」模式除外）。</string>
     <string name="legend_v">V+ 中度</string>
     <string name="legend_iv">IV 輕微</string>
     <string name="legend_iii">III 微弱</string>
     <string name="legend_p">P 波（第一次震動）</string>
     <string name="legend_s">S 波（強烈搖晃）</string>
     <string name="test_notice_play">播放通知提示音</string>
-    <string name="test_alarm_link">測試警報音  →</string>
-    <string name="test_speech_link">測試語音  →</string>
     <string name="siren_threshold">強烈搖晃時使用完整警笛</string>
     <string name="siren_threshold_note">一律以最大音量響起。</string>
     <string name="notice_sound">附近較弱的地震</string>
@@ -327,4 +321,9 @@
     <string name="disclaimer_title">開啟警報之前</string>
     <string name="disclaimer_full">EarthPing 仍屬實驗性質，目前只有極少數人測試過。\n\n• 它可能漏報地震、延遲警告或發出誤報，例如在沒有網路連線或系統停止應用程式時。請勿將它當作主要的安全資訊來源：請保持手機的官方緊急警報為開啟狀態，並遵循當地政府的指示。\n\n• 倒數和預期的搖晃程度都只是估計。搖晃可能比顯示的更早抵達或更強烈。\n\n• EarthPing 以匿名身分連線到 Google 的伺服器來接收警報。它並非由 Google 製作、認可或支援，Google 對它不負任何責任。Google 隨時可能變更或停止此服務。\n\n• 你需要自行確認使用它符合適用於你的任何條款或法律。\n\n• EarthPing 是自由軟體，不提供任何擔保。</string>
     <string name="disclaimer_understood">我了解</string>
+    <string name="test_link">測試  →</string>
+    <string name="perm_dnd_channel">「零打擾」期間的警報</string>
+    <string name="perm_dnd_channel_why">目前在「零打擾」期間無法顯示警報。Android 只允許你自己在通知設定中開啟此選項。</string>
+    <string name="perm_dnd_channel_steps">請在下一個畫面開啟「覆寫零打擾」，然後回到這裡。</string>
+    <string name="open_settings">開啟設定</string>
 </resources>

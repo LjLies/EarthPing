@@ -13,13 +13,11 @@
     <string name="ch_quake">Peringatan gempa (lokasi saya)</string>
     <string name="ch_quake_desc">Peringatan layar penuh yang berbunyi keras saat guncangan diperkirakan terjadi di tempat Anda.</string>
     <string name="ch_info">Gempa di dekat Anda (lokasi saya)</string>
-    <string name="ch_info_desc">Gempa di daerah Anda di bawah ambang alarm.</string>
+    <string name="ch_info_desc">Gempa di daerah Anda di bawah ambang alarm, dan pembaruan setelah peringatan ditutup.</string>
     <string name="ch_crisis">Peringatan lain (lokasi saya)</string>
     <string name="ch_crisis_desc">Peringatan keselamatan publik untuk daerah Anda: banjir, badai, kebakaran…</string>
     <string name="ch_alert_shown">Peringatan gempa di layar</string>
     <string name="ch_alert_shown_desc">Notifikasi senyap selama peringatan layar penuh ditampilkan.</string>
-    <string name="ch_updates">Pembaruan gempa</string>
-    <string name="ch_updates_desc">Revisi yang datang setelah peringatan ditutup.</string>
 
     <string name="fg_connected">Mendengarkan peringatan (%d area)</string>
     <string name="fg_connecting">Menghubungkan…</string>
@@ -247,16 +245,12 @@
     <string name="perm_overlay_why">Memungkinkan peringatan langsung muncul, apa pun yang sedang Anda lakukan.</string>
     <string name="perm_alarms">Alarm dan pengingat</string>
     <string name="perm_alarms_why">Pengatur waktu yang presisi memeriksa koneksi selama tidur dalam dan memulai peringatan uji tepat waktu.</string>
-    <string name="ch_notice_always">Gempa di dekat Anda, juga dalam mode senyap</string>
-    <string name="ch_notice_always_desc">Seperti “Gempa di dekat Anda”, tetapi bunyi singkatnya juga terdengar saat ponsel dalam mode senyap atau getar (tidak dalam Jangan Ganggu).</string>
     <string name="legend_v">V+ sedang</string>
     <string name="legend_iv">IV ringan</string>
     <string name="legend_iii">III lemah</string>
     <string name="legend_p">Gelombang P (sentakan pertama)</string>
     <string name="legend_s">Gelombang S (guncangan kuat)</string>
     <string name="test_notice_play">Putar bunyi notifikasi</string>
-    <string name="test_alarm_link">Uji suara alarm  →</string>
-    <string name="test_speech_link">Uji ucapan  →</string>
     <string name="siren_threshold">Sirene penuh untuk guncangan kuat</string>
     <string name="siren_threshold_note">Selalu berbunyi dengan volume maksimum.</string>
     <string name="notice_sound">Gempa lebih lemah di dekat Anda</string>
@@ -327,4 +321,9 @@
     <string name="disclaimer_title">Sebelum menyalakan peringatan</string>
     <string name="disclaimer_full">EarthPing masih eksperimental, dan sejauh ini baru diuji oleh sangat sedikit orang.\n\n• Aplikasi ini bisa melewatkan gempa, memperingatkan terlambat, atau memberi alarm palsu, misalnya saat tidak ada koneksi jaringan atau sistem menghentikan aplikasi. Jangan mengandalkannya sebagai sumber utama informasi keselamatan Anda: tetap aktifkan peringatan darurat resmi di ponsel Anda dan ikuti arahan pihak berwenang setempat.\n\n• Hitung mundur dan perkiraan guncangan hanyalah perkiraan. Guncangan bisa tiba lebih cepat, atau lebih kuat, daripada yang ditampilkan.\n\n• EarthPing menerima peringatan dengan terhubung ke server Google menggunakan identitas anonim. Aplikasi ini tidak dibuat, didukung, atau dikelola oleh Google, dan Google tidak bertanggung jawab atasnya. Google dapat mengubah atau menghentikan layanan ini kapan saja.\n\n• Anda bertanggung jawab memastikan bahwa penggunaannya diizinkan oleh ketentuan atau hukum yang berlaku bagi Anda.\n\n• EarthPing adalah perangkat lunak bebas dan disediakan tanpa jaminan apa pun.</string>
     <string name="disclaimer_understood">Saya mengerti</string>
+    <string name="test_link">Uji  →</string>
+    <string name="perm_dnd_channel">Peringatan saat Jangan Ganggu</string>
+    <string name="perm_dnd_channel_why">Peringatan belum dapat muncul saat Jangan Ganggu aktif. Android hanya mengizinkan Anda sendiri menyalakannya, di setelan notifikasi.</string>
+    <string name="perm_dnd_channel_steps">Di layar berikutnya, aktifkan “Abaikan Jangan Ganggu”, lalu kembali ke sini.</string>
+    <string name="open_settings">Buka setelan</string>
 </resources>

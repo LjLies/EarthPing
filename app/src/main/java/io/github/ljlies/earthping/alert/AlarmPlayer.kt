@@ -222,13 +222,31 @@ class AlarmPlayer(private val ctx: Context) {
         try {
             if (savedFilter == null && nm.isNotificationPolicyAccessGranted) {
                 val f = nm.currentInterruptionFilter
-                if (f != NotificationManager.INTERRUPTION_FILTER_ALL && f != NotificationManager.INTERRUPTION_FILTER_UNKNOWN) {
+                if (f != NotificationManager.INTERRUPTION_FILTER_ALL && f != NotificationManager.INTERRUPTION_FILTER_UNKNOWN && alarmsBlocked(f)) {
+                    EventLog.log("Do Not Disturb blocks alarms: lifting it during the alarm")
                     savedFilter = f
                     nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL)
                 }
             }
         } catch (e: Exception) {
             EventLog.log("Cannot lift Do Not Disturb: $e")
+        }
+    }
+
+    /**
+     * Whether the current Do Not Disturb setup silences alarm sounds (the siren and speech play
+     * as alarms). Usually it doesn't, and then DND is left alone.
+     */
+    private fun alarmsBlocked(filter: Int): Boolean = when (filter) {
+        NotificationManager.INTERRUPTION_FILTER_NONE -> true      // "Total silence"
+        NotificationManager.INTERRUPTION_FILTER_ALARMS -> false   // "Alarms only"
+        else -> if (android.os.Build.VERSION.SDK_INT < 28) false      // alarms always passed "Priority only"
+        else try {
+            // Android 15 combines manual DND with any active Modes.
+            val policy = if (android.os.Build.VERSION.SDK_INT >= 35) nm.consolidatedNotificationPolicy else nm.notificationPolicy
+            (policy.priorityCategories and NotificationManager.Policy.PRIORITY_CATEGORY_ALARMS) == 0
+        } catch (e: Exception) {
+            true
         }
     }
 

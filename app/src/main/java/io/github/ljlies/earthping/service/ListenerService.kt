@@ -162,7 +162,7 @@ class ListenerService : Service() {
 
     /** One line with the state of everything the app depends on, for the diagnostic log. */
     private fun logPermissions() {
-        val states = io.github.ljlies.earthping.ui.Perms.applicable().joinToString(", ") { "${it.key}=${if (it.granted(this)) "yes" else "NO"}" }
+        val states = io.github.ljlies.earthping.ui.Perms.applicable(this).joinToString(", ") { "${it.key}=${if (it.granted(this)) "yes" else "NO"}" }
         val am = getSystemService(android.media.AudioManager::class.java)
         val nm = getSystemService(NotificationManager::class.java)
         EventLog.log("Permissions: $states; ringer=${am.ringerMode}, alarm volume=${am.getStreamVolume(android.media.AudioManager.STREAM_ALARM)}/" +

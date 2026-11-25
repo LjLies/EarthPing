@@ -50,7 +50,7 @@
         <Preference
             app:key="test_alarm"
             app:layout="@layout/pref_test_link"
-            app:title="@string/test_alarm_link" />
+            app:title="@string/test_link" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/cat_speech">
@@ -77,7 +77,7 @@
         <Preference
             app:key="test_speech"
             app:layout="@layout/pref_test_link"
-            app:title="@string/test_speech_link" />
+            app:title="@string/test_link" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/cat_notifications">
