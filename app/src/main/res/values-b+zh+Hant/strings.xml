@@ -335,4 +335,6 @@
     </string-array>
     <string name="crisis_alerts">其他公共警報</string>
     <string name="crisis_alerts_summary">Google 透過同一頻道傳送的淹水、暴風、火災和其他警報</string>
+    <string name="dnd_blocked_title">地震警報音曾被靜音</string>
+    <string name="dnd_blocked_text">「零打擾」在 %1$s 至 %2$s 期間將鬧鐘音效靜音，因此當時無法聽到地震警報音。</string>
 </resources>

@@ -354,4 +354,6 @@
     </string-array>
     <string name="crisis_alerts">Altre allerte pubbliche</string>
     <string name="crisis_alerts_summary">Alluvioni, tempeste, incendi e altre allerte che Google invia sullo stesso canale</string>
+    <string name="dnd_blocked_title">Gli allarmi terremoto erano silenziati</string>
+    <string name="dnd_blocked_text">Non disturbare ha silenziato i suoni delle sveglie dalle %1$s alle %2$s: un allarme terremoto non si sarebbe sentito.</string>
 </resources>

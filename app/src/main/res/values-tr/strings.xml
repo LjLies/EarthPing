@@ -339,4 +339,6 @@
     </string-array>
     <string name="crisis_alerts">Diğer kamu uyarıları</string>
     <string name="crisis_alerts_summary">Google\'ın aynı kanaldan gönderdiği sel, fırtına, yangın ve diğer uyarılar</string>
+    <string name="dnd_blocked_title">Deprem alarmları sessize alınmıştı</string>
+    <string name="dnd_blocked_text">Rahatsız Etmeyin, alarm seslerini %1$s ile %2$s arasında sessize aldı; bir deprem alarmı duyulmazdı.</string>
 </resources>
