@@ -125,6 +125,7 @@ class ListenerService : Service() {
         logPermissions()
         checkFullScreenPermission()
         AlertCenter.init(this)
+        io.github.ljlies.earthping.alert.AlarmPlayer.clearOwnDndMode(this)
         controller = ConnectionController(this) { AlertCenter.onDataMessage(it) }
         location = LocationTracker(this) { onLocation(it) }
         location.start()

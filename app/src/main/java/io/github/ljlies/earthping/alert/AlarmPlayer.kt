@@ -223,6 +223,12 @@ class AlarmPlayer(private val ctx: Context) {
             if (savedFilter == null && nm.isNotificationPolicyAccessGranted) {
                 val f = nm.currentInterruptionFilter
                 if (f != NotificationManager.INTERRUPTION_FILTER_ALL && f != NotificationManager.INTERRUPTION_FILTER_UNKNOWN && alarmsBlocked(f)) {
+                    if (android.os.Build.VERSION.SDK_INT >= 35) {
+                        // Android 15 Modes: an app's setInterruptionFilter only switches the app's
+                        // own mode, never the user's, so there is nothing EarthPing can lift.
+                        EventLog.log("Do Not Disturb blocks alarms, and Android 15+ doesn't let apps lift it")
+                        return
+                    }
                     EventLog.log("Do Not Disturb blocks alarms: lifting it during the alarm")
                     savedFilter = f
                     nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL)
@@ -247,6 +253,29 @@ class AlarmPlayer(private val ctx: Context) {
             (policy.priorityCategories and NotificationManager.Policy.PRIORITY_CATEGORY_ALARMS) == 0
         } catch (e: Exception) {
             true
+        }
+    }
+
+    companion object {
+        /**
+         * 0.4.1–0.4.3 "restored" DND on Android 15+ by setting the filter it had read, which
+         * there switches on a Do Not Disturb mode owned by EarthPing (and leaves it on). Turn
+         * that mode off once; on Android 15+ this call affects only the app's own mode.
+         */
+        fun clearOwnDndMode(ctx: android.content.Context) {
+            if (android.os.Build.VERSION.SDK_INT < 35) return
+            val prefs = io.github.ljlies.earthping.Prefs(ctx)
+            if (prefs.raw.getBoolean("own_dnd_mode_cleared", false)) return
+            val nm = ctx.getSystemService(NotificationManager::class.java)
+            try {
+                if (nm.isNotificationPolicyAccessGranted) {
+                    nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL)
+                    EventLog.log("Turned off EarthPing's own Do Not Disturb mode, if it was on")
+                }
+                prefs.raw.edit().putBoolean("own_dnd_mode_cleared", true).apply()
+            } catch (e: Exception) {
+                EventLog.log("Cannot clear EarthPing's Do Not Disturb mode: $e")
+            }
         }
     }
 
