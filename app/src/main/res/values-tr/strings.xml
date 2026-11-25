@@ -117,7 +117,7 @@
     <string name="kind_sos_alert">SOS uyarısı</string>
     <string name="disclaimer">EarthPing bağımsız ve resmî olmayan bir uygulamadır. Google\'ın Android deprem uyarıları için kullandığı push kanalını dinler; Google bu kanalı her an değiştirebilir veya kapatabilir. Onaylı bir uyarı sistemi değildir: telefonunuzun resmî acil durum uyarılarını açık tutun.</string>
 
-    <string name="places_desc">Önem verdiğiniz en fazla üç yer (aileniz, memleketiniz…). Oradaki depremler ve uyarılar için geri sayım olmadan bildirim alırsınız. Ayrıca gerçek bölgenizi Google\'a karşı başka yerler arasında gizlerler; boş bir yuvaya rastgele otomatik bir yem atanır.</string>
+    <string name="places_desc">Mevcut konumunuza ek olarak önem verdiğiniz en fazla üç yer (aileniz, memleketiniz…). Oradaki depremler ve uyarılar için geri sayım olmadan bildirim alırsınız. Ayrıca gerçek bölgenizi Google\'a karşı başka yerler arasında gizlerler; boş bir yuvaya rastgele otomatik bir yem atanır.</string>
     <string name="place_n">Yer %d</string>
     <string name="place_name">Ad</string>
     <string name="latitude">Enlem</string>
@@ -341,4 +341,5 @@
     <string name="crisis_alerts_summary">Google\'ın aynı kanaldan gönderdiği sel, fırtına, yangın ve diğer uyarılar</string>
     <string name="dnd_blocked_title">Deprem alarmları sessize alınmıştı</string>
     <string name="dnd_blocked_text">Rahatsız Etmeyin, alarm seslerini %1$s ile %2$s arasında sessize aldı; bir deprem alarmı duyulmazdı.</string>
+    <string name="place_not_saved">Değişiklik kaydedilmedi</string>
 </resources>

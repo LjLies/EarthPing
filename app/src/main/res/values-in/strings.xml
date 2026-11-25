@@ -115,7 +115,7 @@
     <string name="kind_sos_alert">Peringatan SOS</string>
     <string name="disclaimer">EarthPing adalah aplikasi independen dan tidak resmi. Aplikasi ini mendengarkan saluran push yang sama dengan yang digunakan Google untuk peringatan gempa Android, yang dapat diubah atau dihentikan Google kapan saja. Ini bukan sistem peringatan bersertifikat: tetap aktifkan peringatan darurat resmi di ponsel Anda.</string>
 
-    <string name="places_desc">Hingga tiga tempat lain yang penting bagi Anda (keluarga, kampung halaman…). Anda diberi tahu tentang gempa dan peringatan di sana, tanpa hitung mundur. Tempat-tempat ini juga menyembunyikan area Anda yang sebenarnya dari Google di antara tempat lain; slot kosong diisi umpan otomatis acak.</string>
+    <string name="places_desc">Hingga tiga tempat yang penting bagi Anda selain lokasi Anda saat ini (keluarga, kampung halaman…). Anda diberi tahu tentang gempa dan peringatan di sana, tanpa hitung mundur. Tempat-tempat ini juga menyembunyikan area Anda yang sebenarnya dari Google di antara tempat lain; slot kosong diisi umpan otomatis acak.</string>
     <string name="place_n">Tempat %d</string>
     <string name="place_name">Nama</string>
     <string name="latitude">Lintang</string>
@@ -337,4 +337,5 @@
     <string name="crisis_alerts_summary">Banjir, badai, kebakaran, dan peringatan lain yang dikirim Google melalui saluran yang sama</string>
     <string name="dnd_blocked_title">Alarm gempa dibisukan</string>
     <string name="dnd_blocked_text">Jangan Ganggu membisukan suara alarm dari %1$s sampai %2$s, jadi alarm gempa tidak akan terdengar.</string>
+    <string name="place_not_saved">Perubahan tidak disimpan</string>
 </resources>

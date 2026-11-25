@@ -394,13 +394,17 @@ object AlertCenter {
     /**
      * No "update" word (the chime says that). A new shaking level comes first: "Now expecting
      * strong shaking, magnitude 7.4."; otherwise just the direction: "Now higher magnitude 6.2."
-     * With little time left only a new shaking level is said, without the magnitude.
+     * With little time left only a new shaking level is said, without the magnitude, and in the
+     * last six seconds nothing (the countdown has priority there).
      */
     private fun updateSpeech(q: LocalQuake, oldMag: Double?, mmi: Boolean, sp: Spoken): String {
         val newMag = q.magnitude
-        val hurry = (secondsLeft(q) ?: Int.MAX_VALUE) <= 12
+        val left = secondsLeft(q) ?: Int.MAX_VALUE
+        val hurry = left <= 12
         val shaking = q.effectiveMmi?.let { sp.shaking(it) }
         return when {
+            // The last seconds belong to the countdown, which would cut the sentence anyway.
+            left in 0..6 -> ""
             mmi && shaking != null && (hurry || newMag == null) -> sp.s(R.string.tts_expecting, shaking)
             mmi && shaking != null -> sp.s(R.string.tts_expecting_mag, shaking, sp.fmt1(newMag!!))
             hurry -> ""
@@ -470,16 +474,20 @@ object AlertCenter {
 
     /**
      * The first sentence, shorter when there is little time: the distance goes below 15 s, the
-     * magnitude below 8 s. The seconds left follow separately (Speaker), so they are current.
+     * magnitude below 8 s, and then "Earthquake!" comes even before "This is a test.". The
+     * seconds left follow separately (Speaker), so they are current.
      */
-    private fun announcement(q: LocalQuake, sp: Spoken): List<String> {
+    private fun announcement(q: LocalQuake, sp: Spoken): String {
         val secs = secondsLeft(q) ?: Int.MAX_VALUE
+        val test = if (q.isTest) sp.s(R.string.tts_test) else null
+        val quake = sp.s(R.string.tts_earthquake)
         return listOfNotNull(
-            if (q.isTest) sp.s(R.string.tts_test) else null,
-            sp.s(R.string.tts_earthquake),
+            if (secs >= 8) test else null,
+            quake,
+            if (secs < 8) test else null,
             q.magnitude?.takeIf { secs >= 8 }?.let { sp.s(R.string.tts_magnitude, sp.fmt1(it)) },
             q.distanceKm?.takeIf { secs >= 15 }?.let { sp.s(R.string.tts_distance, sp.km(it)) },
-        )
+        ).joinToString(" ")
     }
 
     private fun secondsLeft(q: LocalQuake): Int? = q.sArrivalLocalMs?.let { ((it - System.currentTimeMillis()) / 1000).toInt() }
