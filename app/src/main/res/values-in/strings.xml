@@ -8,13 +8,13 @@
     <string name="ch_service_desc">Menjaga koneksi peringatan tetap berjalan. Aman untuk disembunyikan.</string>
     <string name="ch_status">Masalah koneksi</string>
     <string name="ch_status_desc">Memberi tahu Anda saat peringatan tidak dapat diterima.</string>
-    <string name="ch_watched">Tempat yang dipantau</string>
-    <string name="ch_watched_desc">Gempa bumi dan peringatan lain di tempat yang Anda pantau.</string>
+    <string name="ch_watched">Gempa di tempat yang dipantau</string>
+    <string name="ch_watched_desc">Gempa di dekat tempat yang Anda pantau.</string>
     <string name="ch_quake">Peringatan gempa (lokasi saya)</string>
     <string name="ch_quake_desc">Peringatan layar penuh yang berbunyi keras saat guncangan diperkirakan terjadi di tempat Anda.</string>
     <string name="ch_info">Gempa di dekat Anda (lokasi saya)</string>
     <string name="ch_info_desc">Gempa di daerah Anda di bawah ambang alarm, dan pembaruan setelah peringatan ditutup.</string>
-    <string name="ch_crisis">Peringatan lain (lokasi saya)</string>
+    <string name="ch_crisis">Peringatan publik (lokasi saya)</string>
     <string name="ch_crisis_desc">Peringatan keselamatan publik untuk daerah Anda: banjir, badai, kebakaran…</string>
     <string name="ch_alert_shown">Peringatan gempa di layar</string>
     <string name="ch_alert_shown_desc">Notifikasi senyap selama peringatan layar penuh ditampilkan.</string>
@@ -153,10 +153,6 @@
     <string name="tts_settings_summary">Pilih mesin dan pasang suara</string>
     <string name="tts_unavailable">Teks ke ucapan sedang dimulai atau tidak tersedia; coba lagi sebentar lagi.</string>
     <string name="tts_voice_missing">Tidak ada suara %s yang terpasang di mesin teks ke ucapan.</string>
-    <string name="watched_notifs">Tempat yang dipantau</string>
-    <string name="watched_notifs_summary">Beri tahu saya tentang gempa dan peringatan di tempat yang saya pantau</string>
-    <string name="crisis_alerts">Peringatan publik lain</string>
-    <string name="crisis_alerts_summary">Banjir, badai, kebakaran, dan peringatan lain yang dikirim Google melalui saluran yang sama</string>
     <string name="location">Lokasi</string>
     <string name="location_auto_summary">Terdeteksi otomatis</string>
     <string name="location_manual_summary">Diatur manual: %s</string>
@@ -257,8 +253,7 @@
     <string name="clear_history">Hapus</string>
     <string name="clear_history_title">Hapus peringatan terbaru?</string>
     <string name="clear_history_message">Daftar peringatan terbaru, termasuk uji coba, akan dikosongkan.</string>
-    <string name="tts_expecting">sekarang diperkirakan %s</string>
-    <string name="tts_magnitude_short">magnitudo %s</string>
+    <string name="tts_expecting">Sekarang diperkirakan %s.</string>
     <string-array name="shaking_terms">
         <item>guncangan lemah</item>
         <item>guncangan ringan</item>
@@ -295,8 +290,8 @@
     <string name="location_state_manual">Menggunakan lokasi yang diatur di sini</string>
     <string name="location_state_auto">Menggunakan lokasi yang terdeteksi</string>
     <string name="use_detected_location">Gunakan yang terdeteksi</string>
-    <string name="tts_mag_higher">sekarang magnitudo lebih tinggi, %s</string>
-    <string name="tts_mag_lower">sekarang magnitudo lebih rendah, %s</string>
+    <string name="tts_mag_higher">Sekarang magnitudo lebih tinggi, %s.</string>
+    <string name="tts_mag_lower">Sekarang magnitudo lebih rendah, %s.</string>
     <string name="back_alarm_settings">←  Setelan alarm</string>
     <string name="back_speech_settings">←  Setelan ucapan</string>
     <string name="history_map">Peta</string>
@@ -319,11 +314,26 @@
     <string name="history_km_from_you">%s km dari Anda</string>
 
     <string name="disclaimer_title">Sebelum menyalakan peringatan</string>
-    <string name="disclaimer_full">EarthPing masih eksperimental, dan sejauh ini baru diuji oleh sangat sedikit orang.\n\n• Aplikasi ini bisa melewatkan gempa, memperingatkan terlambat, atau memberi alarm palsu, misalnya saat tidak ada koneksi jaringan atau sistem menghentikan aplikasi. Jangan mengandalkannya sebagai sumber utama informasi keselamatan Anda: tetap aktifkan peringatan darurat resmi di ponsel Anda dan ikuti arahan pihak berwenang setempat.\n\n• Hitung mundur dan perkiraan guncangan hanyalah perkiraan. Guncangan bisa tiba lebih cepat, atau lebih kuat, daripada yang ditampilkan.\n\n• EarthPing menerima peringatan dengan terhubung ke server Google menggunakan identitas anonim. Aplikasi ini tidak dibuat, didukung, atau dikelola oleh Google, dan Google tidak bertanggung jawab atasnya. Google dapat mengubah atau menghentikan layanan ini kapan saja.\n\n• Anda bertanggung jawab memastikan bahwa penggunaannya diizinkan oleh ketentuan atau hukum yang berlaku bagi Anda.\n\n• EarthPing adalah perangkat lunak bebas dan disediakan tanpa jaminan apa pun.</string>
+    <string name="disclaimer_full">EarthPing masih eksperimental, dan sejauh ini baru diuji oleh sangat sedikit orang.\n\n• Aplikasi ini bisa melewatkan gempa, memperingatkan terlambat, atau memberi alarm palsu, misalnya saat tidak ada koneksi jaringan atau sistem menghentikan aplikasi. Jangan mengandalkannya sebagai sumber utama informasi keselamatan Anda: tetap aktifkan peringatan darurat resmi di ponsel Anda dan ikuti arahan pihak berwenang setempat.\n\n• Peringatan Google tidak tersedia di semua tempat: daerah Anda mungkin sama sekali tidak tercakup.\n\n• Hitung mundur dan perkiraan guncangan hanyalah perkiraan. Guncangan bisa tiba lebih cepat, atau lebih kuat, daripada yang ditampilkan.\n\n• EarthPing menerima peringatan dengan terhubung ke server Google menggunakan identitas anonim. Aplikasi ini tidak dibuat, didukung, atau dikelola oleh Google, dan Google tidak bertanggung jawab atasnya. Google dapat mengubah atau menghentikan layanan ini kapan saja.\n\n• Gunakan aplikasi ini sesuai dengan hukum dan perjanjian yang berlaku bagi Anda.\n\n• EarthPing adalah perangkat lunak bebas dan disediakan tanpa jaminan apa pun.</string>
     <string name="disclaimer_understood">Saya mengerti</string>
     <string name="test_link">Uji  →</string>
     <string name="perm_dnd_channel">Peringatan saat Jangan Ganggu</string>
     <string name="perm_dnd_channel_why">Peringatan belum dapat muncul saat Jangan Ganggu aktif. Android hanya mengizinkan Anda sendiri menyalakannya, di setelan notifikasi.</string>
     <string name="perm_dnd_channel_steps">Di layar berikutnya, aktifkan “Abaikan Jangan Ganggu”, lalu kembali ke sini.</string>
     <string name="open_settings">Buka setelan</string>
+    <string name="group_quakes">Gempa bumi</string>
+    <string name="group_public">Peringatan publik lain</string>
+    <string name="group_status">Status aplikasi</string>
+    <string name="ch_watched_public">Peringatan publik di tempat yang dipantau</string>
+    <string name="ch_watched_public_desc">Banjir, badai, kebakaran, dan peringatan lain di tempat yang Anda pantau.</string>
+    <string name="notif_categories">Kategori notifikasi</string>
+    <string name="notif_categories_summary">Pilih peringatan mana yang memberi tahu Anda, dan caranya, di setelan Android</string>
+    <string name="tts_rate">Kecepatan ucapan</string>
+    <string name="tts_expecting_mag">Sekarang diperkirakan %1$s, magnitudo %2$s.</string>
+    <string-array name="tts_rate_entries">
+        <item>Sama dengan sistem</item>
+        <item>Sedikit lebih cepat</item>
+        <item>Lebih cepat</item>
+        <item>Jauh lebih cepat</item>
+    </string-array>
 </resources>

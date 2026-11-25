@@ -60,6 +60,10 @@ class Prefs(context: Context) {
         get() = p.getBoolean("onboarding_done", false)
         set(v) = p.edit().putBoolean("onboarding_done", v).apply()
 
+    /** Speech speed relative to the system's text-to-speech rate. */
+    val ttsRate: Float
+        get() = p.getString("tts_rate", null)?.toFloatOrNull()?.coerceIn(0.5f, 2f) ?: 1.1f
+
     /** The "experimental, unofficial" notice was acknowledged. */
     var disclaimerShown: Boolean
         get() = p.getBoolean("disclaimer_shown", false)
@@ -183,9 +187,6 @@ class Prefs(context: Context) {
         get() = p.getBoolean("override_silence", true)
         set(v) = p.edit().putBoolean("override_silence", v).apply()
 
-    var watchedNotifications: Boolean
-        get() = p.getBoolean("watched_notifs", true)
-        set(v) = p.edit().putBoolean("watched_notifs", v).apply()
 
     /** One of [SOUND_SIREN_MAX], [SOUND_SIREN], [SOUND_BEEPS], [SOUND_NONE]. */
     var alarmSound: Int
@@ -216,9 +217,6 @@ class Prefs(context: Context) {
         get() = p.getBoolean("test_quiet", false)
         set(v) = p.edit().putBoolean("test_quiet", v).apply()
 
-    var crisisAlerts: Boolean
-        get() = p.getBoolean("crisis_alerts", true)
-        set(v) = p.edit().putBoolean("crisis_alerts", v).apply()
 
     var heartbeatMinutes: Int
         get() = p.getInt("heartbeat_min", 5)

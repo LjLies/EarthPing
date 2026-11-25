@@ -8,13 +8,13 @@
     <string name="ch_service_desc">Διατηρεί ενεργή τη σύνδεση ειδοποιήσεων. Μπορεί να αποκρυφτεί.</string>
     <string name="ch_status">Προβλήματα σύνδεσης</string>
     <string name="ch_status_desc">Σας ενημερώνει όταν δεν μπορούν να ληφθούν ειδοποιήσεις.</string>
-    <string name="ch_watched">Παρακολουθούμενες τοποθεσίες</string>
-    <string name="ch_watched_desc">Σεισμοί και άλλες ειδοποιήσεις στις τοποθεσίες που παρακολουθείτε.</string>
+    <string name="ch_watched">Σεισμοί σε παρακολουθούμενες τοποθεσίες</string>
+    <string name="ch_watched_desc">Σεισμοί κοντά στις τοποθεσίες που παρακολουθείτε.</string>
     <string name="ch_quake">Προειδοποίηση σεισμού (η θέση μου)</string>
     <string name="ch_quake_desc">Ηχητική προειδοποίηση σε πλήρη οθόνη όταν αναμένεται δόνηση εκεί που βρίσκεστε.</string>
     <string name="ch_info">Σεισμός κοντά (η θέση μου)</string>
     <string name="ch_info_desc">Σεισμοί στην περιοχή σας κάτω από το όριο του συναγερμού, και ενημερώσεις αφού κλείσει μια προειδοποίηση.</string>
-    <string name="ch_crisis">Άλλες ειδοποιήσεις (η θέση μου)</string>
+    <string name="ch_crisis">Δημόσιες ειδοποιήσεις (η θέση μου)</string>
     <string name="ch_crisis_desc">Ειδοποιήσεις δημόσιας ασφάλειας για την περιοχή σας: πλημμύρες, καταιγίδες, πυρκαγιές…</string>
     <string name="ch_alert_shown">Προειδοποίηση σεισμού στην οθόνη</string>
     <string name="ch_alert_shown_desc">Αθόρυβη ειδοποίηση όσο εμφανίζεται η προειδοποίηση σε πλήρη οθόνη.</string>
@@ -155,10 +155,6 @@
     <string name="tts_settings_summary">Επιλέξτε μηχανή και εγκαταστήστε φωνές</string>
     <string name="tts_unavailable">Η μετατροπή κειμένου σε ομιλία ξεκινά ή δεν είναι διαθέσιμη· δοκιμάστε ξανά σε λίγο.</string>
     <string name="tts_voice_missing">Δεν υπάρχει εγκατεστημένη φωνή για %s στη μηχανή ομιλίας.</string>
-    <string name="watched_notifs">Παρακολουθούμενες τοποθεσίες</string>
-    <string name="watched_notifs_summary">Ειδοποίησέ με για σεισμούς και ειδοποιήσεις στις παρακολουθούμενες τοποθεσίες μου</string>
-    <string name="crisis_alerts">Άλλες δημόσιες ειδοποιήσεις</string>
-    <string name="crisis_alerts_summary">Πλημμύρες, καταιγίδες, πυρκαγιές και άλλες ειδοποιήσεις που στέλνει η Google από το ίδιο κανάλι</string>
     <string name="location">Τοποθεσία</string>
     <string name="location_auto_summary">Εντοπίζεται αυτόματα</string>
     <string name="location_manual_summary">Ορίστηκε χειροκίνητα: %s</string>
@@ -259,8 +255,7 @@
     <string name="clear_history">Εκκαθάριση</string>
     <string name="clear_history_title">Εκκαθάριση πρόσφατων ειδοποιήσεων;</string>
     <string name="clear_history_message">Η λίστα πρόσφατων ειδοποιήσεων, μαζί με τις δοκιμές, θα αδειάσει.</string>
-    <string name="tts_expecting">τώρα αναμένεται %s</string>
-    <string name="tts_magnitude_short">μέγεθος %s</string>
+    <string name="tts_expecting">Τώρα αναμένεται %s.</string>
     <string-array name="shaking_terms">
         <item>ασθενής δόνηση</item>
         <item>ελαφριά δόνηση</item>
@@ -297,8 +292,8 @@
     <string name="location_state_manual">Χρησιμοποιείται η τοποθεσία που ορίστηκε εδώ</string>
     <string name="location_state_auto">Χρησιμοποιείται η τοποθεσία που εντοπίστηκε</string>
     <string name="use_detected_location">Χρήση εντοπισμένης</string>
-    <string name="tts_mag_higher">τώρα μεγαλύτερο μέγεθος, %s</string>
-    <string name="tts_mag_lower">τώρα μικρότερο μέγεθος, %s</string>
+    <string name="tts_mag_higher">Τώρα μεγαλύτερο μέγεθος, %s.</string>
+    <string name="tts_mag_lower">Τώρα μικρότερο μέγεθος, %s.</string>
     <string name="back_alarm_settings">←  Ρυθμίσεις συναγερμού</string>
     <string name="back_speech_settings">←  Ρυθμίσεις ομιλίας</string>
     <string name="history_map">Χάρτης</string>
@@ -323,11 +318,26 @@
     <string name="history_km_from_you">%s km από εσάς</string>
 
     <string name="disclaimer_title">Πριν ενεργοποιήσετε τις ειδοποιήσεις</string>
-    <string name="disclaimer_full">Το EarthPing είναι πειραματικό και μέχρι στιγμής το έχουν δοκιμάσει ελάχιστοι άνθρωποι.\n\n• Μπορεί να μην εντοπίσει σεισμούς, να προειδοποιήσει αργά ή να δώσει ψευδείς συναγερμούς, για παράδειγμα όταν δεν υπάρχει σύνδεση δικτύου ή όταν το σύστημα σταματά την εφαρμογή. Μη βασίζεστε σε αυτό ως κύρια πηγή πληροφοριών για την ασφάλειά σας: κρατήστε ενεργές τις επίσημες ειδοποιήσεις έκτακτης ανάγκης του τηλεφώνου σας και ακολουθείτε τις οδηγίες των τοπικών αρχών.\n\n• Η αντίστροφη μέτρηση και η αναμενόμενη δόνηση είναι εκτιμήσεις. Η δόνηση μπορεί να φτάσει νωρίτερα ή να είναι ισχυρότερη από ό,τι εμφανίζεται.\n\n• Το EarthPing λαμβάνει τις ειδοποιήσεις συνδεόμενο στους διακομιστές της Google με ανώνυμη ταυτότητα. Δεν έχει δημιουργηθεί, εγκριθεί ή υποστηριχθεί από την Google, και η Google δεν φέρει καμία ευθύνη γι’ αυτό. Η Google μπορεί να αλλάξει ή να διακόψει αυτή την υπηρεσία ανά πάσα στιγμή.\n\n• Είναι δική σας ευθύνη να βεβαιωθείτε ότι η χρήση του επιτρέπεται από τους όρους ή τους νόμους που ισχύουν για εσάς.\n\n• Το EarthPing είναι ελεύθερο λογισμικό και παρέχεται χωρίς καμία εγγύηση.</string>
+    <string name="disclaimer_full">Το EarthPing είναι πειραματικό και μέχρι στιγμής το έχουν δοκιμάσει ελάχιστοι άνθρωποι.\n\n• Μπορεί να μην εντοπίσει σεισμούς, να προειδοποιήσει αργά ή να δώσει ψευδείς συναγερμούς, για παράδειγμα όταν δεν υπάρχει σύνδεση δικτύου ή όταν το σύστημα σταματά την εφαρμογή. Μη βασίζεστε σε αυτό ως κύρια πηγή πληροφοριών για την ασφάλειά σας: κρατήστε ενεργές τις επίσημες ειδοποιήσεις έκτακτης ανάγκης του τηλεφώνου σας και ακολουθείτε τις οδηγίες των τοπικών αρχών.\n\n• Οι ειδοποιήσεις της Google δεν είναι διαθέσιμες παντού: η περιοχή σας μπορεί να μην καλύπτεται καθόλου.\n\n• Η αντίστροφη μέτρηση και η αναμενόμενη δόνηση είναι εκτιμήσεις. Η δόνηση μπορεί να φτάσει νωρίτερα ή να είναι ισχυρότερη από ό,τι εμφανίζεται.\n\n• Το EarthPing λαμβάνει τις ειδοποιήσεις συνδεόμενο στους διακομιστές της Google με ανώνυμη ταυτότητα. Δεν έχει δημιουργηθεί, εγκριθεί ή υποστηριχθεί από την Google, και η Google δεν φέρει καμία ευθύνη γι’ αυτό. Η Google μπορεί να αλλάξει ή να διακόψει αυτή την υπηρεσία ανά πάσα στιγμή.\n\n• Χρησιμοποιήστε το σύμφωνα με τους νόμους και τις συμφωνίες που ισχύουν για εσάς.\n\n• Το EarthPing είναι ελεύθερο λογισμικό και παρέχεται χωρίς καμία εγγύηση.</string>
     <string name="disclaimer_understood">Κατάλαβα</string>
     <string name="test_link">Δοκιμή  →</string>
     <string name="perm_dnd_channel">Προειδοποιήσεις με το Μην ενοχλείτε</string>
     <string name="perm_dnd_channel_why">Η προειδοποίηση δεν μπορεί ακόμη να εμφανιστεί με ενεργό το Μην ενοχλείτε. Το Android επιτρέπει μόνο σε εσάς να το ενεργοποιήσετε, στις ρυθμίσεις ειδοποιήσεων.</string>
     <string name="perm_dnd_channel_steps">Στην επόμενη οθόνη, ενεργοποιήστε την «Παράκαμψη του Μην ενοχλείτε» και μετά επιστρέψτε εδώ.</string>
     <string name="open_settings">Άνοιγμα ρυθμίσεων</string>
+    <string name="group_quakes">Σεισμοί</string>
+    <string name="group_public">Άλλες δημόσιες ειδοποιήσεις</string>
+    <string name="group_status">Κατάσταση εφαρμογής</string>
+    <string name="ch_watched_public">Δημόσιες ειδοποιήσεις σε παρακολουθούμενες τοποθεσίες</string>
+    <string name="ch_watched_public_desc">Πλημμύρες, καταιγίδες, πυρκαγιές και άλλες ειδοποιήσεις στις τοποθεσίες που παρακολουθείτε.</string>
+    <string name="notif_categories">Κατηγορίες ειδοποιήσεων</string>
+    <string name="notif_categories_summary">Επιλέξτε στις ρυθμίσεις του Android ποιες ειδοποιήσεις λαμβάνετε και πώς</string>
+    <string name="tts_rate">Ταχύτητα ομιλίας</string>
+    <string name="tts_expecting_mag">Τώρα αναμένεται %1$s, μέγεθος %2$s.</string>
+    <string-array name="tts_rate_entries">
+        <item>Όπως στο σύστημα</item>
+        <item>Λίγο πιο γρήγορα</item>
+        <item>Πιο γρήγορα</item>
+        <item>Πολύ πιο γρήγορα</item>
+    </string-array>
 </resources>

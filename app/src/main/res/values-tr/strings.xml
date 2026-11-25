@@ -8,13 +8,13 @@
     <string name="ch_service_desc">Uyarı bağlantısını açık tutar. Gizlenebilir.</string>
     <string name="ch_status">Bağlantı sorunları</string>
     <string name="ch_status_desc">Uyarılar alınamadığında sizi bilgilendirir.</string>
-    <string name="ch_watched">İzlenen yerler</string>
-    <string name="ch_watched_desc">İzlediğiniz yerlerdeki depremler ve diğer uyarılar.</string>
+    <string name="ch_watched">İzlenen yerlerdeki depremler</string>
+    <string name="ch_watched_desc">İzlediğiniz yerlerin yakınındaki depremler.</string>
     <string name="ch_quake">Deprem uyarısı (konumum)</string>
     <string name="ch_quake_desc">Bulunduğunuz yerde sarsıntı beklendiğinde sesli, tam ekran uyarı.</string>
     <string name="ch_info">Yakında deprem (konumum)</string>
     <string name="ch_info_desc">Bölgenizde alarm eşiğinin altında kalan depremler ve bir uyarı kapatıldıktan sonra gelen güncellemeler.</string>
-    <string name="ch_crisis">Diğer uyarılar (konumum)</string>
+    <string name="ch_crisis">Kamu uyarıları (konumum)</string>
     <string name="ch_crisis_desc">Bölgeniz için kamu güvenliği uyarıları: sel, fırtına, yangın…</string>
     <string name="ch_alert_shown">Ekrandaki deprem uyarısı</string>
     <string name="ch_alert_shown_desc">Tam ekran uyarı görüntülenirken sessiz bildirim.</string>
@@ -155,10 +155,6 @@
     <string name="tts_settings_summary">Motoru seçin ve ses yükleyin</string>
     <string name="tts_unavailable">Metin okuma başlatılıyor veya kullanılamıyor; birazdan tekrar deneyin.</string>
     <string name="tts_voice_missing">Metin okuma motorunda %s sesi yüklü değil.</string>
-    <string name="watched_notifs">İzlenen yerler</string>
-    <string name="watched_notifs_summary">İzlenen yerlerimdeki depremler ve uyarılar için bildirim gönder</string>
-    <string name="crisis_alerts">Diğer kamu uyarıları</string>
-    <string name="crisis_alerts_summary">Google\'ın aynı kanaldan gönderdiği sel, fırtına, yangın ve diğer uyarılar</string>
     <string name="location">Konum</string>
     <string name="location_auto_summary">Otomatik algılanıyor</string>
     <string name="location_manual_summary">Elle girildi: %s</string>
@@ -259,8 +255,7 @@
     <string name="clear_history">Temizle</string>
     <string name="clear_history_title">Son uyarılar temizlensin mi?</string>
     <string name="clear_history_message">Testler dahil son uyarılar listesi boşaltılacak.</string>
-    <string name="tts_expecting">şimdi %s bekleniyor</string>
-    <string name="tts_magnitude_short">büyüklük %s</string>
+    <string name="tts_expecting">Şimdi %s bekleniyor.</string>
     <string-array name="shaking_terms">
         <item>zayıf sarsıntı</item>
         <item>hafif sarsıntı</item>
@@ -297,8 +292,8 @@
     <string name="location_state_manual">Burada girilen konum kullanılıyor</string>
     <string name="location_state_auto">Algılanan konum kullanılıyor</string>
     <string name="use_detected_location">Algılananı kullan</string>
-    <string name="tts_mag_higher">şimdi daha yüksek büyüklük, %s</string>
-    <string name="tts_mag_lower">şimdi daha düşük büyüklük, %s</string>
+    <string name="tts_mag_higher">Şimdi daha yüksek büyüklük, %s.</string>
+    <string name="tts_mag_lower">Şimdi daha düşük büyüklük, %s.</string>
     <string name="back_alarm_settings">←  Alarm ayarları</string>
     <string name="back_speech_settings">←  Konuşma ayarları</string>
     <string name="history_map">Harita</string>
@@ -323,11 +318,26 @@
     <string name="history_km_from_you">size %s km</string>
 
     <string name="disclaimer_title">Uyarıları açmadan önce</string>
-    <string name="disclaimer_full">EarthPing deneysel bir uygulamadır ve şimdiye kadar çok az kişi tarafından test edilmiştir.\n\n• Depremleri kaçırabilir, geç uyarabilir veya yanlış alarm verebilir; örneğin ağ bağlantısı olmadığında ya da sistem uygulamayı durdurduğunda. Güvenliğiniz için ana bilgi kaynağınız olarak ona güvenmeyin: telefonunuzun resmî acil durum uyarılarını açık tutun ve yerel yetkililerin talimatlarına uyun.\n\n• Geri sayım ve beklenen sarsıntı tahminidir. Sarsıntı gösterilenden daha erken gelebilir veya daha kuvvetli olabilir.\n\n• EarthPing uyarıları anonim bir kimlikle Google\'ın sunucularına bağlanarak alır. Google tarafından yapılmamış, onaylanmamış veya desteklenmemiştir ve Google ondan sorumlu değildir. Google bu hizmeti her an değiştirebilir veya durdurabilir.\n\n• Kullanımının size uygulanan koşullar veya yasalarca izin verildiğinden emin olmak sizin sorumluluğunuzdadır.\n\n• EarthPing özgür yazılımdır ve hiçbir garanti olmadan sunulur.</string>
+    <string name="disclaimer_full">EarthPing deneysel bir uygulamadır ve şimdiye kadar çok az kişi tarafından test edilmiştir.\n\n• Depremleri kaçırabilir, geç uyarabilir veya yanlış alarm verebilir; örneğin ağ bağlantısı olmadığında ya da sistem uygulamayı durdurduğunda. Güvenliğiniz için ana bilgi kaynağınız olarak ona güvenmeyin: telefonunuzun resmî acil durum uyarılarını açık tutun ve yerel yetkililerin talimatlarına uyun.\n\n• Google\'ın uyarıları her yerde mevcut değildir; bölgeniz hiç kapsanmıyor olabilir.\n\n• Geri sayım ve beklenen sarsıntı tahminidir. Sarsıntı gösterilenden daha erken gelebilir veya daha kuvvetli olabilir.\n\n• EarthPing uyarıları anonim bir kimlikle Google\'ın sunucularına bağlanarak alır. Google tarafından yapılmamış, onaylanmamış veya desteklenmemiştir ve Google ondan sorumlu değildir. Google bu hizmeti her an değiştirebilir veya durdurabilir.\n\n• Uygulamayı size uygulanan yasalara ve sözleşmelere uygun şekilde kullanın.\n\n• EarthPing özgür yazılımdır ve hiçbir garanti olmadan sunulur.</string>
     <string name="disclaimer_understood">Anladım</string>
     <string name="test_link">Test et  →</string>
     <string name="perm_dnd_channel">Rahatsız Etmeyin sırasında uyarılar</string>
     <string name="perm_dnd_channel_why">Uyarı henüz Rahatsız Etmeyin modunda görünemiyor. Android bunu yalnızca sizin, bildirim ayarlarından açmanıza izin verir.</string>
     <string name="perm_dnd_channel_steps">Sonraki ekranda “Rahatsız Etmeyin\'i geçersiz kıl” seçeneğini açın, sonra buraya dönün.</string>
     <string name="open_settings">Ayarları aç</string>
+    <string name="group_quakes">Depremler</string>
+    <string name="group_public">Diğer kamu uyarıları</string>
+    <string name="group_status">Uygulama durumu</string>
+    <string name="ch_watched_public">İzlenen yerlerdeki kamu uyarıları</string>
+    <string name="ch_watched_public_desc">İzlediğiniz yerlerdeki sel, fırtına, yangın ve diğer uyarılar.</string>
+    <string name="notif_categories">Bildirim kategorileri</string>
+    <string name="notif_categories_summary">Hangi uyarıların ve nasıl bildirileceğini Android ayarlarında seçin</string>
+    <string name="tts_rate">Konuşma hızı</string>
+    <string name="tts_expecting_mag">Şimdi %1$s bekleniyor, büyüklük %2$s.</string>
+    <string-array name="tts_rate_entries">
+        <item>Sistemle aynı</item>
+        <item>Biraz daha hızlı</item>
+        <item>Daha hızlı</item>
+        <item>Çok daha hızlı</item>
+    </string-array>
 </resources>

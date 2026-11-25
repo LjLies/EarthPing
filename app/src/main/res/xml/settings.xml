@@ -69,6 +69,15 @@
             app:entryValues="@array/tts_lang_values"
             app:defaultValue=""
             app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:key="tts_rate"
+            app:dependency="tts"
+            app:icon="@drawable/ic_pref_speech"
+            app:title="@string/tts_rate"
+            app:entries="@array/tts_rate_entries"
+            app:entryValues="@array/tts_rate_values"
+            app:defaultValue="1.1"
+            app:useSimpleSummaryProvider="true" />
         <Preference
             app:key="tts_settings"
             app:icon="@drawable/ic_link"
@@ -81,18 +90,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/cat_notifications">
-        <SwitchPreferenceCompat
-            app:key="watched_notifs"
-            app:icon="@drawable/ic_pref_places"
-            app:title="@string/watched_notifs"
-            app:summary="@string/watched_notifs_summary"
-            app:defaultValue="true" />
-        <SwitchPreferenceCompat
-            app:key="crisis_alerts"
-            app:icon="@drawable/ic_pref_storm"
-            app:title="@string/crisis_alerts"
-            app:summary="@string/crisis_alerts_summary"
-            app:defaultValue="true" />
+        <Preference
+            app:key="notif_categories"
+            app:icon="@drawable/ic_pref_bell"
+            app:title="@string/notif_categories"
+            app:summary="@string/notif_categories_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/cat_general">

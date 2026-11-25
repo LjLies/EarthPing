@@ -13,13 +13,13 @@
     <string name="ch_service_desc">Keeps the alert connection running. Safe to hide.</string>
     <string name="ch_status">Connection problems</string>
     <string name="ch_status_desc">Tells you when alerts cannot be received.</string>
-    <string name="ch_watched">Watched places</string>
-    <string name="ch_watched_desc">Earthquakes and other alerts at the places you watch.</string>
+    <string name="ch_watched">Earthquakes at watched places</string>
+    <string name="ch_watched_desc">Earthquakes near the places you watch.</string>
     <string name="ch_quake">Earthquake warning (my location)</string>
     <string name="ch_quake_desc">Loud, full-screen warning for shaking expected where you are.</string>
     <string name="ch_info">Earthquake nearby (my location)</string>
     <string name="ch_info_desc">Earthquakes in your area below the alarm threshold, and updates after a warning was closed.</string>
-    <string name="ch_crisis">Other alerts (my location)</string>
+    <string name="ch_crisis">Public alerts (my location)</string>
     <string name="ch_crisis_desc">Public safety alerts for your area: floods, storms, fires…</string>
     <string name="ch_alert_shown">Earthquake warning on screen</string>
     <string name="ch_alert_shown_desc">Silent notification while the full-screen warning is showing.</string>
@@ -166,10 +166,6 @@
     <string name="tts_settings_summary">Choose the engine and install voices</string>
     <string name="tts_unavailable">Text-to-speech is starting or not available; try again in a moment.</string>
     <string name="tts_voice_missing">No %s voice is installed in the text-to-speech engine.</string>
-    <string name="watched_notifs">Watched places</string>
-    <string name="watched_notifs_summary">Notify me about earthquakes and alerts at my watched places</string>
-    <string name="crisis_alerts">Other public alerts</string>
-    <string name="crisis_alerts_summary">Floods, storms, fires and other alerts Google sends on the same channel</string>
     <string name="location">Location</string>
     <string name="location_auto_summary">Detected automatically</string>
     <string name="location_manual_summary">Set by hand: %s</string>
@@ -298,8 +294,7 @@
     <string name="clear_history">Clear</string>
     <string name="clear_history_title">Clear recent alerts?</string>
     <string name="clear_history_message">The list of recent alerts, including tests, will be emptied.</string>
-    <string name="tts_expecting">now expecting %s</string>
-    <string name="tts_magnitude_short">magnitude %s</string>
+    <string name="tts_expecting">Now expecting %s.</string>
     <string-array name="shaking_terms">
         <item>weak shaking</item>
         <item>light shaking</item>
@@ -346,8 +341,8 @@
     <string name="location_state_manual">Using the location set here</string>
     <string name="location_state_auto">Using the detected location</string>
     <string name="use_detected_location">Use detected</string>
-    <string name="tts_mag_higher">now higher magnitude %s</string>
-    <string name="tts_mag_lower">now lower magnitude %s</string>
+    <string name="tts_mag_higher">Now higher magnitude %s.</string>
+    <string name="tts_mag_lower">Now lower magnitude %s.</string>
     <string name="back_alarm_settings">←  Alarm settings</string>
     <string name="back_speech_settings">←  Speech settings</string>
     <string name="history_map">Map</string>
@@ -375,11 +370,32 @@
 
     <!-- Shown once, before alerts are first turned on -->
     <string name="disclaimer_title">Before you turn on alerts</string>
-    <string name="disclaimer_full">EarthPing is experimental, and so far it has been tested by very few people.\n\n• It can miss earthquakes, warn late or give false alarms, for example when there is no network connection or the system stops the app. Do not rely on it as your main source of safety information: keep your phone\'s official emergency alerts on and follow your local authorities.\n\n• The countdown and the expected shaking are estimates. Shaking can arrive sooner, or be stronger, than shown.\n\n• EarthPing receives the alerts by connecting to Google\'s servers with an anonymous identity. It is not made, endorsed or supported by Google, and Google is not responsible for it. Google can change or stop this service at any time.\n\n• It is up to you to make sure that using it is allowed by any terms or laws that apply to you.\n\n• EarthPing is free software and comes with no warranty.</string>
+    <string name="disclaimer_full">EarthPing is experimental, and so far it has been tested by very few people.\n\n• It can miss earthquakes, warn late or give false alarms, for example when there is no network connection or the system stops the app. Do not rely on it as your main source of safety information: keep your phone\'s official emergency alerts on and follow your local authorities.\n\n• Google\'s alerts are not available everywhere, so your area may not be covered at all.\n\n• The countdown and the expected shaking are estimates. Shaking can arrive sooner, or be stronger, than shown.\n\n• EarthPing receives the alerts by connecting to Google\'s servers with an anonymous identity. It is not made, endorsed or supported by Google, and Google is not responsible for it. Google can change or stop this service at any time.\n\n• Use it in keeping with the laws and agreements that apply to you.\n\n• EarthPing is free software and comes with no warranty.</string>
     <string name="disclaimer_understood">I understand</string>
     <string name="test_link">Test  →</string>
     <string name="perm_dnd_channel">Warnings during Do Not Disturb</string>
     <string name="perm_dnd_channel_why">The warning can\'t show during Do Not Disturb yet. Android only lets you turn this on yourself, in the notification settings.</string>
     <string name="perm_dnd_channel_steps">On the next screen, turn on “Override Do Not Disturb” (on some phones it\'s called “Ignore Do Not Disturb”), then come back.</string>
     <string name="open_settings">Open settings</string>
+    <string name="group_quakes">Earthquakes</string>
+    <string name="group_public">Other public alerts</string>
+    <string name="group_status">App status</string>
+    <string name="ch_watched_public">Public alerts at watched places</string>
+    <string name="ch_watched_public_desc">Floods, storms, fires and other alerts at the places you watch.</string>
+    <string name="notif_categories">Notification categories</string>
+    <string name="notif_categories_summary">Choose which alerts notify you, and how, in Android\'s settings</string>
+    <string name="tts_rate">Speech speed</string>
+    <string name="tts_expecting_mag">Now expecting %1$s, magnitude %2$s.</string>
+    <string-array name="tts_rate_entries">
+        <item>Same as the system</item>
+        <item>A bit faster</item>
+        <item>Faster</item>
+        <item>Much faster</item>
+    </string-array>
+    <string-array name="tts_rate_values" translatable="false">
+        <item>1.0</item>
+        <item>1.1</item>
+        <item>1.25</item>
+        <item>1.4</item>
+    </string-array>
 </resources>

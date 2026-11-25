@@ -10,13 +10,13 @@
     <string name="ch_service_desc">Mantiene attiva la connessione per le allerte. Si può nascondere.</string>
     <string name="ch_status">Problemi di connessione</string>
     <string name="ch_status_desc">Avvisa quando le allerte non possono essere ricevute.</string>
-    <string name="ch_watched">Luoghi seguiti</string>
-    <string name="ch_watched_desc">Terremoti e altre allerte nei luoghi che segui.</string>
+    <string name="ch_watched">Terremoti nei luoghi seguiti</string>
+    <string name="ch_watched_desc">Terremoti vicino ai luoghi che segui.</string>
     <string name="ch_quake">Allerta terremoto (mia posizione)</string>
     <string name="ch_quake_desc">Allarme sonoro a schermo intero per lo scuotimento atteso dove ti trovi.</string>
     <string name="ch_info">Terremoto nella zona (mia posizione)</string>
     <string name="ch_info_desc">Terremoti nella tua zona sotto la soglia dell\'allarme sonoro, e aggiornamenti dopo la chiusura di un\'allerta.</string>
-    <string name="ch_crisis">Altre allerte (mia posizione)</string>
+    <string name="ch_crisis">Allerte pubbliche (mia posizione)</string>
     <string name="ch_crisis_desc">Allerte di protezione civile per la tua zona: alluvioni, tempeste, incendi…</string>
     <string name="ch_alert_shown">Allerta terremoto sullo schermo</string>
     <string name="ch_alert_shown_desc">Notifica silenziosa mentre è visibile l\'avviso a schermo intero.</string>
@@ -165,10 +165,6 @@
     <string name="tts_settings_summary">Scegli il motore e installa le voci</string>
     <string name="tts_unavailable">La sintesi vocale si sta avviando o non è disponibile; riprova tra un momento.</string>
     <string name="tts_voice_missing">Nel motore di sintesi vocale non è installata una voce in %s.</string>
-    <string name="watched_notifs">Luoghi seguiti</string>
-    <string name="watched_notifs_summary">Avvisami di terremoti e allerte nei luoghi che seguo</string>
-    <string name="crisis_alerts">Altre allerte pubbliche</string>
-    <string name="crisis_alerts_summary">Alluvioni, tempeste, incendi e altre allerte che Google invia sullo stesso canale</string>
     <string name="location">Posizione</string>
     <string name="location_auto_summary">Rilevata automaticamente</string>
     <string name="location_manual_summary">Impostata a mano: %s</string>
@@ -271,8 +267,7 @@
     <string name="clear_history">Cancella</string>
     <string name="clear_history_title">Cancellare le allerte recenti?</string>
     <string name="clear_history_message">L\'elenco delle allerte recenti, prove comprese, verrà svuotato.</string>
-    <string name="tts_expecting">ora si attendono %s</string>
-    <string name="tts_magnitude_short">magnitudo %s</string>
+    <string name="tts_expecting">Ora si attendono %s.</string>
     <string-array name="shaking_terms">
         <item>scosse deboli</item>
         <item>scosse leggere</item>
@@ -309,8 +304,8 @@
     <string name="location_state_manual">In uso la posizione impostata qui</string>
     <string name="location_state_auto">In uso la posizione rilevata</string>
     <string name="use_detected_location">Usa quella rilevata</string>
-    <string name="tts_mag_higher">ora magnitudo più alta, %s</string>
-    <string name="tts_mag_lower">ora magnitudo più bassa, %s</string>
+    <string name="tts_mag_higher">Ora magnitudo più alta, %s.</string>
+    <string name="tts_mag_lower">Ora magnitudo più bassa, %s.</string>
     <string name="back_alarm_settings">←  Impostazioni dell\'allarme</string>
     <string name="back_speech_settings">←  Impostazioni della voce</string>
     <string name="history_map">Mappa</string>
@@ -338,11 +333,26 @@
 
     <!-- Shown once, before alerts are first turned on -->
     <string name="disclaimer_title">Prima di attivare le allerte</string>
-    <string name="disclaimer_full">EarthPing è sperimentale e finora è stata provata da pochissime persone.\n\n• Può non segnalare un terremoto, avvisare in ritardo o dare falsi allarmi, per esempio quando manca la connessione o il sistema chiude l\'app. Non usarla come fonte principale di informazioni per la tua sicurezza: tieni attive le allerte di emergenza ufficiali del telefono e segui le indicazioni delle autorità locali.\n\n• Il conto alla rovescia e le scosse previste sono stime. Le scosse possono arrivare prima, o essere più forti, di quanto indicato.\n\n• EarthPing riceve le allerte collegandosi ai server di Google con un\'identità anonima. Non è realizzata, approvata né supportata da Google, e Google non ne è responsabile. Google può modificare o interrompere questo servizio in qualsiasi momento.\n\n• Sta a te assicurarti che usarla sia consentito dai termini o dalle leggi che ti riguardano.\n\n• EarthPing è software libero e non è fornita alcuna garanzia.</string>
+    <string name="disclaimer_full">EarthPing è sperimentale e finora è stata provata da pochissime persone.\n\n• Può non segnalare un terremoto, avvisare in ritardo o dare falsi allarmi, per esempio quando manca la connessione o il sistema chiude l\'app. Non usarla come fonte principale di informazioni per la tua sicurezza: tieni attive le allerte di emergenza ufficiali del telefono e segui le indicazioni delle autorità locali.\n\n• Le allerte di Google non sono disponibili ovunque: la tua zona potrebbe non essere coperta affatto.\n\n• Il conto alla rovescia e le scosse previste sono stime. Le scosse possono arrivare prima, o essere più forti, di quanto indicato.\n\n• EarthPing riceve le allerte collegandosi ai server di Google con un\'identità anonima. Non è realizzata, approvata né supportata da Google, e Google non ne è responsabile. Google può modificare o interrompere questo servizio in qualsiasi momento.\n\n• Usala nel rispetto delle leggi e degli accordi che ti riguardano.\n\n• EarthPing è software libero e non è fornita alcuna garanzia.</string>
     <string name="disclaimer_understood">Ho capito</string>
     <string name="test_link">Prova  →</string>
     <string name="perm_dnd_channel">Allerte con Non disturbare</string>
     <string name="perm_dnd_channel_why">L\'allerta non può ancora comparire con Non disturbare attivo. Android permette di consentirlo solo a te, nelle impostazioni delle notifiche.</string>
     <string name="perm_dnd_channel_steps">Nella schermata successiva attiva «Ignora Non disturbare» (su alcuni telefoni si chiama «Sostituisci Non disturbare»), poi torna qui.</string>
     <string name="open_settings">Apri impostazioni</string>
+    <string name="group_quakes">Terremoti</string>
+    <string name="group_public">Altre allerte pubbliche</string>
+    <string name="group_status">Stato dell\'app</string>
+    <string name="ch_watched_public">Allerte pubbliche nei luoghi seguiti</string>
+    <string name="ch_watched_public_desc">Alluvioni, tempeste, incendi e altre allerte nei luoghi che segui.</string>
+    <string name="notif_categories">Categorie di notifiche</string>
+    <string name="notif_categories_summary">Scegli nelle impostazioni di Android quali allerte ti avvisano, e come</string>
+    <string name="tts_rate">Velocità della voce</string>
+    <string name="tts_expecting_mag">Ora si attendono %1$s, magnitudo %2$s.</string>
+    <string-array name="tts_rate_entries">
+        <item>Come nel sistema</item>
+        <item>Un po\' più veloce</item>
+        <item>Più veloce</item>
+        <item>Molto più veloce</item>
+    </string-array>
 </resources>

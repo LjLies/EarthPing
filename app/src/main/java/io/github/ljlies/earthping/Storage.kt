@@ -27,7 +27,7 @@ object Storage {
         val target = of(app)
         if (target === app || !unlocked(app)) return emptyList()
         val moved = ArrayList<String>()
-        for (name in listOf(Prefs.FILE, "channels")) {
+        for (name in listOf(Prefs.FILE)) {
             if (File(app.dataDir, "shared_prefs/$name.xml").exists() && target.moveSharedPreferencesFrom(app, name)) moved += "$name.xml"
         }
         for (name in listOf("eventlog.txt", "history.json")) {

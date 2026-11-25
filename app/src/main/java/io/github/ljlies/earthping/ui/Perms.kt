@@ -86,7 +86,7 @@ object Perms {
                     .setPositiveButton(R.string.open_settings) { _, _ ->
                         open(a, Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
                             .putExtra(Settings.EXTRA_APP_PACKAGE, a.packageName)
-                            .putExtra(Settings.EXTRA_CHANNEL_ID, Notifications.quakeChannel(a)))
+                            .putExtra(Settings.EXTRA_CHANNEL_ID, Notifications.CH_QUAKE))
                     }
                     .setNegativeButton(android.R.string.cancel, null)
                     .show()

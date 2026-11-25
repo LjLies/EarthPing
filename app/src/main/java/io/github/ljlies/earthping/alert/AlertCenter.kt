@@ -138,16 +138,17 @@ object AlertCenter {
         fun km(v: Double) = if (v < 10) fmt1(v) else Math.round(v).toString()
 
         /**
-         * A countdown step: "25 seconds." for the round markers down to ten, then a bare "Nine."
+         * A countdown step: "25 seconds." for the round markers above ten, then a bare "Ten."
          * (short, so it is not cut off; a sentence, so neural voices don't clip its start).
          */
-        fun countdown(n: Int) = if (n >= 10) ctx.resources.getQuantityString(R.plurals.tts_seconds_marker, n, n)
+        fun countdown(n: Int) = if (n > 10) ctx.resources.getQuantityString(R.plurals.tts_seconds_marker, n, n)
             else NumberWords.spell(n, locale).replaceFirstChar { it.titlecase(locale) } + "."
     }
 
     private fun spoken(): Spoken {
         val l = speechLocale()
         speaker.setLocale(l)
+        speaker.rateFactor = prefs.ttsRate
         return Spoken(speechContext(), l)
     }
 
@@ -390,21 +391,22 @@ object AlertCenter {
 
     private var lastChannel: String? = null
 
-    /** Terse, shaking first: "Update: now expecting strong shaking, magnitude 6.3." */
     /**
      * No "update" word (the chime says that). A new shaking level comes first: "Now expecting
      * strong shaking, magnitude 7.4."; otherwise just the direction: "Now higher magnitude 6.2."
+     * With little time left only a new shaking level is said, without the magnitude.
      */
     private fun updateSpeech(q: LocalQuake, oldMag: Double?, mmi: Boolean, sp: Spoken): String {
         val newMag = q.magnitude
-        val text = when {
-            mmi && q.effectiveMmi != null -> sp.s(R.string.tts_expecting, sp.shaking(q.effectiveMmi!!)) +
-                (newMag?.let { ", " + sp.s(R.string.tts_magnitude_short, sp.fmt1(it)) } ?: "")
-            newMag != null && oldMag != null ->
-                sp.s(if (newMag > oldMag) R.string.tts_mag_higher else R.string.tts_mag_lower, sp.fmt1(newMag))
-            else -> return ""
+        val hurry = (secondsLeft(q) ?: Int.MAX_VALUE) <= 12
+        val shaking = q.effectiveMmi?.let { sp.shaking(it) }
+        return when {
+            mmi && shaking != null && (hurry || newMag == null) -> sp.s(R.string.tts_expecting, shaking)
+            mmi && shaking != null -> sp.s(R.string.tts_expecting_mag, shaking, sp.fmt1(newMag!!))
+            hurry -> ""
+            newMag != null && oldMag != null -> sp.s(if (newMag > oldMag) R.string.tts_mag_higher else R.string.tts_mag_lower, sp.fmt1(newMag))
+            else -> ""
         }
-        return text.replaceFirstChar { it.titlecase(sp.locale) } + "."
     }
 
     /** Intensity index into the shaking/intensity term arrays (III and below → 0 … X → 7). */
@@ -448,7 +450,7 @@ object AlertCenter {
         }
         if (prefs.ttsEnabled) {
             val sp = spoken()
-            speaker.start(announcement(q, sp), { q.sArrivalLocalMs?.takeIf { it > System.currentTimeMillis() - 1000 } }, sp::countdown)
+            speaker.start(announcement(q, sp), { q.sArrivalLocalMs?.takeIf { it > System.currentTimeMillis() - 1000 } }, sp::seconds, sp::countdown)
         }
         scheduleSirenStop(q)
     }
@@ -466,19 +468,21 @@ object AlertCenter {
         }, SIREN_TOKEN, SystemClock.uptimeMillis() + (stopAt - now))
     }
 
+    /**
+     * The first sentence, shorter when there is little time: the distance goes below 15 s, the
+     * magnitude below 8 s. The seconds left follow separately (Speaker), so they are current.
+     */
     private fun announcement(q: LocalQuake, sp: Spoken): String {
-        val sb = StringBuilder()
-        if (q.isTest) sb.append(sp.s(R.string.tts_test)).append(' ')
-        sb.append(sp.s(R.string.tts_earthquake)).append(' ')
-        q.magnitude?.let { sb.append(sp.s(R.string.tts_magnitude, sp.fmt1(it))).append(' ') }
-        q.distanceKm?.let { sb.append(sp.s(R.string.tts_distance, sp.km(it))).append(' ') }
-        val s = q.sArrivalLocalMs
-        if (s != null) {
-            val secs = ((s - System.currentTimeMillis()) / 1000).toInt()
-            if (secs > 0) sb.append(sp.seconds(secs))
-        }
-        return sb.toString().trim()
+        val secs = secondsLeft(q) ?: Int.MAX_VALUE
+        return listOfNotNull(
+            if (q.isTest) sp.s(R.string.tts_test) else null,
+            sp.s(R.string.tts_earthquake),
+            q.magnitude?.takeIf { secs >= 8 }?.let { sp.s(R.string.tts_magnitude, sp.fmt1(it)) },
+            q.distanceKm?.takeIf { secs >= 15 }?.let { sp.s(R.string.tts_distance, sp.km(it)) },
+        ).joinToString(" ")
     }
+
+    private fun secondsLeft(q: LocalQuake): Int? = q.sArrivalLocalMs?.let { ((it - System.currentTimeMillis()) / 1000).toInt() }
 
     /** Wakes the screen and opens the warning directly when allowed. Returns whether it tried. */
     private fun showAlertScreen(): Boolean {
@@ -531,7 +535,7 @@ object AlertCenter {
             !q.loud -> Notifications.CH_NOTICE
             // The warning is on screen: a silent notification, so no heads-up covers it.
             alertScreenVisible || screenExpected -> Notifications.CH_ALERT_SHOWN
-            else -> Notifications.quakeChannel(app)
+            else -> Notifications.CH_QUAKE
         }
         val b = Notification.Builder(app, channel)
             .setSmallIcon(io.github.ljlies.earthping.R.drawable.ic_stat_quake)
@@ -577,7 +581,7 @@ object AlertCenter {
         val place = sub?.place
         val dist = if (place != null && q?.epicenter != null) Geo.distanceKm(place.latLng, q.epicenter) else null
         AlertHistory.add(app, a, sub, distanceKm = dist)
-        if (place == null || Places.isAutoDecoy(place) || !prefs.watchedNotifications) return
+        if (place == null || Places.isAutoDecoy(place)) return
         val title = str(R.string.notif_watched_quake, place.name, q?.magnitude?.let { "M${fmt1(it)}" } ?: "")
         val text = buildString {
             dist?.let { append(str(R.string.km_from, km(it), place.name)) }
@@ -593,12 +597,12 @@ object AlertCenter {
         val previous = crisisSeen.put(a.id, fingerprint)
         if (previous == fingerprint) return // periodic re-issue
         AlertHistory.add(app, a, sub)
-        if (!prefs.crisisAlerts || sub == null) return
+        if (sub == null) return
         val local = sub.primary
-        if (!local && (Places.isAutoDecoy(sub.place) || !prefs.watchedNotifications)) return
+        if (!local && Places.isAutoDecoy(sub.place)) return
         val title = (a.title ?: str(R.string.crisis_generic)) + if (!local) " · ${sub.place.name}" else ""
         val text = listOfNotNull(a.areaText, a.sender ?: a.sourceName).joinToString(" · ")
-        notifyOther(a.id, if (local) Notifications.CH_CRISIS else Notifications.CH_WATCHED, title, text, silent = previous != null)
+        notifyOther(a.id, if (local) Notifications.CH_CRISIS else Notifications.CH_WATCHED_PUBLIC, title, text, silent = previous != null)
     }
 
     private fun notifyOther(id: String, channel: String, title: String, text: String, silent: Boolean = false) {

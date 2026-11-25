@@ -8,13 +8,13 @@
     <string name="ch_service_desc">維持警報連線運作。可以隱藏。</string>
     <string name="ch_status">連線問題</string>
     <string name="ch_status_desc">無法接收警報時通知你。</string>
-    <string name="ch_watched">關注地點</string>
-    <string name="ch_watched_desc">你關注的地點發生的地震和其他警報。</string>
+    <string name="ch_watched">關注地點的地震</string>
+    <string name="ch_watched_desc">你關注的地點附近發生的地震。</string>
     <string name="ch_quake">地震警報（我的位置）</string>
     <string name="ch_quake_desc">預計你所在位置將有搖晃時，發出響亮的全螢幕警報。</string>
     <string name="ch_info">附近地震（我的位置）</string>
     <string name="ch_info_desc">你所在地區低於響鈴門檻的地震，以及警報關閉後收到的更新。</string>
-    <string name="ch_crisis">其他警報（我的位置）</string>
+    <string name="ch_crisis">公共警報（我的位置）</string>
     <string name="ch_crisis_desc">你所在地區的公共安全警報：淹水、暴風、火災等。</string>
     <string name="ch_alert_shown">螢幕上的地震警報</string>
     <string name="ch_alert_shown_desc">全螢幕警報顯示期間的靜音通知。</string>
@@ -153,10 +153,6 @@
     <string name="tts_settings_summary">選擇引擎並安裝語音</string>
     <string name="tts_unavailable">文字轉語音正在啟動或無法使用，請稍後再試。</string>
     <string name="tts_voice_missing">文字轉語音引擎中沒有安裝%s語音。</string>
-    <string name="watched_notifs">關注地點</string>
-    <string name="watched_notifs_summary">關注地點發生地震或警報時通知我</string>
-    <string name="crisis_alerts">其他公共警報</string>
-    <string name="crisis_alerts_summary">Google 透過同一頻道傳送的淹水、暴風、火災和其他警報</string>
     <string name="location">位置</string>
     <string name="location_auto_summary">自動偵測</string>
     <string name="location_manual_summary">手動設定：%s</string>
@@ -257,8 +253,7 @@
     <string name="clear_history">清除</string>
     <string name="clear_history_title">要清除最近的警報嗎？</string>
     <string name="clear_history_message">最近的警報清單（包括測試）將會清空。</string>
-    <string name="tts_expecting">現在預計%s</string>
-    <string name="tts_magnitude_short">規模 %s</string>
+    <string name="tts_expecting">現在預計%s。</string>
     <string-array name="shaking_terms">
         <item>微弱搖晃</item>
         <item>輕微搖晃</item>
@@ -295,8 +290,8 @@
     <string name="location_state_manual">正在使用此處設定的位置</string>
     <string name="location_state_auto">正在使用偵測到的位置</string>
     <string name="use_detected_location">使用偵測位置</string>
-    <string name="tts_mag_higher">現在規模提高為 %s</string>
-    <string name="tts_mag_lower">現在規模降低為 %s</string>
+    <string name="tts_mag_higher">現在規模提高為 %s。</string>
+    <string name="tts_mag_lower">現在規模降低為 %s。</string>
     <string name="back_alarm_settings">←  警報音設定</string>
     <string name="back_speech_settings">←  語音設定</string>
     <string name="history_map">地圖</string>
@@ -319,11 +314,26 @@
     <string name="history_km_from_you">距離你 %s 公里</string>
 
     <string name="disclaimer_title">開啟警報之前</string>
-    <string name="disclaimer_full">EarthPing 仍屬實驗性質，目前只有極少數人測試過。\n\n• 它可能漏報地震、延遲警告或發出誤報，例如在沒有網路連線或系統停止應用程式時。請勿將它當作主要的安全資訊來源：請保持手機的官方緊急警報為開啟狀態，並遵循當地政府的指示。\n\n• 倒數和預期的搖晃程度都只是估計。搖晃可能比顯示的更早抵達或更強烈。\n\n• EarthPing 以匿名身分連線到 Google 的伺服器來接收警報。它並非由 Google 製作、認可或支援，Google 對它不負任何責任。Google 隨時可能變更或停止此服務。\n\n• 你需要自行確認使用它符合適用於你的任何條款或法律。\n\n• EarthPing 是自由軟體，不提供任何擔保。</string>
+    <string name="disclaimer_full">EarthPing 仍屬實驗性質，目前只有極少數人測試過。\n\n• 它可能漏報地震、延遲警告或發出誤報，例如在沒有網路連線或系統停止應用程式時。請勿將它當作主要的安全資訊來源：請保持手機的官方緊急警報為開啟狀態，並遵循當地政府的指示。\n\n• Google 的警報並非在所有地區都提供，你所在的地區可能完全不在涵蓋範圍內。\n\n• 倒數和預期的搖晃程度都只是估計。搖晃可能比顯示的更早抵達或更強烈。\n\n• EarthPing 以匿名身分連線到 Google 的伺服器來接收警報。它並非由 Google 製作、認可或支援，Google 對它不負任何責任。Google 隨時可能變更或停止此服務。\n\n• 請在遵守適用於你的法律和協議的前提下使用。\n\n• EarthPing 是自由軟體，不提供任何擔保。</string>
     <string name="disclaimer_understood">我了解</string>
     <string name="test_link">測試  →</string>
     <string name="perm_dnd_channel">「零打擾」期間的警報</string>
     <string name="perm_dnd_channel_why">目前在「零打擾」期間無法顯示警報。Android 只允許你自己在通知設定中開啟此選項。</string>
     <string name="perm_dnd_channel_steps">請在下一個畫面開啟「覆寫零打擾」，然後回到這裡。</string>
     <string name="open_settings">開啟設定</string>
+    <string name="group_quakes">地震</string>
+    <string name="group_public">其他公共警報</string>
+    <string name="group_status">應用程式狀態</string>
+    <string name="ch_watched_public">關注地點的公共警報</string>
+    <string name="ch_watched_public_desc">你關注的地點的淹水、暴風、火災和其他警報。</string>
+    <string name="notif_categories">通知類別</string>
+    <string name="notif_categories_summary">在 Android 設定中選擇哪些警報要通知你，以及通知方式</string>
+    <string name="tts_rate">語速</string>
+    <string name="tts_expecting_mag">現在預計%1$s，規模 %2$s。</string>
+    <string-array name="tts_rate_entries">
+        <item>與系統相同</item>
+        <item>稍快</item>
+        <item>較快</item>
+        <item>快很多</item>
+    </string-array>
 </resources>

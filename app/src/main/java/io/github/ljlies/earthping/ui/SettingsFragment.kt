@@ -49,6 +49,9 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         click("permissions") {
             startActivity(Intent(requireContext(), OnboardingActivity::class.java).putExtra(OnboardingActivity.EXTRA_REVIEW, true))
         }
+        click("notif_categories") {
+            open(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName))
+        }
         click("diagnostics") { startActivity(Intent(requireContext(), LogActivity::class.java)) }
         click("source") { open(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.source_url)))) }
         findPreference<androidx.preference.ListPreference>("loud_min_mmi")?.summaryProvider =
@@ -82,7 +85,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
 
     override fun onSharedPreferenceChanged(sp: SharedPreferences, key: String?) {
         updateSummaries()
-        if (key in setOf("tts", "watched_notifs", "crisis_alerts", "heartbeat_min", "manual_loc", "manual_lat", "manual_lon")) {
+        if (key in setOf("tts", "heartbeat_min", "manual_loc", "manual_lat", "manual_lon")) {
             ListenerService.refresh(requireContext())
         }
     }

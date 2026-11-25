@@ -42,6 +42,12 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     private var lastSpoken = Int.MAX_VALUE
     private var finished = true
     private var numberText: (Int) -> String = { it.toString() }
+    private var leadText: ((Int) -> String)? = null
+    private var announcementId: String? = null
+    private var announcementDone = true
+
+    /** Speech speed relative to the system's default rate (Settings → Text-to-speech). */
+    @Volatile var rateFactor = 1.0f
 
     // Utterance bookkeeping (main thread only)
     private val issuedAt = HashMap<String, Long>()
@@ -88,7 +94,6 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
         engine = t.defaultEngine ?: engine
         t.setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM)
             .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build())
-        t.setSpeechRate(1.1f)
         t.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
             override fun onStart(id: String?) = main.post { started(id) }.let { }
             override fun onDone(id: String?) = main.post { done(id) }.let { }
@@ -116,6 +121,7 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     }
 
     private fun done(id: String?) {
+        if (id != null && id == announcementId) announcementDone = true
         if (id != null && issuedAt.remove(id) != null) queued = (queued - 1).coerceAtLeast(0) // never started
         numberIds.remove(id)
         if (speakingId == id) speakingId = null
@@ -180,10 +186,16 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
         }
     }
 
-    private fun say(text: String, flush: Boolean, isNumber: Boolean = false) {
-        val t = tts ?: return
-        if (!ready) return
+    private fun systemRate(): Float = try {
+        Settings.Secure.getInt(ctx.contentResolver, "tts_default_rate", 100) / 100f
+    } catch (e: Exception) { 1f }
+
+    private fun say(text: String, flush: Boolean, isNumber: Boolean = false): String? {
+        val t = tts ?: return null
+        if (!ready) return null
         applyLocale(t)
+        // Setting a rate overrides the system's, so scale the system's instead of replacing it.
+        t.setSpeechRate(systemRate() * rateFactor)
         val id = "a" + System.nanoTime()
         val params = Bundle().apply { putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, 1.0f) }
         if (flush) { queued = 0; issuedAt.clear(); numberIds.clear() }
@@ -191,22 +203,26 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
         if (isNumber) numberIds += id
         queued++
         t.speak(text, if (flush) TextToSpeech.QUEUE_FLUSH else TextToSpeech.QUEUE_ADD, params, id)
+        return id
     }
 
     /**
-     * Speaks [announcement], then counts down to the time returned by [target] (S-wave arrival,
-     * device clock ms), saying each number as [number] words it. Nothing is said at zero.
+     * Speaks [announcement], then [lead] with the seconds left at that moment ("Shaking in about
+     * 19 seconds"), then counts down to the time returned by [target] (S-wave arrival, device
+     * clock ms), saying each number as [number] words it. Nothing is said at zero.
      */
-    fun start(announcement: String, target: () -> Long?, number: (Int) -> String) = main.post {
+    fun start(announcement: String, target: () -> Long?, lead: (Int) -> String, number: (Int) -> String) = main.post {
         stopInternal()
         finished = false
         numberText = number
+        leadText = lead
         countdownTarget = target
         lastSpoken = Int.MAX_VALUE
         whenReady {
             if (finished) return@whenReady
-            EventLog.log("Speaking (${wanted.toLanguageTag()}, latency ~$latencyMs ms): $announcement")
-            say(announcement, flush = true)
+            EventLog.log("Speaking (${wanted.toLanguageTag()}, ${"%.2f".format(java.util.Locale.US, systemRate() * rateFactor)}×, latency ~$latencyMs ms): $announcement")
+            announcementId = say(announcement, flush = true)
+            announcementDone = announcementId == null
             main.postDelayed(tick, 100)
         }
     }
@@ -230,6 +246,23 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
                 return
             }
             val n = Math.ceil(remainingMs / 1000.0).toInt()
+            val lead = leadText
+            if (lead != null) {
+                when {
+                    // The last seconds come out even if the announcement must be cut.
+                    !announcementDone && n <= 5 -> { leadText = null; announcementDone = true }
+                    !announcementDone -> { main.postDelayed(this, 50); return }
+                    else -> {
+                        // Said only now, so its number is current; skipped when the countdown
+                        // itself is about to start.
+                        leadText = null
+                        if (n > 10) {
+                            say(lead(n), flush = false)
+                            lastSpoken = n
+                        }
+                    }
+                }
+            }
             if (n < lastSpoken && shouldSpeak(n)) {
                 val behind = queued > 0
                 val talkingOverNumber = speakingId != null && speakingId !in numberIds
@@ -253,6 +286,9 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
 
     private fun stopInternal() {
         finished = true
+        leadText = null
+        announcementId = null
+        announcementDone = true
         main.removeCallbacks(tick)
         pending.clear()
         queued = 0
