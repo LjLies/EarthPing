@@ -126,7 +126,7 @@
     <string name="disclaimer">EarthPing è un\'app indipendente e non ufficiale. Ascolta lo stesso canale push che Google usa per le allerte terremoto di Android, che Google può modificare o interrompere in qualsiasi momento. Non è un sistema di allerta certificato: tieni attivi gli avvisi di emergenza ufficiali del telefono.</string>
 
     <!-- Scheda Luoghi -->
-    <string name="places_desc">Fino a tre altri luoghi che ti stanno a cuore (famiglia, città d\'origine…). Riceverai notifiche su terremoti e allerte lì, senza conto alla rovescia. Servono anche a nascondere la tua vera zona a Google tra altri luoghi; uno spazio vuoto riceve un\'esca automatica casuale.</string>
+    <string name="places_desc">Fino a tre luoghi che ti stanno a cuore oltre alla tua posizione attuale (famiglia, città d\'origine…). Riceverai notifiche su terremoti e allerte lì, senza conto alla rovescia. Servono anche a nascondere la tua vera zona a Google tra altri luoghi; uno spazio vuoto riceve un\'esca automatica casuale.</string>
     <string name="place_n">Luogo %d</string>
     <string name="place_name">Nome</string>
     <string name="latitude">Latitudine</string>

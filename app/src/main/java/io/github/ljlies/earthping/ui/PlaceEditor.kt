@@ -63,6 +63,8 @@ class PlaceEditor(
     }
 
     fun show(p: Place?, hint: String) {
+        // The search box belongs to the place being edited: start each one empty.
+        field(R.id.search).setText("")
         field(R.id.name).setText(p?.name ?: "")
         field(R.id.lat).setText(p?.let { String.format(Locale.US, "%.4f", it.lat) } ?: "")
         field(R.id.lon).setText(p?.let { String.format(Locale.US, "%.4f", it.lon) } ?: "")
