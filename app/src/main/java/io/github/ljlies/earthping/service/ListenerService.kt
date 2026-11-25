@@ -148,14 +148,18 @@ class ListenerService : Service() {
         val nm = getSystemService(NotificationManager::class.java)
         main.removeCallbacks(fsiRecheck)
         if (nm.canUseFullScreenIntent()) {
+            unregisterScreenOn()
             if (fsiNoticeShown) EventLog.log("Full-screen notifications allowed again")
             fsiNoticeShown = false
             nm.cancel(Notifications.ID_STATUS + 1)
             return
         }
-        // Android sends no broadcast when this is granted: look again until it is.
-        main.postDelayed(fsiRecheck, 20_000)
+        // Android sends no broadcast when this is granted. Look again a few times soon after the
+        // notice (the user may be granting it right now), then only when the screen comes on.
+        if (fsiChecksLeft > 0) { fsiChecksLeft--; main.postDelayed(fsiRecheck, 60_000) }
+        registerScreenOn()
         if (fsiNoticeShown) return
+        fsiChecksLeft = 10
         fsiNoticeShown = true
         EventLog.log("Full-screen notifications are not allowed: asking the user to re-allow them")
         val fix = PendingIntent.getActivity(this, 20,
@@ -173,7 +177,25 @@ class ListenerService : Service() {
     }
 
     private var fsiNoticeShown = false
+    private var fsiChecksLeft = 0
     private val fsiRecheck = Runnable { checkFullScreenPermission() }
+    private var screenOnReceiver: android.content.BroadcastReceiver? = null
+
+    private fun registerScreenOn() {
+        if (screenOnReceiver != null) return
+        val r = object : android.content.BroadcastReceiver() {
+            override fun onReceive(c: Context, i: Intent) = checkFullScreenPermission()
+        }
+        registerReceiver(r, android.content.IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_ON); addAction(Intent.ACTION_USER_PRESENT)
+        })
+        screenOnReceiver = r
+    }
+
+    private fun unregisterScreenOn() {
+        screenOnReceiver?.let { try { unregisterReceiver(it) } catch (_: Exception) {} }
+        screenOnReceiver = null
+    }
 
     /** One line with the state of everything the app depends on, for the diagnostic log. */
     private fun logPermissions() {
@@ -360,6 +382,7 @@ class ListenerService : Service() {
         if (!running) { super.onDestroy(); return }
         running = false
         instance = null
+        unregisterScreenOn()
         ServiceStatus.removeListener(statusListener)
         main.removeCallbacksAndMessages(null)
         location.stop()
