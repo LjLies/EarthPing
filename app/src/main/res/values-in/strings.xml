@@ -335,4 +335,6 @@
     </string-array>
     <string name="crisis_alerts">Peringatan publik lain</string>
     <string name="crisis_alerts_summary">Banjir, badai, kebakaran, dan peringatan lain yang dikirim Google melalui saluran yang sama</string>
+    <string name="dnd_blocked_title">Alarm gempa dibisukan</string>
+    <string name="dnd_blocked_text">Jangan Ganggu membisukan suara alarm dari %1$s sampai %2$s, jadi alarm gempa tidak akan terdengar.</string>
 </resources>

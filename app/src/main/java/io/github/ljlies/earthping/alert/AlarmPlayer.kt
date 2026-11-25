@@ -222,7 +222,7 @@ class AlarmPlayer(private val ctx: Context) {
         try {
             if (savedFilter == null && nm.isNotificationPolicyAccessGranted) {
                 val f = nm.currentInterruptionFilter
-                if (f != NotificationManager.INTERRUPTION_FILTER_ALL && f != NotificationManager.INTERRUPTION_FILTER_UNKNOWN && alarmsBlocked(f)) {
+                if (f != NotificationManager.INTERRUPTION_FILTER_ALL && f != NotificationManager.INTERRUPTION_FILTER_UNKNOWN && alarmsBlocked(nm, f)) {
                     if (android.os.Build.VERSION.SDK_INT >= 35) {
                         // Android 15 Modes: an app's setInterruptionFilter only switches the app's
                         // own mode, never the user's, so there is nothing EarthPing can lift.
@@ -239,24 +239,25 @@ class AlarmPlayer(private val ctx: Context) {
         }
     }
 
-    /**
-     * Whether the current Do Not Disturb setup silences alarm sounds (the siren and speech play
-     * as alarms). Usually it doesn't, and then DND is left alone.
-     */
-    private fun alarmsBlocked(filter: Int): Boolean = when (filter) {
-        NotificationManager.INTERRUPTION_FILTER_NONE -> true      // "Total silence"
-        NotificationManager.INTERRUPTION_FILTER_ALARMS -> false   // "Alarms only"
-        else -> if (android.os.Build.VERSION.SDK_INT < 28) false      // alarms always passed "Priority only"
-        else try {
-            // Android 15 combines manual DND with any active Modes.
-            val policy = if (android.os.Build.VERSION.SDK_INT >= 35) nm.consolidatedNotificationPolicy else nm.notificationPolicy
-            (policy.priorityCategories and NotificationManager.Policy.PRIORITY_CATEGORY_ALARMS) == 0
-        } catch (e: Exception) {
-            true
-        }
-    }
-
     companion object {
+        /**
+         * Whether Do Not Disturb, as it is now, silences alarm sounds (the siren and speech play
+         * as alarms). Usually it doesn't: "Alarms only" and most priority setups let them through.
+         */
+        fun alarmsBlocked(nm: NotificationManager, filter: Int = nm.currentInterruptionFilter, ifUnknown: Boolean = true): Boolean = when (filter) {
+            NotificationManager.INTERRUPTION_FILTER_ALL, NotificationManager.INTERRUPTION_FILTER_UNKNOWN -> false
+            NotificationManager.INTERRUPTION_FILTER_NONE -> true      // "Total silence"
+            NotificationManager.INTERRUPTION_FILTER_ALARMS -> false   // "Alarms only"
+            else -> if (android.os.Build.VERSION.SDK_INT < 28) false  // alarms always passed "Priority only"
+            else try {
+                // Android 15 combines manual DND with any active Modes.
+                val policy = if (android.os.Build.VERSION.SDK_INT >= 35) nm.consolidatedNotificationPolicy else nm.notificationPolicy
+                (policy.priorityCategories and NotificationManager.Policy.PRIORITY_CATEGORY_ALARMS) == 0
+            } catch (e: Exception) {
+                ifUnknown
+            }
+        }
+
         /**
          * 0.4.1–0.4.3 "restored" DND on Android 15+ by setting the filter it had read, which
          * there switches on a Do Not Disturb mode owned by EarthPing (and leaves it on). Turn
