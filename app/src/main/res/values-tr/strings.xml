@@ -339,4 +339,5 @@
     </string-array>
     <string name="crisis_alerts">Diğer kamu uyarıları</string>
     <string name="crisis_alerts_summary">Google\'ın aynı kanaldan gönderdiği sel, fırtına, yangın ve diğer uyarılar</string>
+    <string name="place_not_saved">Değişiklik kaydedilmedi</string>
 </resources>

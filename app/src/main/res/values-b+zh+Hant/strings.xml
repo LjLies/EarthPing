@@ -335,4 +335,5 @@
     </string-array>
     <string name="crisis_alerts">其他公共警報</string>
     <string name="crisis_alerts_summary">Google 透過同一頻道傳送的淹水、暴風、火災和其他警報</string>
+    <string name="place_not_saved">變更未儲存</string>
 </resources>

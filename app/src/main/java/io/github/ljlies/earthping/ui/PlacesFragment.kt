@@ -15,19 +15,24 @@ import io.github.ljlies.earthping.service.ListenerService
 
 /**
  * Up to three extra places to be told about; they double as the protocol's privacy decoys.
- * Edits (search, long press, typing, Clear) are drafts until Save: unsaved places are marked
- * with a dot, and the button reads "Saved" (disabled) when there is nothing to save.
+ *
+ * The three buttons at the top always show what is saved. Below them the selected place can be
+ * changed (search, long press, typing, Clear); nothing is kept until Save, which is only active
+ * when there is a change. While there is one, Clear turns into Cancel, which brings back the
+ * saved place. Switching to another place drops an unsaved change.
  */
 class PlacesFragment : Fragment() {
     private lateinit var prefs: Prefs
     private lateinit var root: View
     private lateinit var editor: PlaceEditor
     private val slotIds = intArrayOf(R.id.slot1, R.id.slot2, R.id.slot3)
-    /** Places being edited (null = empty slot, filled by an automatic decoy). */
-    private val places = arrayOfNulls<Place>(3)
-    /** What is saved, to tell which slots have unsaved changes. */
+    /** What is saved (null = empty slot, filled by an automatic decoy). */
     private val saved = arrayOfNulls<Place>(3)
     private var selected = 0
+    /** The selected place as edited; equal to saved[selected] when there's nothing to save. */
+    private var draft: Place? = null
+    /** The fields hold something that isn't a valid place (e.g. a half-typed coordinate). */
+    private var invalid = false
     private var binding = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
@@ -36,18 +41,18 @@ class PlacesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         root = view
         prefs = Prefs(requireContext())
-        prefs.userDecoys.forEachIndexed { i, p -> if (i < 3) { places[i] = p; saved[i] = p } }
+        loadSaved()
         editor = PlaceEditor(requireActivity(), view, { getString(R.string.place_n, selected + 1) }) { p ->
-            places[selected] = p
-            showSlot()
+            draft = p
+            invalid = false
+            showDraft()
         }
         editor.watch {
             if (binding) return@watch
-            // Typing: keep the draft in step when the fields hold a valid place.
             when (val r = editor.read()) {
-                PlaceEditor.Read.Empty -> places[selected] = null
-                is PlaceEditor.Read.Ok -> places[selected] = r.place
-                PlaceEditor.Read.Invalid -> Unit
+                PlaceEditor.Read.Empty -> { draft = null; invalid = false }
+                is PlaceEditor.Read.Ok -> { draft = r.place; invalid = false }
+                PlaceEditor.Read.Invalid -> invalid = true
             }
             updateState()
         }
@@ -56,25 +61,36 @@ class PlacesFragment : Fragment() {
             check(slotIds[0])
             addOnButtonCheckedListener { _, id, checked ->
                 if (!checked || binding) return@addOnButtonCheckedListener
-                readFields()
-                selected = slotIds.indexOf(id)
-                showSlot()
+                select(slotIds.indexOf(id))
             }
         }
         view.findViewById<Button>(R.id.clear).setOnClickListener {
-            places[selected] = null
-            showSlot()
+            // Cancel while there is a change, Clear otherwise.
+            draft = if (changed()) saved[selected] else null
+            invalid = false
+            showDraft()
         }
-        view.findViewById<Button>(R.id.save).setOnClickListener {
-            if (readFields()) save()
-        }
-        showSlot()
+        view.findViewById<Button>(R.id.save).setOnClickListener { save() }
+        draft = saved[0]
+        select(0)
     }
 
-    private fun showSlot() {
-        val p = places[selected]
+    private fun loadSaved() {
+        val list = prefs.userDecoys
+        for (i in 0 until 3) saved[i] = list.getOrNull(i)
+    }
+
+    private fun select(i: Int) {
+        if (changed()) Toast.makeText(requireContext(), R.string.place_not_saved, Toast.LENGTH_SHORT).show()
+        selected = i
+        draft = saved[i]
+        invalid = false
+        showDraft()
+    }
+
+    private fun showDraft() {
         binding = true
-        editor.show(p, getString(if (p == null) R.string.slot_empty_hint else R.string.slot_set_hint))
+        editor.show(draft, getString(if (draft == null) R.string.slot_empty_hint else R.string.slot_set_hint))
         binding = false
         updateState()
     }
@@ -84,38 +100,37 @@ class PlacesFragment : Fragment() {
         if (a == null || b == null) a == b
         else a.name == b.name && kotlin.math.abs(a.lat - b.lat) < 1e-4 && kotlin.math.abs(a.lon - b.lon) < 1e-4
 
-    private fun updateState() {
-        slotIds.forEachIndexed { i, id ->
-            val name = places[i]?.name ?: getString(R.string.place_n, i + 1)
-            root.findViewById<Button>(id).text = if (same(places[i], saved[i])) name else "$name •"
-        }
-        val dirty = (0 until 3).any { !same(places[it], saved[it]) }
-        root.findViewById<Button>(R.id.save).apply {
-            isEnabled = dirty
-            setText(if (dirty) R.string.save else R.string.saved)
-        }
-        editor.setMarkers(places.filterNotNull())
-    }
+    private fun changed() = invalid || !same(draft, saved[selected])
 
-    private fun readFields(): Boolean = when (val r = editor.read()) {
-        PlaceEditor.Read.Empty -> { places[selected] = null; true }
-        PlaceEditor.Read.Invalid -> {
-            Toast.makeText(requireContext(), getString(R.string.invalid_place, selected + 1), Toast.LENGTH_LONG).show()
-            false
+    private fun updateState() {
+        slotIds.forEachIndexed { i, id -> root.findViewById<Button>(id).text = saved[i]?.name ?: getString(R.string.place_n, i + 1) }
+        val changed = changed()
+        root.findViewById<Button>(R.id.save).isEnabled = changed && !invalid
+        root.findViewById<Button>(R.id.clear).apply {
+            setText(if (changed) android.R.string.cancel else R.string.clear)
+            isEnabled = changed || saved[selected] != null
         }
-        is PlaceEditor.Read.Ok -> { places[selected] = r.place; true }
+        // The map shows the saved places, with the one being edited where it would go.
+        editor.setMarkers((0 until 3).mapNotNull { if (it == selected) draft else saved[it] })
     }
 
     private fun save() {
-        prefs.userDecoys = places.filterNotNull()
-        val stored = prefs.userDecoys
-        for (i in 0 until 3) { places[i] = stored.getOrNull(i); saved[i] = places[i] }
-        selected = selected.coerceAtMost(stored.size.coerceAtMost(2))
+        if (invalid) {
+            Toast.makeText(requireContext(), getString(R.string.invalid_place, selected + 1), Toast.LENGTH_LONG).show()
+            return
+        }
+        saved[selected] = draft
+        prefs.userDecoys = saved.filterNotNull()
+        // Saving packs the places to the front, so an emptied slot may move.
+        loadSaved()
+        selected = selected.coerceAtMost(saved.count { it != null }.coerceAtMost(2))
+        draft = saved[selected]
         binding = true
         root.findViewById<MaterialButtonToggleGroup>(R.id.slots).check(slotIds[selected])
         binding = false
-        showSlot()
+        showDraft()
         ListenerService.refresh(requireContext())
+        Toast.makeText(requireContext(), R.string.saved, Toast.LENGTH_SHORT).show()
     }
 
     override fun onResume() { super.onResume(); editor.onResume() }
