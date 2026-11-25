@@ -145,7 +145,17 @@ class ListenerService : Service() {
     private fun checkFullScreenPermission() {
         if (Build.VERSION.SDK_INT < 34) return
         val nm = getSystemService(NotificationManager::class.java)
-        if (nm.canUseFullScreenIntent()) { nm.cancel(Notifications.ID_STATUS + 1); return }
+        main.removeCallbacks(fsiRecheck)
+        if (nm.canUseFullScreenIntent()) {
+            if (fsiNoticeShown) EventLog.log("Full-screen notifications allowed again")
+            fsiNoticeShown = false
+            nm.cancel(Notifications.ID_STATUS + 1)
+            return
+        }
+        // Android sends no broadcast when this is granted: look again until it is.
+        main.postDelayed(fsiRecheck, 20_000)
+        if (fsiNoticeShown) return
+        fsiNoticeShown = true
         EventLog.log("Full-screen notifications are not allowed: asking the user to re-allow them")
         val fix = PendingIntent.getActivity(this, 20,
             Intent(android.provider.Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT, android.net.Uri.parse("package:$packageName")),
@@ -157,8 +167,12 @@ class ListenerService : Service() {
             .setStyle(Notification.BigTextStyle().bigText(getString(R.string.fsi_revoked_text)))
             .setContentIntent(fix)
             .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
             .build())
     }
+
+    private var fsiNoticeShown = false
+    private val fsiRecheck = Runnable { checkFullScreenPermission() }
 
     /** One line with the state of everything the app depends on, for the diagnostic log. */
     private fun logPermissions() {

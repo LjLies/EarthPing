@@ -153,7 +153,6 @@
     <string name="cat_connection">Connection</string>
     <string name="cat_about">About</string>
     <string name="loud_threshold">When to sound the alarm</string>
-    <string name="loud_threshold_note">Weaker earthquakes in your area still give an ordinary notification.</string>
     <string name="alarm_tone">Alarm tone</string>
     <string name="alarm_sound">Alarm volume</string>
     <string name="override_silence">Override silent mode</string>
@@ -382,8 +381,6 @@
     <string name="group_status">App status</string>
     <string name="ch_watched_public">Public alerts at watched places</string>
     <string name="ch_watched_public_desc">Floods, storms, fires and other alerts at the places you watch.</string>
-    <string name="notif_categories">Notification categories</string>
-    <string name="notif_categories_summary">Choose which alerts notify you, and how, in Android\'s settings</string>
     <string name="tts_rate">Speech speed</string>
     <string name="tts_expecting_mag">Now expecting %1$s, magnitude %2$s.</string>
     <string-array name="tts_rate_entries">
@@ -398,4 +395,6 @@
         <item>1.25</item>
         <item>1.4</item>
     </string-array>
+    <string name="crisis_alerts">Other public alerts</string>
+    <string name="crisis_alerts_summary">Floods, storms, fires and other alerts Google sends on the same channel</string>
 </resources>

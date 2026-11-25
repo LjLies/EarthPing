@@ -60,6 +60,10 @@ class Prefs(context: Context) {
         get() = p.getBoolean("onboarding_done", false)
         set(v) = p.edit().putBoolean("onboarding_done", v).apply()
 
+    /** Notify about public alerts other than earthquakes (floods, storms…). */
+    val crisisAlerts: Boolean
+        get() = p.getBoolean("crisis_alerts", true)
+
     /** Speech speed relative to the system's text-to-speech rate. */
     val ttsRate: Float
         get() = p.getString("tts_rate", null)?.toFloatOrNull()?.coerceIn(0.5f, 2f) ?: 1.1f

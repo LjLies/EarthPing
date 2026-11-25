@@ -140,7 +140,6 @@
     <string name="cat_connection">Koneksi</string>
     <string name="cat_about">Tentang</string>
     <string name="loud_threshold">Kapan alarm dibunyikan</string>
-    <string name="loud_threshold_note">Gempa yang lebih lemah di daerah Anda tetap memberi notifikasi biasa.</string>
     <string name="alarm_tone">Nada alarm</string>
     <string name="alarm_sound">Volume alarm</string>
     <string name="override_silence">Abaikan mode senyap</string>
@@ -326,8 +325,6 @@
     <string name="group_status">Status aplikasi</string>
     <string name="ch_watched_public">Peringatan publik di tempat yang dipantau</string>
     <string name="ch_watched_public_desc">Banjir, badai, kebakaran, dan peringatan lain di tempat yang Anda pantau.</string>
-    <string name="notif_categories">Kategori notifikasi</string>
-    <string name="notif_categories_summary">Pilih peringatan mana yang memberi tahu Anda, dan caranya, di setelan Android</string>
     <string name="tts_rate">Kecepatan ucapan</string>
     <string name="tts_expecting_mag">Sekarang diperkirakan %1$s, magnitudo %2$s.</string>
     <string-array name="tts_rate_entries">
@@ -336,4 +333,6 @@
         <item>Lebih cepat</item>
         <item>Jauh lebih cepat</item>
     </string-array>
+    <string name="crisis_alerts">Peringatan publik lain</string>
+    <string name="crisis_alerts_summary">Banjir, badai, kebakaran, dan peringatan lain yang dikirim Google melalui saluran yang sama</string>
 </resources>

@@ -9,7 +9,8 @@
             app:title="@string/loud_threshold"
             app:entries="@array/loud_entries"
             app:entryValues="@array/loud_values"
-            app:defaultValue="0" />
+            app:defaultValue="0"
+            app:useSimpleSummaryProvider="true" />
         <ListPreference
             app:key="alarm_tone"
             app:icon="@drawable/ic_pref_tone"
@@ -90,11 +91,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/cat_notifications">
-        <Preference
-            app:key="notif_categories"
-            app:icon="@drawable/ic_pref_bell"
-            app:title="@string/notif_categories"
-            app:summary="@string/notif_categories_summary" />
+        <SwitchPreferenceCompat
+            app:key="crisis_alerts"
+            app:icon="@drawable/ic_pref_storm"
+            app:title="@string/crisis_alerts"
+            app:summary="@string/crisis_alerts_summary"
+            app:defaultValue="true" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/cat_general">

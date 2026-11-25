@@ -142,7 +142,6 @@
     <string name="cat_connection">Σύνδεση</string>
     <string name="cat_about">Πληροφορίες</string>
     <string name="loud_threshold">Πότε να ηχεί ο συναγερμός</string>
-    <string name="loud_threshold_note">Οι ασθενέστεροι σεισμοί στην περιοχή σας δίνουν ούτως ή άλλως μια απλή ειδοποίηση.</string>
     <string name="alarm_tone">Ήχος συναγερμού</string>
     <string name="alarm_sound">Ένταση συναγερμού</string>
     <string name="override_silence">Παράκαμψη αθόρυβης λειτουργίας</string>
@@ -330,8 +329,6 @@
     <string name="group_status">Κατάσταση εφαρμογής</string>
     <string name="ch_watched_public">Δημόσιες ειδοποιήσεις σε παρακολουθούμενες τοποθεσίες</string>
     <string name="ch_watched_public_desc">Πλημμύρες, καταιγίδες, πυρκαγιές και άλλες ειδοποιήσεις στις τοποθεσίες που παρακολουθείτε.</string>
-    <string name="notif_categories">Κατηγορίες ειδοποιήσεων</string>
-    <string name="notif_categories_summary">Επιλέξτε στις ρυθμίσεις του Android ποιες ειδοποιήσεις λαμβάνετε και πώς</string>
     <string name="tts_rate">Ταχύτητα ομιλίας</string>
     <string name="tts_expecting_mag">Τώρα αναμένεται %1$s, μέγεθος %2$s.</string>
     <string-array name="tts_rate_entries">
@@ -340,4 +337,6 @@
         <item>Πιο γρήγορα</item>
         <item>Πολύ πιο γρήγορα</item>
     </string-array>
+    <string name="crisis_alerts">Άλλες δημόσιες ειδοποιήσεις</string>
+    <string name="crisis_alerts_summary">Πλημμύρες, καταιγίδες, πυρκαγιές και άλλες ειδοποιήσεις που στέλνει η Google από το ίδιο κανάλι</string>
 </resources>

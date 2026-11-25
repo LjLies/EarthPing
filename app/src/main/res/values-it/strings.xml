@@ -152,7 +152,6 @@
     <string name="cat_connection">Connessione</string>
     <string name="cat_about">Informazioni</string>
     <string name="loud_threshold">Quando suonare l\'allarme</string>
-    <string name="loud_threshold_note">Per i terremoti più deboli nella tua zona arriva comunque una notifica normale.</string>
     <string name="alarm_tone">Suono dell\'allarme</string>
     <string name="alarm_sound">Volume dell\'allarme</string>
     <string name="override_silence">Ignora la modalità silenziosa</string>
@@ -345,8 +344,6 @@
     <string name="group_status">Stato dell\'app</string>
     <string name="ch_watched_public">Allerte pubbliche nei luoghi seguiti</string>
     <string name="ch_watched_public_desc">Alluvioni, tempeste, incendi e altre allerte nei luoghi che segui.</string>
-    <string name="notif_categories">Categorie di notifiche</string>
-    <string name="notif_categories_summary">Scegli nelle impostazioni di Android quali allerte ti avvisano, e come</string>
     <string name="tts_rate">Velocità della voce</string>
     <string name="tts_expecting_mag">Ora si attendono %1$s, magnitudo %2$s.</string>
     <string-array name="tts_rate_entries">
@@ -355,4 +352,6 @@
         <item>Più veloce</item>
         <item>Molto più veloce</item>
     </string-array>
+    <string name="crisis_alerts">Altre allerte pubbliche</string>
+    <string name="crisis_alerts_summary">Alluvioni, tempeste, incendi e altre allerte che Google invia sullo stesso canale</string>
 </resources>

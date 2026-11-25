@@ -137,14 +137,23 @@ class AlertActivity : AppCompatActivity() {
             icon = getDrawable(R.drawable.ic_you)
         })
         val pts = listOfNotNull(q.user, epi)
-        if (refit) map.post {
-            if (pts.size >= 2) {
-                val box = BoundingBox.fromGeoPoints(pts.map { gp(it) })
-                val padded = box.increaseByScale(1.6f)
-                map.zoomToBoundingBox(padded, false, 40)
-            } else {
-                map.controller.setZoom(8.0); map.controller.setCenter(gp(q.user))
-            }
+        if (refit) map.post { fit(pts) }
+    }
+
+    /**
+     * Shows [pts] with some margin. osmdroid computes a NaN zoom (and stops responding) when the
+     * margins leave no room, so the margin shrinks with the map, and a tiny map just centres.
+     */
+    private fun fit(pts: List<LatLng>) {
+        val w = map.width
+        val h = map.height
+        val border = (minOf(w, h) / 8).coerceAtMost(40)
+        if (pts.size >= 2 && w >= 120 && h >= 120) {
+            val box = BoundingBox.fromGeoPoints(pts.map { gp(it) }).increaseByScale(1.6f)
+            map.zoomToBoundingBox(box, false, border)
+        } else {
+            map.controller.setZoom(7.0)
+            map.controller.setCenter(gp(pts.first()))
         }
     }
 

@@ -472,14 +472,14 @@ object AlertCenter {
      * The first sentence, shorter when there is little time: the distance goes below 15 s, the
      * magnitude below 8 s. The seconds left follow separately (Speaker), so they are current.
      */
-    private fun announcement(q: LocalQuake, sp: Spoken): String {
+    private fun announcement(q: LocalQuake, sp: Spoken): List<String> {
         val secs = secondsLeft(q) ?: Int.MAX_VALUE
         return listOfNotNull(
             if (q.isTest) sp.s(R.string.tts_test) else null,
             sp.s(R.string.tts_earthquake),
             q.magnitude?.takeIf { secs >= 8 }?.let { sp.s(R.string.tts_magnitude, sp.fmt1(it)) },
             q.distanceKm?.takeIf { secs >= 15 }?.let { sp.s(R.string.tts_distance, sp.km(it)) },
-        ).joinToString(" ")
+        )
     }
 
     private fun secondsLeft(q: LocalQuake): Int? = q.sArrivalLocalMs?.let { ((it - System.currentTimeMillis()) / 1000).toInt() }
@@ -597,7 +597,7 @@ object AlertCenter {
         val previous = crisisSeen.put(a.id, fingerprint)
         if (previous == fingerprint) return // periodic re-issue
         AlertHistory.add(app, a, sub)
-        if (sub == null) return
+        if (!prefs.crisisAlerts || sub == null) return
         val local = sub.primary
         if (!local && Places.isAutoDecoy(sub.place)) return
         val title = (a.title ?: str(R.string.crisis_generic)) + if (!local) " · ${sub.place.name}" else ""
@@ -622,6 +622,9 @@ object AlertCenter {
     // ------------------------------------------------------------------ test mode
 
     /** Synthesizes an alert near the user whose S-wave arrives [Prefs.testLeadS] seconds from now. */
+    /** Store screenshots: a real (recorded) alert delivered as if it had just arrived. */
+    internal fun deliverForScreenshot(a: GoogleAlert, user: LatLng) = localQuake(a, user, isTest = false, System.currentTimeMillis())
+
     fun fireTest() {
         main.post {
             val user = prefs.effectiveLocation() ?: LatLng(41.9028, 12.4964)

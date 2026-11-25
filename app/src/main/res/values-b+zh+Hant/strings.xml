@@ -140,7 +140,6 @@
     <string name="cat_connection">連線</string>
     <string name="cat_about">關於</string>
     <string name="loud_threshold">何時響起警報音</string>
-    <string name="loud_threshold_note">你所在地區較弱的地震仍會發出一般通知。</string>
     <string name="alarm_tone">警報音</string>
     <string name="alarm_sound">警報音量</string>
     <string name="override_silence">忽略靜音模式</string>
@@ -326,8 +325,6 @@
     <string name="group_status">應用程式狀態</string>
     <string name="ch_watched_public">關注地點的公共警報</string>
     <string name="ch_watched_public_desc">你關注的地點的淹水、暴風、火災和其他警報。</string>
-    <string name="notif_categories">通知類別</string>
-    <string name="notif_categories_summary">在 Android 設定中選擇哪些警報要通知你，以及通知方式</string>
     <string name="tts_rate">語速</string>
     <string name="tts_expecting_mag">現在預計%1$s，規模 %2$s。</string>
     <string-array name="tts_rate_entries">
@@ -336,4 +333,6 @@
         <item>較快</item>
         <item>快很多</item>
     </string-array>
+    <string name="crisis_alerts">其他公共警報</string>
+    <string name="crisis_alerts_summary">Google 透過同一頻道傳送的淹水、暴風、火災和其他警報</string>
 </resources>

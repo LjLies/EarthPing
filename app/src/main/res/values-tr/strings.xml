@@ -142,7 +142,6 @@
     <string name="cat_connection">Bağlantı</string>
     <string name="cat_about">Hakkında</string>
     <string name="loud_threshold">Alarm ne zaman çalsın</string>
-    <string name="loud_threshold_note">Bölgenizdeki daha zayıf depremler yine de normal bir bildirim verir.</string>
     <string name="alarm_tone">Alarm sesi</string>
     <string name="alarm_sound">Alarm ses düzeyi</string>
     <string name="override_silence">Sessiz modu geçersiz kıl</string>
@@ -330,8 +329,6 @@
     <string name="group_status">Uygulama durumu</string>
     <string name="ch_watched_public">İzlenen yerlerdeki kamu uyarıları</string>
     <string name="ch_watched_public_desc">İzlediğiniz yerlerdeki sel, fırtına, yangın ve diğer uyarılar.</string>
-    <string name="notif_categories">Bildirim kategorileri</string>
-    <string name="notif_categories_summary">Hangi uyarıların ve nasıl bildirileceğini Android ayarlarında seçin</string>
     <string name="tts_rate">Konuşma hızı</string>
     <string name="tts_expecting_mag">Şimdi %1$s bekleniyor, büyüklük %2$s.</string>
     <string-array name="tts_rate_entries">
@@ -340,4 +337,6 @@
         <item>Daha hızlı</item>
         <item>Çok daha hızlı</item>
     </string-array>
+    <string name="crisis_alerts">Diğer kamu uyarıları</string>
+    <string name="crisis_alerts_summary">Google\'ın aynı kanaldan gönderdiği sel, fırtına, yangın ve diğer uyarılar</string>
 </resources>

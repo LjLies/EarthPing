@@ -49,13 +49,8 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         click("permissions") {
             startActivity(Intent(requireContext(), OnboardingActivity::class.java).putExtra(OnboardingActivity.EXTRA_REVIEW, true))
         }
-        click("notif_categories") {
-            open(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName))
-        }
         click("diagnostics") { startActivity(Intent(requireContext(), LogActivity::class.java)) }
         click("source") { open(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.source_url)))) }
-        findPreference<androidx.preference.ListPreference>("loud_min_mmi")?.summaryProvider =
-            Preference.SummaryProvider<androidx.preference.ListPreference> { p -> "${p.entry}\n${getString(R.string.loud_threshold_note)}" }
         findPreference<Preference>("about")?.summary = getString(R.string.about_summary, BuildConfig.VERSION_NAME)
         updateSummaries()
     }

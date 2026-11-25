@@ -207,11 +207,11 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     }
 
     /**
-     * Speaks [announcement], then [lead] with the seconds left at that moment ("Shaking in about
+     * Speaks the [announcement] sentences, then [lead] with the seconds left at that moment ("Shaking in about
      * 19 seconds"), then counts down to the time returned by [target] (S-wave arrival, device
      * clock ms), saying each number as [number] words it. Nothing is said at zero.
      */
-    fun start(announcement: String, target: () -> Long?, lead: (Int) -> String, number: (Int) -> String) = main.post {
+    fun start(announcement: List<String>, target: () -> Long?, lead: (Int) -> String, number: (Int) -> String) = main.post {
         stopInternal()
         finished = false
         numberText = number
@@ -220,8 +220,10 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
         lastSpoken = Int.MAX_VALUE
         whenReady {
             if (finished) return@whenReady
-            EventLog.log("Speaking (${wanted.toLanguageTag()}, ${"%.2f".format(java.util.Locale.US, systemRate() * rateFactor)}×, latency ~$latencyMs ms): $announcement")
-            announcementId = say(announcement, flush = true)
+            EventLog.log("Speaking (${wanted.toLanguageTag()}, ${"%.2f".format(java.util.Locale.US, systemRate() * rateFactor)}×, latency ~$latencyMs ms): ${announcement.joinToString(" ")}")
+            // One utterance per sentence: engines give each its own emphasis ("Earthquake!").
+            announcementId = null
+            announcement.forEachIndexed { i, text -> announcementId = say(text, flush = i == 0) ?: announcementId }
             announcementDone = announcementId == null
             main.postDelayed(tick, 100)
         }
@@ -256,8 +258,10 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
                         // Said only now, so its number is current; skipped when the countdown
                         // itself is about to start.
                         leadText = null
-                        if (n > 10) {
-                            say(lead(n), flush = false)
+                        // The number comes about a second into the sentence.
+                        val heard = ((remainingMs - 1000) / 1000).toInt()
+                        if (heard > 10) {
+                            say(lead(heard), flush = false)
                             lastSpoken = n
                         }
                     }

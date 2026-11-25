@@ -1,0 +1,7 @@
+• Alert screen works in landscape (it could freeze when the phone was turned)
+• Starts at boot before the first unlock, and restarts after crashes
+• Alert history on a map, with each earthquake's latest details
+• Spanish, Turkish, Greek, Indonesian and Traditional Chinese
+• Spoken seconds are current when said; adjustable speech speed
+• Grouped notification categories; Do Not Disturb is lifted only if it blocks alarms
+• A short notice before alerts are first turned on

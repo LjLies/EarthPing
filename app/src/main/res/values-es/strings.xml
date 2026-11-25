@@ -144,7 +144,6 @@
     <string name="cat_connection">Conexión</string>
     <string name="cat_about">Información</string>
     <string name="loud_threshold">Cuándo hacer sonar la alarma</string>
-    <string name="loud_threshold_note">Los terremotos más débiles en tu zona generan igualmente una notificación normal.</string>
     <string name="alarm_tone">Tono de alarma</string>
     <string name="alarm_sound">Volumen de la alarma</string>
     <string name="override_silence">Ignorar el modo silencio</string>
@@ -334,8 +333,6 @@
     <string name="group_status">Estado de la aplicación</string>
     <string name="ch_watched_public">Alertas públicas en lugares vigilados</string>
     <string name="ch_watched_public_desc">Inundaciones, tormentas, incendios y otras alertas en los lugares que vigilas.</string>
-    <string name="notif_categories">Categorías de notificaciones</string>
-    <string name="notif_categories_summary">Elige en los ajustes de Android qué alertas te avisan y cómo</string>
     <string name="tts_rate">Velocidad de la voz</string>
     <string name="tts_expecting_mag">Ahora se esperan %1$s, magnitud %2$s.</string>
     <string-array name="tts_rate_entries">
@@ -344,4 +341,6 @@
         <item>Más rápida</item>
         <item>Mucho más rápida</item>
     </string-array>
+    <string name="crisis_alerts">Otras alertas públicas</string>
+    <string name="crisis_alerts_summary">Inundaciones, tormentas, incendios y otras alertas que Google envía por el mismo canal</string>
 </resources>
