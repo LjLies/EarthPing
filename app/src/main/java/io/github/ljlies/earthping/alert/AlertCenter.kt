@@ -136,10 +136,10 @@ object AlertCenter {
         fun km(v: Double) = if (v < 10) fmt1(v) else Math.round(v).toString()
 
         /**
-         * A countdown step: "25 seconds." for the round markers, a bare "Nine." for the last ten
+         * A countdown step: "25 seconds." for the round markers down to ten, then a bare "Nine."
          * (short, so it is not cut off; a sentence, so neural voices don't clip its start).
          */
-        fun countdown(n: Int) = if (n > 10) ctx.resources.getQuantityString(R.plurals.tts_seconds_marker, n, n)
+        fun countdown(n: Int) = if (n >= 10) ctx.resources.getQuantityString(R.plurals.tts_seconds_marker, n, n)
             else NumberWords.spell(n, locale).replaceFirstChar { it.titlecase(locale) } + "."
     }
 
