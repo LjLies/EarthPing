@@ -96,6 +96,7 @@ class ListenerService : Service() {
 
     lateinit var controller: ConnectionController
         private set
+    private var dndWatch: DndWatch? = null
     private lateinit var prefs: Prefs
     private lateinit var location: LocationTracker
     private val main = Handler(Looper.getMainLooper())
@@ -126,6 +127,7 @@ class ListenerService : Service() {
         checkFullScreenPermission()
         AlertCenter.init(this)
         io.github.ljlies.earthping.alert.AlarmPlayer.clearOwnDndMode(this)
+        dndWatch = DndWatch(this).also { it.start() }
         controller = ConnectionController(this) { AlertCenter.onDataMessage(it) }
         location = LocationTracker(this) { onLocation(it) }
         location.start()
@@ -202,6 +204,7 @@ class ListenerService : Service() {
                 controller.onAlarm(ConnectionController.ACTION_RECONNECT)
             }
             ACTION_REFRESH -> {
+                dndWatch?.check()
                 Notifications.ensureChannels(this)
                 checkFullScreenPermission()
                 if (!AlertCenter.speaker.available) AlertCenter.speaker.warmUp()
@@ -360,6 +363,7 @@ class ListenerService : Service() {
         if (!running) { super.onDestroy(); return }
         running = false
         instance = null
+        dndWatch?.stop()
         ServiceStatus.removeListener(statusListener)
         main.removeCallbacksAndMessages(null)
         location.stop()
