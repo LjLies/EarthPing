@@ -60,6 +60,11 @@ class Prefs(context: Context) {
         get() = p.getBoolean("onboarding_done", false)
         set(v) = p.edit().putBoolean("onboarding_done", v).apply()
 
+    /** The "experimental, unofficial" notice was acknowledged. */
+    var disclaimerShown: Boolean
+        get() = p.getBoolean("disclaimer_shown", false)
+        set(v) = p.edit().putBoolean("disclaimer_shown", v).apply()
+
     var serviceEnabled: Boolean
         get() = p.getBoolean("service_enabled", true)
         set(v) = p.edit().putBoolean("service_enabled", v).apply()

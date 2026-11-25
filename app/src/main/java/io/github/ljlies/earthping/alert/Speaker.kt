@@ -41,7 +41,7 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     private var countdownTarget: (() -> Long?)? = null
     private var lastSpoken = Int.MAX_VALUE
     private var finished = true
-    private var finalText = ""
+    private var numberText: (Int) -> String = { it.toString() }
 
     // Utterance bookkeeping (main thread only)
     private val issuedAt = HashMap<String, Long>()
@@ -195,12 +195,12 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
 
     /**
      * Speaks [announcement], then counts down to the time returned by [target] (S-wave arrival,
-     * device clock ms), and finally speaks [atZero].
+     * device clock ms), saying each number as [number] words it. Nothing is said at zero.
      */
-    fun start(announcement: String, target: () -> Long?, atZero: String) = main.post {
+    fun start(announcement: String, target: () -> Long?, number: (Int) -> String) = main.post {
         stopInternal()
         finished = false
-        finalText = atZero
+        numberText = number
         countdownTarget = target
         lastSpoken = Int.MAX_VALUE
         whenReady {
@@ -226,7 +226,6 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
             // Speak each number early by the engine's latency, so it is heard on time.
             val remainingMs = target - System.currentTimeMillis() - latencyMs
             if (remainingMs <= 0) {
-                say(finalText, flush = true)
                 finished = true
                 return
             }
@@ -250,8 +249,7 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
 
     private fun shouldSpeak(r: Int) = r <= 10 || (r <= 60 && r % 5 == 0) || r % 10 == 0
 
-    /** "Nine." rather than "nine": a whole sentence keeps neural voices from clipping its start. */
-    private fun number(n: Int): String = NumberWords.spell(n, wanted).replaceFirstChar { it.titlecase(wanted) } + "."
+    private fun number(n: Int): String = numberText(n)
 
     private fun stopInternal() {
         finished = true
@@ -273,36 +271,15 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     }
 }
 
-/** Countdown numbers as words, for the languages the app speaks; digits otherwise. */
+/**
+ * Countdown numbers as words in any language (ICU's spell-out rules). Bare digits would leave the
+ * engine to guess the language from nothing, and "9." reads as an ordinal in German or Turkish.
+ */
 object NumberWords {
-    private val EN_ONES = arrayOf("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-        "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen")
-    private val EN_TENS = arrayOf("", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety")
-    private val IT_ONES = arrayOf("zero", "uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove", "dieci",
-        "undici", "dodici", "tredici", "quattordici", "quindici", "sedici", "diciassette", "diciotto", "diciannove")
-    private val IT_TENS = arrayOf("", "", "venti", "trenta", "quaranta", "cinquanta", "sessanta", "settanta", "ottanta", "novanta")
-
-    fun spell(n: Int, locale: Locale): String = when {
-        n !in 0..199 -> n.toString()
-        locale.language == "en" -> en(n)
-        locale.language == "it" -> it(n)
-        else -> n.toString()
-    }
-
-    private fun en(n: Int): String = when {
-        n < 20 -> EN_ONES[n]
-        n < 100 -> EN_TENS[n / 10] + if (n % 10 != 0) "-" + EN_ONES[n % 10] else ""
-        else -> "one hundred" + if (n % 100 != 0) " " + en(n % 100) else ""
-    }
-
-    private fun it(n: Int): String = when {
-        n < 20 -> IT_ONES[n]
-        n < 100 -> {
-            val u = n % 10
-            val tens = IT_TENS[n / 10].let { if (u == 1 || u == 8) it.dropLast(1) else it }
-            tens + when (u) { 0 -> ""; 3 -> "tré"; else -> IT_ONES[u] }
-        }
-        n == 100 -> "cento"
-        else -> it(n % 100).let { rest -> if (rest.startsWith("o")) "cent$rest" else "cento$rest" }
+    fun spell(n: Int, locale: Locale): String = try {
+        // ICU puts soft hyphens inside long Italian and German words: they would only confuse engines.
+        android.icu.text.MessageFormat("{0,spellout}", locale).format(arrayOf<Any>(n)).replace("\u00AD", "")
+    } catch (e: Exception) {
+        n.toString()
     }
 }

@@ -53,8 +53,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (Prefs(this).serviceEnabled) ListenerService.refresh(this)
+        val prefs = Prefs(this)
+        if (prefs.serviceEnabled) {
+            ListenerService.refresh(this)
+            // Installs from before the notice existed: show it once; declining turns alerts off.
+            if (Disclaimer.needed(this) && !disclaimerShowing) {
+                disclaimerShowing = true
+                Disclaimer.ensure(this, { disclaimerShowing = false }, {
+                    disclaimerShowing = false
+                    prefs.serviceEnabled = false
+                    io.github.ljlies.earthping.EventLog.log("Disclaimer declined: alerts turned off")
+                    stopService(Intent(this, ListenerService::class.java))
+                    supportFragmentManager.fragments.filterIsInstance<StatusFragment>().forEach { it.refresh() }
+                })
+            }
+        }
     }
+
+    private var disclaimerShowing = false
 
     fun selectTab(id: Int) {
         findViewById<BottomNavigationView>(R.id.bottom_nav).selectedItemId = id

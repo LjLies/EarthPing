@@ -85,10 +85,19 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun finishOnboarding() {
+        if (!prefs.onboardingDone) {
+            // Alerts come on at the end of the first onboarding, after the notice.
+            Disclaimer.ensure(this, { completeOnboarding(alerts = true) }, { completeOnboarding(alerts = false) })
+        } else {
+            completeOnboarding(alerts = false)
+        }
+    }
+
+    private fun completeOnboarding(alerts: Boolean) {
         Notifications.ensureChannels(this)
         val first = !prefs.onboardingDone
         prefs.onboardingDone = true
-        if (first) prefs.serviceEnabled = true
+        if (first) prefs.serviceEnabled = alerts
         if (prefs.serviceEnabled) {
             ListenerService.start(this, "onboarding")
             ListenerService.refresh(this)

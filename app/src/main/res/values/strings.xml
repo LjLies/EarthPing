@@ -61,7 +61,10 @@
         <item quantity="one">Shaking in %d second.</item>
         <item quantity="other">Shaking in %d seconds.</item>
     </plurals>
-    <string name="tts_now">Shaking now.</string>
+    <plurals name="tts_seconds_marker">
+        <item quantity="one">%d second.</item>
+        <item quantity="other">%d seconds.</item>
+    </plurals>
 
     <!-- Alerts pane -->
     <string name="chip_listening">Listening</string>
@@ -365,4 +368,9 @@
         <item quantity="other">updated %d times</item>
     </plurals>
     <string name="history_km_from_you">%s km from you</string>
+
+    <!-- Shown once, before alerts are first turned on -->
+    <string name="disclaimer_title">Before you turn on alerts</string>
+    <string name="disclaimer_full">EarthPing is experimental, and so far it has been tested by very few people.\n\n• It can miss earthquakes, warn late or give false alarms, for example when there is no network connection or the system stops the app. Do not rely on it as your main source of safety information: keep your phone\'s official emergency alerts on and follow your local authorities.\n\n• The countdown and the expected shaking are estimates. Shaking can arrive sooner, or be stronger, than shown.\n\n• EarthPing receives the alerts by connecting to Google\'s servers with an anonymous identity. It is not made, endorsed or supported by Google, and Google is not responsible for it. Google can change or stop this service at any time.\n\n• It is up to you to make sure that using it is allowed by any terms or laws that apply to you.\n\n• EarthPing is free software and comes with no warranty.</string>
+    <string name="disclaimer_understood">I understand</string>
 </resources>

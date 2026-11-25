@@ -27,6 +27,7 @@ import java.io.File
 class ScreenshotTest {
     private fun prefs(onboarded: Boolean = true) = Prefs(RuntimeEnvironment.getApplication()).apply {
         onboardingDone = onboarded
+        disclaimerShown = onboarded
         manualLocation = LatLng(41.9028, 12.4964)
         manualLocationEnabled = true
         userDecoys = listOf(Place("Napoli", 40.85, 14.27))
@@ -84,5 +85,19 @@ class ScreenshotTest {
         StayAliveTest.seedHistory(app)
         shoot("history-map", io.github.ljlies.earthping.ui.HistoryMapActivity::class.java)
         shoot("alerts-history", MainActivity::class.java)
+    }
+
+    @Test fun disclaimer() {
+        prefs().disclaimerShown = false
+        val dir = System.getProperty("screenshots")
+        assumeTrue(dir != null)
+        Robolectric.buildActivity(MainActivity::class.java).setup().get()
+        ShadowLooper.idleMainLooper()
+        val root = org.robolectric.shadows.ShadowDialog.getLatestDialog().window!!.decorView
+        root.measure(View.MeasureSpec.makeMeasureSpec(740, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(1700, View.MeasureSpec.AT_MOST))
+        root.layout(0, 0, 740, root.measuredHeight)
+        val bitmap = Bitmap.createBitmap(740, root.measuredHeight, Bitmap.Config.ARGB_8888)
+        root.draw(Canvas(bitmap))
+        File(dir, "disclaimer.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
 }

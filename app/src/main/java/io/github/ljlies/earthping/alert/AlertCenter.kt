@@ -134,6 +134,13 @@ object AlertCenter {
         fun shaking(mmi: Double) = ctx.resources.getStringArray(R.array.shaking_terms)[(Math.round(mmi).toInt().coerceIn(3, 10)) - 3]
         fun fmt1(v: Double) = String.format(locale, "%.1f", v)
         fun km(v: Double) = if (v < 10) fmt1(v) else Math.round(v).toString()
+
+        /**
+         * A countdown step: "25 seconds." for the round markers, a bare "Nine." for the last ten
+         * (short, so it is not cut off; a sentence, so neural voices don't clip its start).
+         */
+        fun countdown(n: Int) = if (n > 10) ctx.resources.getQuantityString(R.plurals.tts_seconds_marker, n, n)
+            else NumberWords.spell(n, locale).replaceFirstChar { it.titlecase(locale) } + "."
     }
 
     private fun spoken(): Spoken {
@@ -422,7 +429,7 @@ object AlertCenter {
         }
         if (prefs.ttsEnabled) {
             val sp = spoken()
-            speaker.start(announcement(q, sp), { q.sArrivalLocalMs?.takeIf { it > System.currentTimeMillis() - 1000 } }, sp.s(R.string.tts_now))
+            speaker.start(announcement(q, sp), { q.sArrivalLocalMs?.takeIf { it > System.currentTimeMillis() - 1000 } }, sp::countdown)
         }
         scheduleSirenStop(q)
     }
@@ -449,7 +456,7 @@ object AlertCenter {
         val s = q.sArrivalLocalMs
         if (s != null) {
             val secs = ((s - System.currentTimeMillis()) / 1000).toInt()
-            if (secs > 0) sb.append(sp.seconds(secs)) else sb.append(sp.s(R.string.tts_now))
+            if (secs > 0) sb.append(sp.seconds(secs))
         }
         return sb.toString().trim()
     }

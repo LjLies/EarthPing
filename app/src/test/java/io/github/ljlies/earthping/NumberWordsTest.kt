@@ -5,6 +5,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.Locale
 
+@org.junit.runner.RunWith(org.robolectric.RobolectricTestRunner::class)
+@org.robolectric.annotation.Config(sdk = [35])
 class NumberWordsTest {
     @Test fun english() {
         val en = Locale.ENGLISH
@@ -26,8 +28,9 @@ class NumberWordsTest {
         assertEquals("centoventi", NumberWords.spell(120, it))
     }
 
-    @Test fun otherLanguagesUseDigits() {
-        assertEquals("15", NumberWords.spell(15, Locale.GERMAN))
-        assertEquals("250", NumberWords.spell(250, Locale.ENGLISH))
+    @Test fun otherLanguages() {
+        assertEquals("fünfzehn", NumberWords.spell(15, Locale.GERMAN))
+        assertEquals("diecinueve", NumberWords.spell(19, Locale.forLanguageTag("es")))
+        assertEquals("dokuz", NumberWords.spell(9, Locale.forLanguageTag("tr")))
     }
 }

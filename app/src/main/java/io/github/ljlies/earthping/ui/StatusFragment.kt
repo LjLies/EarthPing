@@ -51,7 +51,12 @@ class StatusFragment : Fragment() {
         view.findViewById<MaterialSwitch>(R.id.service_switch).setOnCheckedChangeListener { sw, on ->
             if (binding) return@setOnCheckedChangeListener
             if (on) {
-                setAlerts(true)
+                if (Disclaimer.needed(requireActivity())) {
+                    binding = true
+                    sw.isChecked = false
+                    binding = false
+                }
+                Disclaimer.ensure(requireActivity(), { setAlerts(true) })
             } else {
                 // Turning warnings off by accident would be dangerous: ask first.
                 binding = true
@@ -155,7 +160,7 @@ class StatusFragment : Fragment() {
         }
     }
 
-    private fun refresh() {
+    fun refresh() {
         if (!isAdded) return
         val ctx = requireContext()
         val s = ServiceStatus

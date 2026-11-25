@@ -59,7 +59,11 @@
         <item quantity="many">Scosse tra %d secondi.</item>
         <item quantity="other">Scosse tra %d secondi.</item>
     </plurals>
-    <string name="tts_now">Scosse in arrivo.</string>
+    <plurals name="tts_seconds_marker">
+        <item quantity="one">%d secondo.</item>
+        <item quantity="many">%d secondi.</item>
+        <item quantity="other">%d secondi.</item>
+    </plurals>
 
     <!-- Scheda Allerte -->
     <string name="chip_listening">In ascolto</string>
@@ -332,4 +336,9 @@
         <item quantity="other">aggiornata %d volte</item>
     </plurals>
     <string name="history_km_from_you">a %s km da te</string>
+
+    <!-- Shown once, before alerts are first turned on -->
+    <string name="disclaimer_title">Prima di attivare le allerte</string>
+    <string name="disclaimer_full">EarthPing è sperimentale e finora è stata provata da pochissime persone.\n\n• Può non segnalare un terremoto, avvisare in ritardo o dare falsi allarmi, per esempio quando manca la connessione o il sistema chiude l\'app. Non usarla come fonte principale di informazioni per la tua sicurezza: tieni attive le allerte di emergenza ufficiali del telefono e segui le indicazioni delle autorità locali.\n\n• Il conto alla rovescia e le scosse previste sono stime. Le scosse possono arrivare prima, o essere più forti, di quanto indicato.\n\n• EarthPing riceve le allerte collegandosi ai server di Google con un\'identità anonima. Non è realizzata, approvata né supportata da Google, e Google non ne è responsabile. Google può modificare o interrompere questo servizio in qualsiasi momento.\n\n• Sta a te assicurarti che usarla sia consentito dai termini o dalle leggi che ti riguardano.\n\n• EarthPing è software libero e non è fornita alcuna garanzia.</string>
+    <string name="disclaimer_understood">Ho capito</string>
 </resources>
