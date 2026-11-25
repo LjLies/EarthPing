@@ -257,32 +257,6 @@ class AlarmPlayer(private val ctx: Context) {
                 ifUnknown
             }
         }
-
-        /**
-         * Undoes a bug of versions 0.4.1 to 0.4.3, once.
-         *
-         * Those versions turned DND off during an alarm and back on afterwards. On Android 15+
-         * an app can't touch the user's DND: setInterruptionFilter() only switches a separate
-         * "Do Not Disturb (EarthPing)" mode that belongs to the app. So "turning it back on"
-         * actually switched that app mode on, with the user's setting, and nothing ever
-         * switched it off. Setting the filter to "all" switches the app's mode off again; on
-         * Android 15+ it can't affect the user's own DND or modes.
-         */
-        fun clearOwnDndMode(ctx: android.content.Context) {
-            if (android.os.Build.VERSION.SDK_INT < 35) return
-            val prefs = io.github.ljlies.earthping.Prefs(ctx)
-            if (prefs.raw.getBoolean("own_dnd_mode_cleared", false)) return
-            val nm = ctx.getSystemService(NotificationManager::class.java)
-            try {
-                if (nm.isNotificationPolicyAccessGranted) {
-                    nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL)
-                    EventLog.log("Turned off EarthPing's own Do Not Disturb mode, if it was on")
-                }
-                prefs.raw.edit().putBoolean("own_dnd_mode_cleared", true).apply()
-            } catch (e: Exception) {
-                EventLog.log("Cannot clear EarthPing's Do Not Disturb mode: $e")
-            }
-        }
     }
 
     private fun restoreSilence() {
