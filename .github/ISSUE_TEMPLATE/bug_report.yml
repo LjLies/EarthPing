@@ -1,0 +1,26 @@
+name: Problem report
+description: A missed or false alert, a crash, or anything else that doesn't work
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, and what happened instead. For an alert, say roughly when and where.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: |
+        In EarthPing, open Settings → Diagnostics, tap Copy and paste it here. It includes the
+        connection state, your settings and the recent log. It also contains your approximate
+        location: remove the coordinates if you prefer.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: tts
+    attributes:
+      label: Text-to-speech engine
+      description: Only if the problem is about the spoken warning.
