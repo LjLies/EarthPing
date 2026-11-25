@@ -399,4 +399,5 @@
     <string name="crisis_alerts_summary">Floods, storms, fires and other alerts Google sends on the same channel</string>
     <string name="dnd_blocked_title">Earthquake alarms were silenced</string>
     <string name="dnd_blocked_text">Do Not Disturb silenced alarm sounds from %1$s to %2$s, so an earthquake alarm would not have been heard.</string>
+    <string name="place_not_saved">Change not saved</string>
 </resources>

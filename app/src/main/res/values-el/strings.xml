@@ -341,4 +341,5 @@
     <string name="crisis_alerts_summary">Πλημμύρες, καταιγίδες, πυρκαγιές και άλλες ειδοποιήσεις που στέλνει η Google από το ίδιο κανάλι</string>
     <string name="dnd_blocked_title">Οι συναγερμοί σεισμού ήταν σε σίγαση</string>
     <string name="dnd_blocked_text">Το Μην ενοχλείτε έθεσε σε σίγαση τους ήχους συναγερμού από %1$s έως %2$s, οπότε ένας συναγερμός σεισμού δεν θα ακουγόταν.</string>
+    <string name="place_not_saved">Η αλλαγή δεν αποθηκεύτηκε</string>
 </resources>
