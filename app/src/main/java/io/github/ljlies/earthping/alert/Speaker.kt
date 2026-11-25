@@ -207,11 +207,11 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
     }
 
     /**
-     * Speaks the [announcement] sentences, then [lead] with the seconds left at that moment ("Shaking in about
+     * Speaks [announcement] (never cut short), then [lead] with the seconds left at that moment ("Shaking in about
      * 19 seconds"), then counts down to the time returned by [target] (S-wave arrival, device
      * clock ms), saying each number as [number] words it. Nothing is said at zero.
      */
-    fun start(announcement: List<String>, target: () -> Long?, lead: (Int) -> String, number: (Int) -> String) = main.post {
+    fun start(announcement: String, target: () -> Long?, lead: (Int) -> String, number: (Int) -> String) = main.post {
         stopInternal()
         finished = false
         numberText = number
@@ -220,10 +220,8 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
         lastSpoken = Int.MAX_VALUE
         whenReady {
             if (finished) return@whenReady
-            EventLog.log("Speaking (${wanted.toLanguageTag()}, ${"%.2f".format(java.util.Locale.US, systemRate() * rateFactor)}×, latency ~$latencyMs ms): ${announcement.joinToString(" ")}")
-            // One utterance per sentence: engines give each its own emphasis ("Earthquake!").
-            announcementId = null
-            announcement.forEachIndexed { i, text -> announcementId = say(text, flush = i == 0) ?: announcementId }
+            EventLog.log("Speaking (${wanted.toLanguageTag()}, ${"%.2f".format(java.util.Locale.US, systemRate() * rateFactor)}×, latency ~$latencyMs ms): $announcement")
+            announcementId = say(announcement, flush = true)
             announcementDone = announcementId == null
             main.postDelayed(tick, 100)
         }
@@ -251,8 +249,8 @@ class Speaker(private val ctx: Context, private val onSpeaking: (Boolean) -> Uni
             val lead = leadText
             if (lead != null) {
                 when {
-                    // The last seconds come out even if the announcement must be cut.
-                    !announcementDone && n <= 5 -> { leadText = null; announcementDone = true }
+                    // The announcement is never cut: the countdown picks up after it, skipping
+                    // the numbers that went by (with little time, the announcement is short).
                     !announcementDone -> { main.postDelayed(this, 50); return }
                     else -> {
                         // Said only now, so its number is current; skipped when the countdown
