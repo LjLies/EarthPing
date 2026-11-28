@@ -393,6 +393,7 @@ class ListenerService : Service() {
         if (!running) { super.onDestroy(); return }
         running = false
         instance = null
+        dndWatch?.stop()
         unregisterScreenOn()
         dndWatch?.stop()
         ServiceStatus.removeListener(statusListener)
