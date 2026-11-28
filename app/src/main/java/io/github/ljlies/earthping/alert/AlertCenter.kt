@@ -100,7 +100,9 @@ object AlertCenter {
 
     @Synchronized
     fun init(ctx: Context) {
-        if (::app.isInitialized) return
+        // Once per process; tests get a new application each time.
+        if (::app.isInitialized && app === ctx.applicationContext) return
+        if (::app.isInitialized) speaker.shutdown()
         app = ctx.applicationContext
         prefs = Prefs(app)
         player = AlarmPlayer(app).also { it.warmUp() }
@@ -615,8 +617,14 @@ object AlertCenter {
 
     private fun notifyOther(id: String, channel: String, title: String, text: String, silent: Boolean = false) {
         val nm = app.getSystemService(NotificationManager::class.java)
-        val open = PendingIntent.getActivity(app, 12, Intent(app, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE)
-        nm.notify(1000 + (id.hashCode() and 0xFFFFF), Notification.Builder(app, channel)
+        // Opens this alert on the alert map, with the main screen behind it for Back.
+        val notificationId = 1000 + (id.hashCode() and 0xFFFFF)
+        val open = android.app.TaskStackBuilder.create(app)
+            .addNextIntent(Intent(app, MainActivity::class.java))
+            .addNextIntent(Intent(app, io.github.ljlies.earthping.ui.HistoryMapActivity::class.java)
+                .putExtra(io.github.ljlies.earthping.ui.HistoryMapActivity.EXTRA_EVENT, id))
+            .getPendingIntent(notificationId, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        nm.notify(notificationId, Notification.Builder(app, channel)
             .setSmallIcon(R.drawable.ic_stat_quake)
             .setContentTitle(title)
             .setContentText(text)
@@ -629,10 +637,13 @@ object AlertCenter {
 
     // ------------------------------------------------------------------ test mode
 
-    /** Synthesizes an alert near the user whose S-wave arrives [Prefs.testLeadS] seconds from now. */
+    /** Tests: a real (recorded) alert delivered for the first watched place. */
+    internal fun deliverForWatchedTest(a: GoogleAlert) = watchedQuake(a, Places.subscriptions(app).first { !it.primary })
+
     /** Store screenshots: a real (recorded) alert delivered as if it had just arrived. */
     internal fun deliverForScreenshot(a: GoogleAlert, user: LatLng) = localQuake(a, user, isTest = false, System.currentTimeMillis())
 
+    /** Synthesizes an alert near the user whose S-wave arrives [Prefs.testLeadS] seconds from now. */
     fun fireTest() {
         main.post {
             val user = prefs.effectiveLocation() ?: LatLng(41.9028, 12.4964)
