@@ -13,11 +13,25 @@ are AndroidX AppCompat and Preference, Material Components and
 > at any time, and it is not a certified warning system. Keep your phone's official emergency
 > alerts enabled.
 
+## Installing
+
+- **F-Droid:** add the [LjL-Droid](https://github.com/LjLies/LjL-Droid) repository by opening
+  [this link](https://fdroid.link/#https://ljlies.github.io/LjL-Droid/repo?fingerprint=A54E24739F3816E0BDD8DCBF87FB3B72E744462E4E4E8DE1A5914713F6190DE0)
+  on the phone, then install EarthPing from F-Droid (or another F-Droid client). Updates then
+  arrive like any other app's.
+- **APK:** download `EarthPing-<version>.apk` from the
+  [latest release](https://github.com/LjLies/EarthPing/releases/latest).
+
+Both are the same APK, signed with the same key, so you can switch between them. Android 8.0 or
+later is needed.
+
 ## What it does
 
 - **Your location.** When an alert arrives for your area, EarthPing:
-  - sounds a siren on the *alarm* stream at full volume. With your permission it also lifts
-    Do Not Disturb for the alert, then puts back your volume and DND settings;
+  - sounds a siren on the *alarm* stream at full volume, which Do Not Disturb lets through
+    unless it is set to silence alarms too. Up to Android 14, with your permission, it lifts
+    such a setting for the alert and then puts it back; Android 15 doesn't let apps do that,
+    so EarthPing tells you afterwards when alarms were silenced;
   - shows a full-screen warning, even over the lock screen and with the display off. The
     warning has an OpenStreetMap map with the epicentre, your position, Google's intensity
     contours (MMI 5+/4/3) and the **P- and S-wave fronts moving outwards**;
