@@ -4,8 +4,9 @@
 # preinstalled SDK is deleted first, so its package revisions can't leak in.
 #
 # Every push and pull request is built and tested, with the APKs kept as workflow artifacts; a
-# manual run (Actions → Build → Run workflow, on any branch) does the same for testing. Only a
-# pushed tag v<versionName> (e.g. v0.4.4) publishes a GitHub Release.
+# manual run (Actions → Build → Run workflow, on any branch) does the same for testing.
+# A release v<versionName> (e.g. v0.4.4) is published either by pushing that tag, or by a manual
+# run on main with "Publish a release" ticked, which creates the tag itself.
 name: Build
 on:
   push:
@@ -13,6 +14,11 @@ on:
     tags: ["v*"]
   pull_request:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish a release of this version (main only)
+        type: boolean
+        default: false
 # contents: write to publish releases
 permissions:
   contents: write
@@ -113,19 +119,27 @@ jobs:
         with:
           path: ${{ env.RELEASE_APK }}
           archive: false
-      # A tag v<versionName> publishes the signed APK as GitHub Release v<versionName>, with
-      # the version's changelog from fastlane as its notes. LjL-Droid, the family F-Droid
-      # repository, picks it up from there within the hour.
-      - name: Publish the release for this tag
-        if: github.ref_type == 'tag'
+      # Publishes the signed APK as GitHub Release v<versionName> (creating the tag when it was
+      # started by hand), with the version's changelog from fastlane as its notes. LjL-Droid, the
+      # family F-Droid repository, picks it up from there within the hour.
+      - name: Publish the release
+        if: >-
+          github.ref_type == 'tag' ||
+          (github.event_name == 'workflow_dispatch' && inputs.publish &&
+           github.ref_name == github.event.repository.default_branch)
         env:
           GH_TOKEN: ${{ github.token }}
           APP_NAME: EarthPing
         run: |
           version=$(sed -n 's/.*versionName = "\(.*\)".*/\1/p' app/build.gradle.kts)
           code=$(sed -n 's/.*versionCode = \([0-9]*\).*/\1/p' app/build.gradle.kts)
-          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
-            echo "::error::Tag $GITHUB_REF_NAME doesn't match versionName $version (expected v$version)"
+          tag=v$version
+          if [ "$GITHUB_REF_TYPE" = tag ] && [ "$GITHUB_REF_NAME" != "$tag" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match versionName $version (expected $tag)"
+            exit 1
+          fi
+          if [ "$GITHUB_REF_TYPE" != tag ] && gh release view "$tag" > /dev/null 2>&1; then
+            echo "::error::$tag is already released: bump the version first"
             exit 1
           fi
           if [ -z "$RELEASE_APK" ]; then
@@ -137,5 +151,5 @@ jobs:
             echo "::error::Missing changelog $notes for versionCode $code"
             exit 1
           fi
-          gh release create "$GITHUB_REF_NAME" "$RELEASE_APK" --verify-tag \
+          gh release create "$tag" "$RELEASE_APK" --target "$GITHUB_SHA" \
             --title "$APP_NAME $version" --notes-file "$notes"
