@@ -1,8 +1,11 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Question, or does it work where you are?
+  - name: Question
     url: https://github.com/LjLies/EarthPing/discussions/categories/q-a
-    about: Questions and coverage reports go to Discussions; issues are for things that don't work.
+    about: Questions for things that aren't inherently problems with the apps
+  - name: Report
+    url: https://github.com/LjLies/EarthPing/discussions/categories/coverage
+    about: Coverage reports (does it work where I am? It reported an earthquake for me!)
   - name: Idea
     url: https://github.com/LjLies/EarthPing/discussions/categories/ideas
-    about: Suggestions and feature ideas.
+    about: Suggestions and feature ideas
