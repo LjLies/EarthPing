@@ -1,1 +1,8 @@
 blank_issues_enabled: true
+contact_links:
+  - name: Question, or does it work where you are?
+    url: https://github.com/LjLies/EarthPing/discussions/categories/q-a
+    about: Questions and coverage reports go to Discussions; issues are for things that don't work.
+  - name: Idea
+    url: https://github.com/LjLies/EarthPing/discussions/categories/ideas
+    about: Suggestions and feature ideas.
