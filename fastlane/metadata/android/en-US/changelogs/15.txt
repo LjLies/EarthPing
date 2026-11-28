@@ -1,0 +1,5 @@
+• Tapping an alert notification opens that earthquake on the alert map
+• The warning can switch the screen on with Android 14+, even without "Display over other apps"
+• Android 15+: Do Not Disturb is no longer changed (it could leave a mode switched on); a notice afterwards says when it silenced alarms
+• "Earthquake!" is never cut off by the countdown; no spoken updates in the last seconds
+• Watched places: changes are kept only after Save, and Cancel brings back the saved place
